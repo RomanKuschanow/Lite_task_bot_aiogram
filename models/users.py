@@ -16,7 +16,7 @@ class User(db):
 
     status = Column(String(255), default='user')
 
-    reminders = relationship("Reminder", back_populates="user", lazy='selectin')
+    reminders = relationship("Reminder", back_populates="user")
 
     created_at = Column(DateTime, default=lambda: datetime.now())
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
