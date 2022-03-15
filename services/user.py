@@ -14,7 +14,7 @@ async def create_user(session: AsyncSession, user: tele_user) -> User:
     new_user = User(id=user.id, username=user.username, first_name=user.first_name, last_name=user.last_name)
 
     if str(user.id) in ADMINS:
-        new_user.status = "admin"
+        new_user.is_admin = True
 
     await set_default_commands()
 

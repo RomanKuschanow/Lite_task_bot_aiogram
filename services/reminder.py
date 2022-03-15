@@ -45,7 +45,7 @@ async def get_all() -> list[Reminder]:
     return [r for r, in query]
 
 
-async def get_all_actual(session: AsyncSession, ) -> list[Reminder]:
+async def get_all_actual(session: AsyncSession) -> list[Reminder]:
     sql = select(Reminder).where(Reminder.is_reminded == False)
     query = await session.execute(sql)
 

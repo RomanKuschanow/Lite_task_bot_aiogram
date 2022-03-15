@@ -13,6 +13,9 @@ async def on_startup(dispatcher):
     for admin_id in config.ADMINS:
         await bot.send_message(admin_id, 'Бот успешно запущен')
 
+    from scheduler import t
+    t.start()
+
 
 if __name__ == '__main__':
     from bot.middlewares import setup_middleware

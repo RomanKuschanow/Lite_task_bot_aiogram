@@ -18,5 +18,8 @@ async def reminders_list(message: Message, session: AsyncSession, user: User):
     for reminder in await get_all_by_user_id(session, user.id):
         text += f'{reminder.text}: {reminder.date.strftime("%d.%m.%Y %H:%M")}\n'
 
+    if text == "":
+        text = "У вас еще нет ни одного напоминания"
+
     await message.reply(text)
 
