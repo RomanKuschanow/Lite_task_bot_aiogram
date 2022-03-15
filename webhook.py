@@ -3,7 +3,7 @@ import logging
 from aiogram.utils.executor import start_webhook
 
 from loader import dp, bot, config
-from utils.db.base import create_async_database
+from models.base import create_async_database
 from utils.misc.logging import logger
 
 logging.basicConfig(level=logging.INFO)
@@ -42,9 +42,7 @@ async def on_shutdown(dp):
 
 
 if __name__ == '__main__':
-    from middlewares import setup_middleware
-    import filters
-    import handlers
+    from bot.middlewares import setup_middleware
 
     setup_middleware(dp)
 
