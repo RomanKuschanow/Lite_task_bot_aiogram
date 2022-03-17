@@ -39,6 +39,7 @@ calendar.month_name = ['',
 
 
 CANCEL = InlineKeyboardButton(text=_("❌ Отмена"), callback_data=search_cb.new(action='cancel'))
+BACK = InlineKeyboardButton(text=_("⬅ Назад"), callback_data="back")
 
 class SimpleCalendar:
 
@@ -100,7 +101,7 @@ class SimpleCalendar:
         inline_kb.insert(InlineKeyboardButton(
             ">", callback_data=calendar_callback.new("NEXT-MONTH", year, month, day)
         ))
-        inline_kb.add(CANCEL)
+        inline_kb.row(BACK, CANCEL)
 
         return inline_kb
 

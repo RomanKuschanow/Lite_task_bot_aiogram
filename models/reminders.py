@@ -18,6 +18,7 @@ class Reminder(db):
     date = Column(DateTime, default=now().add(minutes=30))
 
     is_reminded = Column(Boolean, default=False)
+    is_deleted = Column(Boolean, default=False)
 
     def __repr__(self) ->str:
         return f'[{self.user}] {self.date}: {self.text}'
