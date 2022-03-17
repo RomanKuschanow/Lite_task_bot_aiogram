@@ -23,9 +23,9 @@ async def new_reminder(message: Message, state):
     await NewReminder.text.set()
 
     async with state.proxy() as data:
-        data['message'] = bot_message.message_id
-
-    await message.delete()
+        data['message'] = list()
+        data['message'].append(bot_message.message_id)
+        data['message'].append(message.message_id)
 
 
 @dp.message_handler(state=NewReminder.text, content_types=ContentTypes.ANY)
@@ -35,8 +35,8 @@ async def get_reminder_text(message: Message, state):
         bot_message = await message.answer(text, reply_markup=get_inline_cancle_markup())
         async with state.proxy() as data:
             await bot.delete_message(message.chat.id, data['message'])
-            data['message'] = bot_message.message_id
-        await message.delete()
+            data['message'].append(bot_message.message_id)
+            data['message'].append(message.message_id)
         return
 
     text = _("Теперь выберите дату")
@@ -49,9 +49,8 @@ async def get_reminder_text(message: Message, state):
     bot_message = await message.answer(text, reply_markup=await SimpleCalendar().start_calendar())
 
     async with state.proxy() as data:
-        await bot.delete_message(message.chat.id, data['message'])
-        data['message'] = bot_message.message_id
-    await message.delete()
+        data['message'].append(bot_message.message_id)
+        data['message'].append(message.message_id)
 
 
 @dp.callback_query_handler(simple_cal_callback.filter(), state=NewReminder.date)
@@ -69,8 +68,8 @@ async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, 
         bot_message = await callback_query.message.answer(text, reply_markup=get_inline_cancle_markup())
 
         async with state.proxy() as data:
-            data['message'] = bot_message.message_id
-        await callback_query.message.delete()
+            data['message'].append(bot_message.message_id)
+            data['message'].append(callback_query.message.message_id)
 
 
 @dp.message_handler(state=NewReminder.time, content_types=ContentTypes.ANY)
@@ -79,18 +78,16 @@ async def get_reminder_date(message, session, user, state):
         text = _(f'Вы прислали мне {message.content_type}, а нужно прислать текст')
         bot_message = await message.answer(text, reply_markup=get_inline_cancle_markup())
         async with state.proxy() as data:
-            await bot.delete_message(message.chat.id, data['message'])
-            data['message'] = bot_message.message_id
-        await message.delete()
+            data['message'].append(bot_message.message_id)
+            data['message'].append(message.message_id)
         return
 
     if not re.match(r'^(\d{2})[\ |\:]?(\d{2})$', message.text):
         text = _('формат не соответсвует')
         bot_message = await message.answer(text, reply_markup=get_inline_cancle_markup())
         async with state.proxy() as data:
-            await bot.delete_message(message.chat.id, data['message'])
-            data['message'] = bot_message.message_id
-        await message.delete()
+            data['message'].append(bot_message.message_id)
+            data['message'].append(message.message_id)
         return
 
     text = ""
@@ -98,13 +95,26 @@ async def get_reminder_date(message, session, user, state):
     match = re.search(r'^(\d{2})[\ |\:]?(\d{2})$', message.text)
 
     async with state.proxy() as data:
-        await create_reminder(session, user.id, data['text'], datetime.strptime(f"{data['date']} {match[1]}:{match[2]}", '%d.%m.%Y %H:%M'))
+        try:
+            await create_reminder(session, user.id, data['text'], datetime.strptime(f"{data['date']} {match[1]}:{match[2]}", '%d.%m.%Y %H:%M'))
+        except:
+            text = _('вы ввели несуществующее время')
+            bot_message = await message.answer(text, reply_markup=get_inline_cancle_markup())
+            async with state.proxy() as data:
+                data['message'].append(bot_message.message_id)
+                data['message'].append(message.message_id)
+            return
         text = _(f"Напоминание '{data['text']}' установлено на {data['date']} {match[1]}:{match[2]}")
-        await bot.delete_message(message.chat.id, data['message'])
+        data['message'].append(message.message_id)
 
     await message.answer(text)
 
-    await message.delete()
+    async with state.proxy() as data:
+        for mes in data['message']:
+            try:
+                await bot.delete_message(message.chat.id, mes)
+            except:
+                continue
 
     await state.finish()
 

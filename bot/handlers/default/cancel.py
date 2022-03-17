@@ -8,7 +8,13 @@ async def bot_start(callback_query: CallbackQuery, state):
     text = _("Действие отменено")
 
     async with state.proxy() as data:
-        await bot.delete_message(callback_query.message.chat.id, data['message'])
+        data['message'].append(callback_query.message.message_id)
+        async with state.proxy() as data:
+            for mes in data['message']:
+                try:
+                    await bot.delete_message(callback_query.message.chat.id, mes)
+                except:
+                    continue
 
     await state.finish()
 
