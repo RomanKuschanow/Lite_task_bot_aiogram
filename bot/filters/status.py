@@ -4,11 +4,11 @@ from aiogram.types import Message
 from services.user import get_user
 
 
-class Admin(BoundFilter):
-    key = 'is_admin'
+class Status(BoundFilter):
+    key = 'status'
 
-    def __init__(self, is_admin, *args, **kwargs):
-        self.is_admin = is_admin
+    def __init__(self, status, *args, **kwargs):
+        self.status = status
 
     async def check(self, message):
         session = message.bot.get('session')
@@ -17,4 +17,4 @@ class Admin(BoundFilter):
         if not user:
             return False
 
-        return user.is_admin == self.is_admin
+        return user.status == self.status

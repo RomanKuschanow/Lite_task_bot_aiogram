@@ -15,7 +15,6 @@ async def scheduler():
 
     while True:
         for reminder in await get_all_actual(session):
-            if (datetime.now() >= reminder.date) and (not reminder.is_reminded):
                 bot.send_message(reminder.user_id, reminder.text)
                 await update_is_reminded(session, reminder.id, True)
 
