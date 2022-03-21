@@ -3,7 +3,7 @@ from aiogram.types import Message, CallbackQuery
 from loader import dp, _, bot
 
 
-@dp.callback_query_handler(text='search:cancel', state="*")
+@dp.callback_query_handler(text='cancel', state="*")
 async def bot_start(callback_query: CallbackQuery, state):
     text = _("Действие отменено")
 

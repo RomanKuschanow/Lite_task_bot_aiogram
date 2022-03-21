@@ -1,9 +1,9 @@
 from aiogram.types import Message, CallbackQuery, ContentTypes
-from aiogram.dispatcher.filters import Command
 from bot.states import NewReminder
 from aiogram.dispatcher import FSMContext
 from sqlalchemy.ext.asyncio import AsyncSession
 from aiogram_datepicker import Datepicker
+from .datepicker_settings import _get_datepicker_settings
 
 from loader import dp, _, bot
 
@@ -59,7 +59,7 @@ async def get_reminder_text(message: Message, state: FSMContext, call_from_back 
 
     await NewReminder.date.set()
 
-    datepicker = Datepicker()
+    datepicker = Datepicker(_get_datepicker_settings())
     markup = datepicker.start_calendar()
 
     bot_message = await message.answer(text, reply_markup=markup)
@@ -69,11 +69,11 @@ async def get_reminder_text(message: Message, state: FSMContext, call_from_back 
 
 
 @dp.callback_query_handler(Datepicker.datepicker_callback.filter(), state=NewReminder.date)
-@rate_limit(2)
+@rate_limit(5)
 async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, session, user, state: FSMContext):
     text = _("Отпраьте точное время")
 
-    datepicker = Datepicker()
+    datepicker = Datepicker(_get_datepicker_settings())
     date = await datepicker.process(callback_query, callback_data)
     if date:
         async with state.proxy() as data:

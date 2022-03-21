@@ -6,7 +6,7 @@ from loader import _
 def get_inline_states_markup(hidden_back: bool = False) -> InlineKeyboardMarkup:
     markup = InlineKeyboardMarkup(resize_keyboard = True)
 
-    CANCEL = InlineKeyboardButton(_("❌ Отмена"), callback_data="search:cancel")
+    CANCEL = InlineKeyboardButton(_("❌ Отмена"), callback_data="cancel")
     BACK = InlineKeyboardButton(_("⬅ Назад"), callback_data="back")
 
     if hidden_back:

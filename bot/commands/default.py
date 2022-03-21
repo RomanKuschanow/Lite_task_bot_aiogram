@@ -8,8 +8,6 @@ def get_default_commands() -> list[BotCommand]:
         BotCommand('/commands_list', 'список всех команд'),
         BotCommand('/new_reminder', 'новое напоминание'),
         BotCommand('/reminders_list', 'список всех напоминаний пользователья'),
-        BotCommand('/actual_reminders_list', 'список предстоящих напоминаний'),
-        BotCommand('/old_reminders_list', 'список старых напоминаний'),
         BotCommand('/reset', 'сброс текущего действия')
     ]
 
