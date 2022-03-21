@@ -3,7 +3,7 @@ from aiogram.dispatcher.filters import Command
 from bot.states import NewReminder
 from aiogram.dispatcher import FSMContext
 from sqlalchemy.ext.asyncio import AsyncSession
-from utils.aiogram_calendar import simple_cal_callback, SimpleCalendar
+from aiogram_datepicker import Datepicker
 
 from loader import dp, _, bot
 
@@ -13,9 +13,11 @@ from bot.keyboards.inline import get_inline_states_markup
 from datetime import datetime
 from services.reminder import create_reminder
 import re
+from utils.misc import rate_limit
 
 
 @dp.message_handler(commands='new_reminder')
+@rate_limit(2)
 async def new_reminder(message: Message, state: FSMContext, call_from_back = False):
     text = _("Отправьте мне текст напоминания")
 
@@ -29,10 +31,10 @@ async def new_reminder(message: Message, state: FSMContext, call_from_back = Fal
             data['fail'] = 0
             data['message'].append(message.message_id)
         data['message'].append(bot_message.message_id)
-        print(data['message'])
 
 
 @dp.message_handler(state=NewReminder.text, content_types=ContentTypes.ANY)
+@rate_limit(2)
 async def get_reminder_text(message: Message, state: FSMContext, call_from_back = False):
     if message.content_type != 'text':
         text = _(f'Вы прислали мне {message.content_type}, а нужно прислать текст')
@@ -41,7 +43,6 @@ async def get_reminder_text(message: Message, state: FSMContext, call_from_back 
             data['fail'] += 1
             data['message'].append(message.message_id)
             data['message'].append(bot_message.message_id)
-            print(data['message'])
         return
 
     text = _("Теперь выберите дату")
@@ -55,37 +56,41 @@ async def get_reminder_text(message: Message, state: FSMContext, call_from_back 
                 data['message'].pop(-2)
 
             data['fail'] = 0
-            print(data['message'])
 
     await NewReminder.date.set()
 
-    bot_message = await message.answer(text, reply_markup=await SimpleCalendar().start_calendar())
+    datepicker = Datepicker()
+    markup = datepicker.start_calendar()
+
+    bot_message = await message.answer(text, reply_markup=markup)
 
     async with state.proxy() as data:
         data['message'].append(bot_message.message_id)
-        print(data['message'])
 
 
-@dp.callback_query_handler(simple_cal_callback.filter(), state=NewReminder.date)
+@dp.callback_query_handler(Datepicker.datepicker_callback.filter(), state=NewReminder.date)
+@rate_limit(2)
 async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, session, user, state: FSMContext):
-    selected, date = await SimpleCalendar().process_selection(callback_query, callback_data)
-    if selected:
+    text = _("Отпраьте точное время")
 
-        text = _("Отпраьте точное время")
-
+    datepicker = Datepicker()
+    date = await datepicker.process(callback_query, callback_data)
+    if date:
         async with state.proxy() as data:
             data['date'] = date.strftime('%d.%m.%Y')
+    else:
+        return
 
-        await NewReminder.time.set()
+    await NewReminder.time.set()
 
-        bot_message = await callback_query.message.answer(text, reply_markup=get_inline_states_markup())
+    bot_message = await callback_query.message.answer(text, reply_markup=get_inline_states_markup())
 
-        async with state.proxy() as data:
-            data['message'].append(bot_message.message_id)
-            print(data['message'])
+    async with state.proxy() as data:
+        data['message'].append(bot_message.message_id)
 
 
 @dp.message_handler(state=NewReminder.time, content_types=ContentTypes.ANY)
+@rate_limit(2)
 async def get_reminder_date(message, session, user, state: FSMContext):
     if message.content_type != 'text':
         text = _(f'Вы прислали мне {message.content_type}, а нужно прислать текст')
@@ -94,7 +99,6 @@ async def get_reminder_date(message, session, user, state: FSMContext):
             data['fail'] += 1
             data['message'].append(message.message_id)
             data['message'].append(bot_message.message_id)
-            print(data['message'])
         return
 
     if not re.match(r'^(\d{2})[\ |\:]?(\d{2})$', message.text):
@@ -104,7 +108,6 @@ async def get_reminder_date(message, session, user, state: FSMContext):
             data['fail'] += 1
             data['message'].append(message.message_id)
             data['message'].append(bot_message.message_id)
-            print(data['message'])
         return
 
     text = ""
@@ -121,11 +124,9 @@ async def get_reminder_date(message, session, user, state: FSMContext):
                 data['fail'] += 1
                 data['message'].append(message.message_id)
                 data['message'].append(bot_message.message_id)
-                print(data['message'])
             return
         text = _(f"Напоминание '{data['text']}' установлено на {data['date']} {match[1]}:{match[2]}")
         data['message'].append(message.message_id)
-        print(data['message'])
 
     await message.answer(text)
 
@@ -140,6 +141,7 @@ async def get_reminder_date(message, session, user, state: FSMContext):
 
 
 @dp.callback_query_handler(text="back", state=[NewReminder.date, NewReminder.time])
+@rate_limit(2)
 async def back(callback_query: CallbackQuery, state: FSMContext):
     async with state.proxy() as data:
         curr_state = data.state
@@ -162,6 +164,7 @@ async def back(callback_query: CallbackQuery, state: FSMContext):
 
 
 @dp.message_handler(regexp='!(.+): (\d{2}\.\d{2}\.\d{4}\ \d{2}\:\d{2})')
+@rate_limit(2)
 async def new_reminder_via_regexp(message: Message, session: AsyncSession, user: User):
     match = re.search('!(.+): (\d{2}\.\d{2}\.\d{4}\ \d{2}\:\d{2})', message.text)
     reminder_text = match[1]
@@ -171,5 +174,5 @@ async def new_reminder_via_regexp(message: Message, session: AsyncSession, user:
 
     create_reminder(user.id, reminder_text, date)
 
-    await message.reply(  text)
+    await message.reply(text)
 
