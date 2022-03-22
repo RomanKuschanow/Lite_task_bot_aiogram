@@ -15,7 +15,7 @@ page_callback = CallbackData('reminders', 'page')
 
 
 @dp.callback_query_handler(page_callback.filter())
-@rate_limit(5)
+@rate_limit(10)
 async def page_select(callback_query: CallbackQuery, callback_data: dict, session: AsyncSession, user: User):
     page = int(callback_data['page'])
 

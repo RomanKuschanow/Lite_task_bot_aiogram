@@ -13,7 +13,7 @@ list_callback = CallbackData('reminders', 'list', 'action')
 
 
 @dp.message_handler(commands='reminders_list')
-@rate_limit(5)
+@rate_limit(10)
 async def reminders_list(message: Message, session: AsyncSession, user: User):
     text = _("У вас еще нет ни одного напоминания")
 
@@ -27,7 +27,7 @@ async def reminders_list(message: Message, session: AsyncSession, user: User):
 
 
 @dp.callback_query_handler(list_callback.filter())
-@rate_limit(5)
+@rate_limit(10)
 async def actual_reminders_list_callback(callback_query: CallbackQuery, callback_data: dict, session: AsyncSession,
                                          user: User):
     function_list = {'all': get_all_by_user_id, 'old': get_all_old_by_user_id, 'actual': get_all_actual_by_user_id}
