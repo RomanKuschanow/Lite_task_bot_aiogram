@@ -21,4 +21,4 @@ class Reminder(db):
     is_deleted = Column(Boolean, default=False)
 
     def __repr__(self) ->str:
-        return f'[{self.user}] {self.date}: {self.text}'
+        return f'{self.text}: {self.date.strftime("%d.%m.%Y %H:%M")}'

@@ -30,4 +30,4 @@ class ThrottlingMiddleware(BaseMiddleware):
 
     async def message_throttled(self, message: types.Message, throttled: Throttled):
         if throttled.exceeded_count <= 2:
-            await message.reply(_('Слишком много запросов!'))
+            await message.reply(_('Слишком много запросов! Нашите /reset если ваш запрос не был выполнен'))

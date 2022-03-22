@@ -8,7 +8,6 @@ async def bot_start(callback_query: CallbackQuery, state):
     text = _("Действие отменено")
 
     async with state.proxy() as data:
-        data['message'].append(callback_query.message.message_id)
         async with state.proxy() as data:
             for mes in data['message']:
                 try:

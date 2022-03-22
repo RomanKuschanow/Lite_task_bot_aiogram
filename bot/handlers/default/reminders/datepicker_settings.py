@@ -4,10 +4,10 @@ from aiogram.types import CallbackQuery
 from datetime import datetime, date
 from loader import _
 
-def _get_datepicker_settings():
+def _get_datepicker_settings(hidden_back: bool = False):
     class TodayAction(DatepickerCustomAction):
         action: str = 'today'
-        label: str = 'Today'
+        label: str = _('Today')
 
         available_views = ('day',)
 
@@ -62,7 +62,7 @@ def _get_datepicker_settings():
                 'weekdays_labels': ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
                 'header': ['prev-year', 'days-title', 'next-year'],
                 'footer': ['prev-month', 'today', 'next-month',
-                           ['back', 'cancel']],
+                           ['cancel'] if hidden_back  else ['back', 'cancel']],
                 #available actions -> prev-year, days-title, next-year, prev-month, select, next-month, ignore
             },
             'month': {
@@ -70,14 +70,14 @@ def _get_datepicker_settings():
                 'months_labels': ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 'header': ['prev-year', 'year', 'next-year'],
                 'footer': ['today',
-                           ['back', 'cancel']],
+                           ['cancel'] if hidden_back  else ['back', 'cancel']],
                 #available actions -> prev-year, year, next-year, select, ignore
             },
             'year': {
                 'show_weekdays': True,
                 'header': ['prev-years', 'next-years'],
                 'footer': ['today',
-                           ['back', 'cancel']],
+                           ['cancel'] if hidden_back  else ['back', 'cancel']],
                 #available actions -> prev-years, ignore, next-years
             }
         },
