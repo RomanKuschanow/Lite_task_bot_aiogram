@@ -1,6 +1,7 @@
 from aiogram.dispatcher.handler import CancelHandler
 from aiogram.dispatcher.middlewares import BaseMiddleware
 from aiogram.types import Message, CallbackQuery
+from loader import _
 
 from services.user import get_or_create_user, get_user
 
@@ -13,7 +14,7 @@ class UsersMiddleware(BaseMiddleware):
         session = message.bot.get('session')
         checked_user = await get_user(session, message.from_user.id)
         if not (checked_user.banned_until == None or checked_user.banned_until < datetime.now()):
-            message.answer(_('Чел, ты в <s>муте</s> бане'))
+            await message.answer(_('Чел, ты в <s>муте</s> бане'))
             raise CancelHandler()
 
         if 'channel_post' in message or message.chat.type != 'private':
