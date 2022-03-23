@@ -16,10 +16,10 @@ class ThrottlingMiddleware(BaseMiddleware):
         self.prefix = key_prefix
         super(ThrottlingMiddleware, self).__init__()
 
-    async def on_pre_process_message(self, message: Message, data: dict[str]):
+    async def on_process_message(self, message: Message, data: dict[str]):
         await self._throttle(message, data)
 
-    async def on_pre_process_callback_query(self, query: CallbackQuery, data: dict[str]):
+    async def on_process_callback_query(self, query: CallbackQuery, data: dict[str]):
         await self._throttle(query.message, data)
 
     async def _throttle(self, message: Message, data: dict[str]):
@@ -37,18 +37,18 @@ class ThrottlingMiddleware(BaseMiddleware):
             await dispatcher.throttle(key, rate=limit)
         except Throttled as throttled:
 
-            if throttled.user in config.ADMINS:
-                return
-
             session = data['session']
             user = data['user']
+
+            if user.is_admin:
+                return
 
             if throttled.exceeded_count == 3:
                 await message.reply(_('Прекрати спамить!'))
             if throttled.exceeded_count == 4:
                 await message.reply(_('Я тебя сейчас забаню!'))
             if throttled.exceeded_count == 5:
-                if user.banned_until.replace(tzinfo=None) > datetime.now():
+                if user.banned_until > datetime.now():
                     await message.reply(_("Добро пожаловать в перманентный бан. ГГВП. Сайонара"))
                     await permanent_ban(session, user.id)
 
@@ -59,7 +59,7 @@ class ThrottlingMiddleware(BaseMiddleware):
                     humanize.i18n.activate(user.language)
                     await message.reply(_('Бан на {hours}').format(
                         hours=humanize.precisedelta(
-                            user.banned_until.replace(tzinfo=None) - datetime.now(),
+                            user.banned_until - datetime.now(),
                             minimum_unit='hours',
                             format='%0.0f')))
 

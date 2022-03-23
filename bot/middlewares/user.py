@@ -10,7 +10,7 @@ from loader import _
 
 class UsersMiddleware(BaseMiddleware):
     @staticmethod
-    async def on_pre_process_message(message: Message, data: dict[str]):
+    async def on_process_message(message: Message, data: dict[str]):
         if 'channel_post' in message or message.chat.type != 'private':
             raise CancelHandler()
 
@@ -32,7 +32,7 @@ class UsersMiddleware(BaseMiddleware):
         await message.answer_chat_action('typing')
 
     @staticmethod
-    async def on_pre_process_callback_query(callback_query: CallbackQuery, data: dict[str]):
+    async def on_process_callback_query(callback_query: CallbackQuery, data: dict[str]):
         from_user = callback_query.from_user
 
         session = data['session'] = callback_query.bot.get('session')
@@ -49,7 +49,7 @@ class UsersMiddleware(BaseMiddleware):
             raise CancelHandler()
 
     @staticmethod
-    async def on_pre_process_inline_query(inline_query: InlineQuery, data: dict[str]):
+    async def on_process_inline_query(inline_query: InlineQuery, data: dict[str]):
         from_user = inline_query.from_user
 
         session = data['session'] = inline_query.bot.get('session')

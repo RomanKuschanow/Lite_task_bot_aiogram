@@ -14,7 +14,7 @@ list_callback = CallbackData('reminders', 'list', 'action')
 
 
 @dp.message_handler(commands='reminders_list')
-@rate_limit(2)
+@rate_limit(3)
 async def reminders_list(message: Message, session: AsyncSession, user: User):
     text = _("У вас еще нет ни одного напоминания")
 
@@ -28,7 +28,7 @@ async def reminders_list(message: Message, session: AsyncSession, user: User):
 
 
 @dp.callback_query_handler(list_callback.filter())
-@rate_limit(2)
+@rate_limit(3)
 async def actual_reminders_list_callback(callback_query: CallbackQuery, callback_data: dict, session: AsyncSession,
                                          user: User):
     await callback_query.answer()
@@ -54,7 +54,7 @@ page_callback = CallbackData('reminders', 'page')
 
 
 @dp.callback_query_handler(page_callback.filter())
-@rate_limit(2)
+@rate_limit(3)
 async def page_select(callback_query: CallbackQuery, callback_data: dict, session: AsyncSession, user: User):
     await callback_query.answer()
     page = int(callback_data['page'])
