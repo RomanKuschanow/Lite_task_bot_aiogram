@@ -13,6 +13,7 @@ class UsersMiddleware(BaseMiddleware):
         session = message.bot.get('session')
         checked_user = await get_user(session, message.from_user.id)
         if not (checked_user.banned_until == None or checked_user.banned_until < datetime.now()):
+            message.answer(_('Чел, ты в <s>муте</s> бане'))
             raise CancelHandler()
 
         if 'channel_post' in message or message.chat.type != 'private':
