@@ -17,7 +17,7 @@ from .datepicker_settings import _get_datepicker_settings
 
 
 @dp.message_handler(commands='new_reminder')
-@rate_limit(5, 'new_reminder')
+@rate_limit(3)
 async def new_reminder(message: Message, state: FSMContext, call_from_back=False):
     text = _("Отправьте мне текст напоминания")
 
@@ -34,7 +34,7 @@ async def new_reminder(message: Message, state: FSMContext, call_from_back=False
 
 
 @dp.message_handler(state=NewReminder.text, content_types=ContentTypes.ANY)
-@rate_limit(5, 'get_reminder_text')
+@rate_limit(3)
 async def get_reminder_text(message: Message, state: FSMContext, call_from_back=False):
     if message.content_type != 'text':
         text = _('Вы прислали мне {type}, а нужно прислать текст').format(type=message.content_type)
@@ -69,7 +69,7 @@ async def get_reminder_text(message: Message, state: FSMContext, call_from_back=
 
 
 @dp.callback_query_handler(Datepicker.datepicker_callback.filter(), state=NewReminder.date)
-@rate_limit(1, 'get_reminder_date')
+@rate_limit(3)
 async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, session, user, state: FSMContext):
     await callback_query.answer()
     text = _("Отпраьте точное время")
@@ -91,7 +91,7 @@ async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, 
 
 
 @dp.message_handler(state=NewReminder.time, content_types=ContentTypes.ANY)
-@rate_limit(4)
+@rate_limit(3)
 async def get_reminder_date(message, session, user, state: FSMContext):
     if message.content_type != 'text':
         text = _('Вы прислали мне {type}, а нужно прислать текст').format(type=message.content_type)
@@ -146,7 +146,7 @@ async def get_reminder_date(message, session, user, state: FSMContext):
 
 
 @dp.callback_query_handler(text="back", state=[NewReminder.date, NewReminder.time])
-@rate_limit(4)
+@rate_limit(3)
 async def back(callback_query: CallbackQuery, state: FSMContext):
     await callback_query.answer()
     async with state.proxy() as data:
@@ -170,7 +170,7 @@ async def back(callback_query: CallbackQuery, state: FSMContext):
 
 
 @dp.message_handler(regexp='!(.+): (\d{2}\.\d{2}\.\d{4}\ \d{2}\:\d{2})')
-@rate_limit(4)
+@rate_limit(3)
 async def new_reminder_via_regexp(message: Message, session: AsyncSession, user: User):
     match = re.search('!(.+): (\d{2}\.\d{2}\.\d{4}\ \d{2}\:\d{2})', message.text)
     reminder_text = match[1]

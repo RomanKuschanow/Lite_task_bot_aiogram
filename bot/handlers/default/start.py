@@ -7,7 +7,7 @@ from loader import dp, _
 
 
 @dp.message_handler(CommandStart())
-@rate_limit(5, 'bot_start')
+@rate_limit(3)
 async def bot_start(message: Message, user):
     args = message.get_args()
 

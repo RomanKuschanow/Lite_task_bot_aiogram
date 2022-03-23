@@ -8,7 +8,6 @@ from aiogram.types import User as tele_user
 
 from models import User
 from utils.misc.logging import logger
-from bot.commands import set_default_commands
 from services.banned_user import add_user_to_list
 
 
@@ -17,8 +16,6 @@ async def create_user(session: AsyncSession, user: tele_user) -> User:
 
     if str(user.id) in ADMINS:
         new_user.is_admin = True
-
-    await set_default_commands()
 
     session.add(new_user)
     await session.commit()
@@ -54,8 +51,6 @@ async def update_user(session: AsyncSession, user: tele_user) -> User:
     updated_user.username = user.username
     updated_user.first_name = user.first_name
     updated_user.last_name = user.last_name
-
-    await set_default_commands()
 
     try:
         await session.commit()

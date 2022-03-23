@@ -3,6 +3,7 @@ from aiogram import executor
 from loader import dp, bot, config
 from models.base import create_async_database
 from utils.misc.logging import logger
+from bot.commands import set_default_commands
 
 
 async def on_startup(dispatcher):
@@ -15,6 +16,8 @@ async def on_startup(dispatcher):
 
     from scheduler import t
     t.start()
+
+    set_default_commands()
 
 
 if __name__ == '__main__':
