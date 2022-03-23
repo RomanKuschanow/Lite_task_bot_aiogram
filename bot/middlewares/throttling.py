@@ -59,8 +59,8 @@ class ThrottlingMiddleware(BaseMiddleware):
             raise CancelHandler()
 
     async def message_throttled(self, message: types.Message, throttled: Throttled):
-        # if throttled.user in ADMINS:
-        #     return
+        if throttled.user in ADMINS:
+            return
 
         session = message.bot.get('session')
         user = await ban_user(session, throttled.user)
