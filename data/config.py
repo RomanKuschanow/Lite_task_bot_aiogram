@@ -8,6 +8,8 @@ BOT_TOKEN = config("BOT_TOKEN")
 
 ADMINS = config("ADMINS", default='').split()
 
+RATE_LIMIT = config('RATE_LIMIT', default=0.5, cast=float)
+
 DB_USER = config('DATABASE_USER', default=None)
 DB_PASSWORD = config('DATABASE_PASS', default=None)
 DB_HOST = config('DATABASE_HOST', default=None)
