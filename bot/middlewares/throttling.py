@@ -53,9 +53,9 @@ class ThrottlingMiddleware(BaseMiddleware):
 
         if throttled.exceeded_count == 3:
             await message.reply(_('Прекрати спамить!'))
-        if throttled.exceeded_count == 4:
-            await message.reply(_('Я тебя сейчас забаню!'))
         if throttled.exceeded_count == 5:
+            await message.reply(_('Я тебя сейчас забаню!'))
+        if throttled.exceeded_count == 7:
             session = message.bot.get('session')
             user = await ban_user(session, throttled.user)
             if user.ban_count == 1:
