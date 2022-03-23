@@ -66,6 +66,6 @@ class ThrottlingMiddleware(BaseMiddleware):
                 humanize.i18n.activate(user.language)
                 await message.reply(_('Бан на {hours}').format(
                     hours=humanize.precisedelta(
-                        user.banned_until.replace(tzinfo=None) - datetime.now().replace(tzinfo=None),
+                        user.banned_until - datetime.now().replace(tzinfo=None),
                         minimum_unit='hours',
                         format='%0.0f')))
