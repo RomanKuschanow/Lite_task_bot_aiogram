@@ -17,7 +17,7 @@ async def on_startup(dispatcher):
     from scheduler import t
     t.start()
 
-    set_default_commands()
+    await set_default_commands()
 
 
 if __name__ == '__main__':

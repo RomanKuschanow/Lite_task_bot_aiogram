@@ -12,7 +12,7 @@ from loader import _
 
 
 class ThrottlingMiddleware(BaseMiddleware):
-    def __init__(self, limit=0.5, key_prefix='antiflood_'):
+    def __init__(self, limit=3, key_prefix='antiflood_'):
         self.rate_limit = limit
         self.prefix = key_prefix
         super(ThrottlingMiddleware, self).__init__()
@@ -50,7 +50,7 @@ class ThrottlingMiddleware(BaseMiddleware):
     async def message_throttled(self, message: types.Message, throttled: Throttled):
         if throttled.user in ADMINS:
             return
-        print('sbdeb')
+
         if throttled.exceeded_count == 3:
             await message.reply(_('Прекрати спамить!'))
         if throttled.exceeded_count == 4:

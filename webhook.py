@@ -5,6 +5,7 @@ from aiogram.utils.executor import start_webhook
 from loader import dp, bot, config
 from models.base import create_async_database
 from utils.misc.logging import logger
+from bot.commands import set_default_commands
 
 logging.basicConfig(level=logging.INFO)
 
@@ -39,6 +40,8 @@ async def on_shutdown(dp):
     await dp.storage.wait_closed()
 
     logger.warning('Bye!')
+
+    await set_default_commands()
 
 
 if __name__ == '__main__':

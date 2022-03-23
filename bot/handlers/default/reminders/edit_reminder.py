@@ -19,7 +19,6 @@ delete_callback = CallbackData("reminder", "delete", "id")
 
 
 @dp.message_handler(commands='start', text_startswith='/start edit_reminder')
-@rate_limit(3)
 async def edit_reminder_menu(message: Message, state: FSMContext, session, user):
     args = message.get_args()
     id = re.search('edit_reminder_(\d+)', args)[1]
@@ -32,7 +31,6 @@ async def edit_reminder_menu(message: Message, state: FSMContext, session, user)
 
 
 @dp.callback_query_handler(text="reminder:edit:cancel")
-@rate_limit(3)
 async def cancel_edit(callback_query: CallbackQuery):
     await callback_query.answer()
 
@@ -41,7 +39,6 @@ async def cancel_edit(callback_query: CallbackQuery):
 
 
 @dp.callback_query_handler(delete_callback.filter())
-@rate_limit(3)
 async def del_reminder(callback_query: CallbackQuery, callback_data: dict, session, user):
     await callback_query.answer()
 
@@ -51,7 +48,6 @@ async def del_reminder(callback_query: CallbackQuery, callback_data: dict, sessi
 
 
 @dp.callback_query_handler(edit_callback.filter())
-@rate_limit(3)
 async def edit_reminder(callback_query: CallbackQuery, callback_data: dict, state: FSMContext):
     await callback_query.answer()
 
@@ -82,7 +78,6 @@ async def edit_reminder(callback_query: CallbackQuery, callback_data: dict, stat
 
 
 @dp.message_handler(state=EditReminder.text, content_types=ContentTypes.ANY)
-@rate_limit(3)
 async def get_reminder_text(message: Message, state: FSMContext, session, user):
     if message.content_type != 'text':
         text = _('Вы прислали мне {type}, а нужно прислать текст').format(type=message.content_type)
@@ -116,7 +111,6 @@ date_reminders = CallbackData('datepicker', 'day', 'set-day', 'year', 'month', '
 
 
 @dp.callback_query_handler(Datepicker.datepicker_callback.filter(), date_reminders.filter(), state=EditReminder.date)
-@rate_limit(3)
 async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, session, user, state: FSMContext):
     await callback_query.answer()
 
@@ -138,7 +132,6 @@ async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, 
 
 
 @dp.message_handler(state=EditReminder.time, content_types=ContentTypes.ANY)
-@rate_limit(3)
 async def get_reminder_date(message, session, user, state: FSMContext):
     if message.content_type != 'text':
         text = _('Вы прислали мне {type}, а нужно прислать текст').format(type=message.content_type)
@@ -181,7 +174,6 @@ async def get_reminder_date(message, session, user, state: FSMContext):
 
 
 @dp.callback_query_handler(text="back", state=EditReminder.time)
-@rate_limit(3)
 async def back(callback_query: CallbackQuery, state: FSMContext):
     await callback_query.answer()
 
