@@ -16,3 +16,5 @@ class BannedUser(db):
 
     banned_until = Column(DateTime)
 
+    is_banned = Column(Boolean, default=False)
+

@@ -25,6 +25,7 @@ class User(db):
 
     banned_until = Column(DateTime, nullable=True)
     ban_count = Column(Integer, default=0)
+    is_banned = Column(Boolean, default=False)
 
     def __repr__(self) -> str:
         return f'<User [{self.id}] {self.first_name} {self.last_name}>'

@@ -6,7 +6,7 @@ from aiogram.types import CallbackQuery
 from aiogram.utils.exceptions import Throttled
 
 from data.config import ADMINS
-from services.user import ban_user
+from services.user import ban_user, permanent_ban, get_user
 from models.base import create_async_database
 from loader import _
 from datetime import datetime
@@ -19,6 +19,11 @@ class ThrottlingMiddleware(BaseMiddleware):
         super(ThrottlingMiddleware, self).__init__()
 
     async def on_process_message(self, message: types.Message, data: dict):
+        session = message.bot.get('session')
+        user = await get_user(session, message.from_user.id)
+        if user.is_banned:
+            raise CancelHandler()
+
         handler = current_handler.get()
         dispatcher = Dispatcher.get_current()
         if handler:
@@ -34,6 +39,11 @@ class ThrottlingMiddleware(BaseMiddleware):
             raise CancelHandler()
 
     async def on_process_callback_query(self, callback_query: CallbackQuery, data: dict):
+        session = callback_query.bot.get('session')
+        user = await get_user(session, callback_query.from_user.id)
+        if user.is_banned:
+            raise CancelHandler()
+
         handler = current_handler.get()
         dispatcher = Dispatcher.get_current()
         if handler:
@@ -49,16 +59,23 @@ class ThrottlingMiddleware(BaseMiddleware):
             raise CancelHandler()
 
     async def message_throttled(self, message: types.Message, throttled: Throttled):
-        if throttled.user in ADMINS:
-            return
+        # if throttled.user in ADMINS:
+        #     return
+
+        session = message.bot.get('session')
+        user = await ban_user(session, throttled.user)
+        if user.is_banned:
+            raise CancelHandler()
 
         if throttled.exceeded_count == 3:
             await message.reply(_('Прекрати спамить!'))
         if throttled.exceeded_count == 4:
             await message.reply(_('Я тебя сейчас забаню!'))
         if throttled.exceeded_count == 5:
-            session = message.bot.get('session')
-            user = await ban_user(session, throttled.user)
+            if user.banned_until.replace(tzinfo=None) > datetime.now():
+                await message.reply(_("Добро пожаловать в перманентный бан. ГГВП. Сайонара"))
+                await permanent_ban(session, user.id)
+
             if user.ban_count == 1:
                 await message.reply(_('Я тебя забанил, пока только на три часа. С каждым разом будет все больше'))
             else:
@@ -66,6 +83,6 @@ class ThrottlingMiddleware(BaseMiddleware):
                 humanize.i18n.activate(user.language)
                 await message.reply(_('Бан на {hours}').format(
                     hours=humanize.precisedelta(
-                        user.banned_until - datetime.now().replace(tzinfo=None),
+                        user.banned_until.replace(tzinfo=None) - datetime.now(),
                         minimum_unit='hours',
                         format='%0.0f')))

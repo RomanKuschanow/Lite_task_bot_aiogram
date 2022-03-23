@@ -96,7 +96,28 @@ async def ban_user(session: AsyncSession, id: int) -> User:
     await add_user_to_list(session, user)
 
     for admin in ADMINS:
-        await bot.send_message(admin, _(f'Пользователь {id} забанен'))
+        await bot.send_message(admin, _('Пользователь {id} забанен').format(id=id))
 
     return user
 
+
+async def permanent_ban(session: AsyncSession, id: int) -> User:
+    user = await get_user(session, id)
+
+    user.is_banned = True;
+
+    try:
+        await session.commit()
+    except:
+        await session.rollback()
+
+    from loader import bot, _
+
+    logger.info(f'User {id} banned permanent')
+
+    await add_user_to_list(session, user)
+
+    for admin in ADMINS:
+        await bot.send_message(admin, _('Пользователь {id} забанен навсегда').format(id=id))
+
+    return user
