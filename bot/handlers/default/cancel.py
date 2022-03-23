@@ -5,6 +5,7 @@ from loader import dp, _, bot
 
 @dp.callback_query_handler(text='cancel', state="*")
 async def bot_start(callback_query: CallbackQuery, state):
+    await callback_query.answer()
     text = _("Действие отменено")
 
     async with state.proxy() as data:

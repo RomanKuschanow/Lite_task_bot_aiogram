@@ -1,9 +1,11 @@
 from aiogram.types import Message
+from utils.misc import rate_limit
 
 from loader import dp, _
 
 
 @dp.message_handler(commands="reset", state="*")
+@rate_limit(5, 'bot_start')
 async def bot_start(message: Message, state):
     text = _("Действие прервано")
 

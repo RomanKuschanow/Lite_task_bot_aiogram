@@ -17,7 +17,7 @@ from .datepicker_settings import _get_datepicker_settings
 
 
 @dp.message_handler(commands='new_reminder')
-@rate_limit(10)
+@rate_limit(5, 'new_reminder')
 async def new_reminder(message: Message, state: FSMContext, call_from_back=False):
     text = _("Отправьте мне текст напоминания")
 
@@ -34,10 +34,10 @@ async def new_reminder(message: Message, state: FSMContext, call_from_back=False
 
 
 @dp.message_handler(state=NewReminder.text, content_types=ContentTypes.ANY)
-@rate_limit(10)
+@rate_limit(5, 'get_reminder_text')
 async def get_reminder_text(message: Message, state: FSMContext, call_from_back=False):
     if message.content_type != 'text':
-        text = _(f'Вы прислали мне {message.content_type}, а нужно прислать текст')
+        text = _('Вы прислали мне {type}, а нужно прислать текст').format(type=message.content_type)
         bot_message = await message.answer(text, reply_markup=get_inline_states_markup(True))
         async with state.proxy() as data:
             data['fail'] += 1
@@ -68,17 +68,17 @@ async def get_reminder_text(message: Message, state: FSMContext, call_from_back=
         data['message'].append(bot_message.message_id)
 
 
-date_reminders = CallbackData('datepicker', 'day', 'set-day', 'year', 'month', 'day')
-
-@dp.callback_query_handler(Datepicker.datepicker_callback.filter(), date_reminders.filter(), state=NewReminder.date)
-@rate_limit(10)
+@dp.callback_query_handler(Datepicker.datepicker_callback.filter(), state=NewReminder.date)
+@rate_limit(1, 'get_reminder_date')
 async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, session, user, state: FSMContext):
+    await callback_query.answer()
     text = _("Отпраьте точное время")
 
     datepicker = Datepicker(_get_datepicker_settings())
-    if callback_data['set-day'] == 'set-day':
+    date = await datepicker.process(callback_query, callback_data)
+    if date:
         async with state.proxy() as data:
-            data['date'] = f"{callback_data['day']}.{callback_data['month']}.{callback_data['year']}"
+            data['date'] = f"{date.day}.{date.month}.{date.year}"
     else:
         return
 
@@ -91,10 +91,10 @@ async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, 
 
 
 @dp.message_handler(state=NewReminder.time, content_types=ContentTypes.ANY)
-@rate_limit(10)
+@rate_limit(4)
 async def get_reminder_date(message, session, user, state: FSMContext):
     if message.content_type != 'text':
-        text = _(f'Вы прислали мне {message.content_type}, а нужно прислать текст')
+        text = _('Вы прислали мне {type}, а нужно прислать текст').format(type=message.content_type)
         bot_message = await message.answer(text, reply_markup=get_inline_states_markup())
         async with state.proxy() as data:
             data['fail'] += 1
@@ -127,7 +127,10 @@ async def get_reminder_date(message, session, user, state: FSMContext):
                 data['message'].append(message.message_id)
                 data['message'].append(bot_message.message_id)
             return
-        text = _(f"Напоминание '{data['text']}' установлено на {data['date']} {match[1]}:{match[2]}")
+        text = _("Напоминание '{text}' установлено на {date} {hours}:{minutes}").format(text=data['text'],
+                                                                                        date=data['date'],
+                                                                                        hours=match[1],
+                                                                                        minutes=match[2])
         data['message'].append(message.message_id)
 
     await message.answer(text)
@@ -143,8 +146,9 @@ async def get_reminder_date(message, session, user, state: FSMContext):
 
 
 @dp.callback_query_handler(text="back", state=[NewReminder.date, NewReminder.time])
-@rate_limit(10)
+@rate_limit(4)
 async def back(callback_query: CallbackQuery, state: FSMContext):
+    await callback_query.answer()
     async with state.proxy() as data:
         curr_state = data.state
     if curr_state == 'NewReminder:date':
@@ -166,13 +170,14 @@ async def back(callback_query: CallbackQuery, state: FSMContext):
 
 
 @dp.message_handler(regexp='!(.+): (\d{2}\.\d{2}\.\d{4}\ \d{2}\:\d{2})')
-@rate_limit(10)
+@rate_limit(4)
 async def new_reminder_via_regexp(message: Message, session: AsyncSession, user: User):
     match = re.search('!(.+): (\d{2}\.\d{2}\.\d{4}\ \d{2}\:\d{2})', message.text)
     reminder_text = match[1]
     date = datetime.strptime(match[2], '%d.%m.%Y %H:%M')
 
-    text = (f'напоминание "{reminder_text}" установлено на {date.strftime("%d.%m.%Y %H:%M")}')
+    text = _('напоминание "{reminder_text}" установлено на {date}').format(reminder_text=reminder_text,
+                                                                                                      date=date.strftime("%d.%m.%Y %H:%M"))
 
     create_reminder(user.id, reminder_text, date)
 

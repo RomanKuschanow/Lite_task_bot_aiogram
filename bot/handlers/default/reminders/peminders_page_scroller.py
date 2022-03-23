@@ -15,8 +15,9 @@ page_callback = CallbackData('reminders', 'page')
 
 
 @dp.callback_query_handler(page_callback.filter())
-@rate_limit(10)
+@rate_limit(4)
 async def page_select(callback_query: CallbackQuery, callback_data: dict, session: AsyncSession, user: User):
+    await callback_query.answer()
     page = int(callback_data['page'])
 
     keyboard = callback_query.message.reply_markup.inline_keyboard

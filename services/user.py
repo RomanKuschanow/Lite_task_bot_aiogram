@@ -1,5 +1,6 @@
 from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
+from pendulum import now
 
 from data.config import ADMINS
 
@@ -8,6 +9,7 @@ from aiogram.types import User as tele_user
 from models import User
 from utils.misc.logging import logger
 from bot.commands import set_default_commands
+from services.banned_user import add_user_to_list
 
 
 async def create_user(session: AsyncSession, user: tele_user) -> User:
@@ -70,13 +72,36 @@ async def edit_user_language(session: AsyncSession, id: int, language: str):
     await session.commit()
 
 
-async def get_or_create_user(session: AsyncSession, user: tele_user) -> User:
-    new_or_get_user = await get_user(session, user.id)
+async def get_or_create_user(session: AsyncSession, tele_user: tele_user) -> User:
+    user = await get_user(session, tele_user.id)
 
-    if new_or_get_user:
-        new_or_get_user = await update_user(session, user)
+    if user:
+        user = await update_user(session, tele_user)
 
-        return new_or_get_user
+        return user
 
-    return await create_user(session, user)
+    return await create_user(session, tele_user)
+
+
+async def ban_user(session: AsyncSession, id: int) -> User:
+    user = await get_user(session, id)
+
+    user.ban_count += 1
+    user.banned_until = now().add(hours=(3 * user.ban_count))
+
+    try:
+        await session.commit()
+    except:
+        await session.rollback()
+
+    from loader import bot, _
+
+    logger.info(f'User {id} banned')
+
+    await add_user_to_list(session, user)
+
+    for admin in ADMINS:
+        await bot.send_message(admin, _(f'Пользователь {id} забанен'))
+
+    return user
 
