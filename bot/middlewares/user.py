@@ -4,6 +4,8 @@ from aiogram.types import Message, CallbackQuery, InlineQuery
 
 from services.user import get_or_create_user
 import humanize
+from datetime import datetime
+from loader import _
 
 
 class UsersMiddleware(BaseMiddleware):
@@ -41,7 +43,7 @@ class UsersMiddleware(BaseMiddleware):
 
         humanize.i18n.activate(user.language)
         if user.banned_until and user.banned_until > datetime.now():
-            await message.answer(_('Чел, ты в <s>муте</s> бане еще на {date}').format(
+            await callback_query.message.answer(_('Чел, ты в <s>муте</s> бане еще на {date}').format(
                 date=humanize.precisedelta(user.banned_until - datetime.now(), minimum_unit='minutes',
                                            format='%0.0f')))
             raise CancelHandler()
@@ -58,7 +60,7 @@ class UsersMiddleware(BaseMiddleware):
 
         humanize.i18n.activate(user.language)
         if user.banned_until and user.banned_until > datetime.now():
-            await message.answer(_('Чел, ты в <s>муте</s> бане еще на {date}').format(
+            await inline_query.answer(_('Чел, ты в <s>муте</s> бане еще на {date}').format(
                 date=humanize.precisedelta(user.banned_until - datetime.now(), minimum_unit='minutes',
                                            format='%0.0f')))
             raise CancelHandler()

@@ -6,6 +6,8 @@ from aiogram.utils.exceptions import Throttled
 
 from loader import _, config
 import humanize
+from datetime import datetime
+from services.user import ban_user, permanent_ban
 
 
 class ThrottlingMiddleware(BaseMiddleware):
@@ -18,7 +20,7 @@ class ThrottlingMiddleware(BaseMiddleware):
         await self._throttle(message, data)
 
     async def on_pre_process_callback_query(self, query: CallbackQuery, data: dict[str]):
-        await self._throttle(query, data)
+        await self._throttle(query.message, data)
 
     async def _throttle(self, message: Message, data: dict[str]):
         handler = current_handler.get()
@@ -29,6 +31,8 @@ class ThrottlingMiddleware(BaseMiddleware):
         else:
             limit = self.rate_limit
             key = f'{self.prefix}_message'
+
+        print(limit)
         try:
             await dispatcher.throttle(key, rate=limit)
         except Throttled as throttled:
@@ -38,9 +42,6 @@ class ThrottlingMiddleware(BaseMiddleware):
 
             session = data['session']
             user = data['user']
-
-            if user.is_banned:
-                raise CancelHandler()
 
             if throttled.exceeded_count == 3:
                 await message.reply(_('Прекрати спамить!'))

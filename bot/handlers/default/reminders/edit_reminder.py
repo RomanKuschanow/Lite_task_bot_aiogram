@@ -46,6 +46,7 @@ async def del_reminder(callback_query: CallbackQuery, callback_data: dict, sessi
 
 
 @dp.callback_query_handler(edit_callback.filter())
+@rate_limit(2)
 async def edit_reminder(callback_query: CallbackQuery, callback_data: dict, state: FSMContext):
     await callback_query.answer()
 
@@ -108,7 +109,6 @@ date_reminders = CallbackData('datepicker', 'day', 'set-day', 'year', 'month', '
 
 
 @dp.callback_query_handler(Datepicker.datepicker_callback.filter(), date_reminders.filter(), state=EditReminder.date)
-@rate_limit(3)
 async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, session, user, state: FSMContext):
     await callback_query.answer()
 
