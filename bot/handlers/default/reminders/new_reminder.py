@@ -67,6 +67,7 @@ async def get_reminder_text(message: Message, state: FSMContext, call_from_back=
 
 
 @dp.callback_query_handler(Datepicker.datepicker_callback.filter(), state=NewReminder.date)
+@rate_limit(3)
 async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, session, user, state: FSMContext):
     await callback_query.answer()
     text = _("Отпраьте точное время")

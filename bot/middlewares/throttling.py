@@ -9,6 +9,7 @@ from data.config import ADMINS
 from services.user import ban_user
 from models.base import create_async_database
 from loader import _
+from datetime import datetime
 
 
 class ThrottlingMiddleware(BaseMiddleware):
@@ -53,12 +54,18 @@ class ThrottlingMiddleware(BaseMiddleware):
 
         if throttled.exceeded_count == 3:
             await message.reply(_('Прекрати спамить!'))
-        if throttled.exceeded_count == 5:
+        if throttled.exceeded_count == 4:
             await message.reply(_('Я тебя сейчас забаню!'))
-        if throttled.exceeded_count == 7:
+        if throttled.exceeded_count == 5:
             session = message.bot.get('session')
             user = await ban_user(session, throttled.user)
             if user.ban_count == 1:
                 await message.reply(_('Я тебя забанил, пока только на три часа. С каждым разом будет все больше'))
             else:
-                await message.reply(_('Бан на {hours} часа/ов').format(hours=user.ban_count * 3))
+                import humanize
+                humanize.i18n.activate(user.language)
+                await message.reply(_('Бан на {hours}').format(
+                    hours=humanize.precisedelta(
+                        user.banned_until.replace(tzinfo=None) - datetime.now().replace(tzinfo=None),
+                        minimum_unit='hours',
+                        format='%0.0f')))

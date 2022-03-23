@@ -34,14 +34,12 @@ async def edit_reminder_menu(message: Message, state: FSMContext, session, user)
 async def cancel_edit(callback_query: CallbackQuery):
     await callback_query.answer()
 
-
     await callback_query.message.delete()
 
 
 @dp.callback_query_handler(delete_callback.filter())
 async def del_reminder(callback_query: CallbackQuery, callback_data: dict, session, user):
     await callback_query.answer()
-
 
     await delete_reminder(session, user.id, int(callback_data['id']))
     await callback_query.message.delete()
@@ -50,7 +48,6 @@ async def del_reminder(callback_query: CallbackQuery, callback_data: dict, sessi
 @dp.callback_query_handler(edit_callback.filter())
 async def edit_reminder(callback_query: CallbackQuery, callback_data: dict, state: FSMContext):
     await callback_query.answer()
-
 
     if callback_data['param'] == 'text':
         text = _("Отправьте мне текст напоминания")
@@ -111,6 +108,7 @@ date_reminders = CallbackData('datepicker', 'day', 'set-day', 'year', 'month', '
 
 
 @dp.callback_query_handler(Datepicker.datepicker_callback.filter(), date_reminders.filter(), state=EditReminder.date)
+@rate_limit(3)
 async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, session, user, state: FSMContext):
     await callback_query.answer()
 
@@ -176,7 +174,6 @@ async def get_reminder_date(message, session, user, state: FSMContext):
 @dp.callback_query_handler(text="back", state=EditReminder.time)
 async def back(callback_query: CallbackQuery, state: FSMContext):
     await callback_query.answer()
-
 
     async with state.proxy() as data:
         for i in range(2 * (data['fail'] + 1)):
