@@ -46,7 +46,6 @@ async def del_reminder(callback_query: CallbackQuery, callback_data: dict, sessi
 
 
 @dp.callback_query_handler(edit_callback.filter())
-@rate_limit(3)
 async def edit_reminder(callback_query: CallbackQuery, callback_data: dict, state: FSMContext):
     await callback_query.answer()
 

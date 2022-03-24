@@ -19,6 +19,7 @@ class User(db):
     is_admin = Column(Boolean, default=False)
 
     reminders = relationship("Reminder", back_populates="user")
+    tasks = relationship("Task", back_populates="user")
 
     created_at = Column(DateTime, default=lambda: datetime.now())
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)

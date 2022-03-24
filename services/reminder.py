@@ -31,7 +31,7 @@ async def get_reminder(session: AsyncSession, id: int, user_id: int = None) -> R
     return reminder
 
 
-async def get_all() -> list[Reminder]:
+async def get_all(session: AsyncSession) -> list[Reminder]:
     sql = select(Reminder)
     query = await session.execute(sql)
 
@@ -39,28 +39,40 @@ async def get_all() -> list[Reminder]:
 
 
 async def get_all_actual(session: AsyncSession) -> list[Reminder]:
-    sql = select(Reminder).where(Reminder.date < datetime.now(), Reminder.is_reminded == False, Reminder.is_deleted == False)
+    sql = select(Reminder).where(Reminder.date < datetime.now(), Reminder.is_reminded == False,
+                                 Reminder.is_deleted == False)
     query = await session.execute(sql)
 
     return [r for r, in query]
 
 
-async def get_all_by_user_id(session: AsyncSession, user_id: int) -> list[Reminder]:
-    sql = select(Reminder).where(Reminder.user_id == user_id, Reminder.is_deleted == False).order_by(Reminder.date.asc())
+async def get_all_by_user_id(session: AsyncSession, user_id: int, *args) -> list[Reminder]:
+    sql = select(Reminder).where(Reminder.user_id == user_id, Reminder.is_deleted == False).order_by(
+        Reminder.date.asc())
     query = await session.execute(sql)
 
     return [r for r, in query]
 
 
-async def get_all_old_by_user_id(session: AsyncSession, user_id: int) -> list[Reminder]:
-    sql = select(Reminder).where(Reminder.is_reminded == True, Reminder.user_id == user_id, Reminder.is_deleted == False).order_by(Reminder.date.asc())
+async def get_all_old_by_user_id(session: AsyncSession, user_id: int, *args) -> list[Reminder]:
+    sql = select(Reminder).where(Reminder.is_reminded == True, Reminder.user_id == user_id,
+                                 Reminder.is_deleted == False).order_by(Reminder.date.asc())
     query = await session.execute(sql)
 
     return [r for r, in query]
 
 
-async def get_all_actual_by_user_id(session: AsyncSession, user_id: int) -> list[Reminder]:
-    sql = select(Reminder).where(Reminder.is_reminded == False, Reminder.user_id == user_id, Reminder.is_deleted == False).order_by(Reminder.date.asc())
+async def get_all_actual_by_user_id(session: AsyncSession, user_id: int, *args) -> list[Reminder]:
+    sql = select(Reminder).where(Reminder.is_reminded == False, Reminder.user_id == user_id,
+                                 Reminder.is_deleted == False).order_by(Reminder.date.asc())
+    query = await session.execute(sql)
+
+    return [r for r, in query]
+
+
+async def find(session: AsyncSession, user_id: int, *filter) -> list[Reminder]:
+    sql = select(Reminder).where(filter[0] == filter[1], Reminder.user_id == user_id)
+
     query = await session.execute(sql)
 
     return [r for r, in query]
@@ -118,4 +130,3 @@ async def delete_all_by_user_id(session: AsyncSession, user_id: int):
     query = await session.execute(sql)
 
     await session.commit()
-
