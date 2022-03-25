@@ -10,7 +10,7 @@ from services.reminder import get_all_by_user_id, get_all_actual_by_user_id, get
 from utils.misc import rate_limit
 
 
-list_callback = CallbackData('reminders', 'list', 'action')
+list_callback = CallbackData('reminders', 'list', 'curr_list', 'action', 'curr_page')
 
 
 @dp.message_handler(commands='reminders_list')
@@ -32,19 +32,12 @@ async def reminders_list(message: Message, session: AsyncSession, user: User):
 async def actual_reminders_list_callback(callback_query: CallbackQuery, callback_data: dict, session: AsyncSession,
                                          user: User):
     await callback_query.answer()
-    function_list = {'all': get_all_by_user_id, 'old': get_all_old_by_user_id, 'actual': get_all_actual_by_user_id}
 
-    keyboard = callback_query.message.reply_markup.inline_keyboard
-    row = 1 if len(keyboard) == 3 else 0
-    if row == 1:
-        page = int(re.search('reminders:(\d+)', keyboard[1][1]['callback_data'])[1])
-    else:
-        page = 1
+    function_list = {'all': get_all_by_user_id, 'old': get_all_old_by_user_id, 'actual': get_all_actual_by_user_id}
 
     max_page = int(len(await function_list[callback_data['list']](session, user.id)) / 25) + 1
 
-    if callback_data["action"] != re.search('reminders:.+:(.+)', keyboard[row + 1][1]['callback_data'])[1]:
-        page = max_page
+    page = int(callback_data['curr_page']) if callback_data['list'] == callback_data['curr_list'] else max_page
 
     text = await get_list(function_list[callback_data['list']], callback_data['action'] == 'edit', session, user.id, page)
 
@@ -61,40 +54,6 @@ async def actual_reminders_list_callback(callback_query: CallbackQuery, callback
 page_callback = CallbackData('reminders', 'page')
 
 
-@dp.callback_query_handler(page_callback.filter())
-@rate_limit(3)
-async def page_select(callback_query: CallbackQuery, callback_data: dict, session: AsyncSession, user: User):
-    await callback_query.answer()
-    page = int(callback_data['page'])
-
-    keyboard = callback_query.message.reply_markup.inline_keyboard
-
-    if re.search('reminders:(.+):.+', keyboard[1][0]['callback_data'])[1] == "old" and \
-            re.search('reminders:(.+):.+', keyboard[1][2]['callback_data'])[1] == "actual":
-        function = get_all_by_user_id
-        hidden_button = "all"
-    elif re.search('reminders:(.+):.+', keyboard[1][0]['callback_data'])[1] == "all" and \
-            re.search('reminders:(.+):.+', keyboard[1][2]['callback_data'])[1] == "actual":
-        function = get_all_old_by_user_id
-        hidden_button = "old"
-    else:
-        function = get_all_actual_by_user_id
-        hidden_button = "actual"
-
-    text = await get_list(function, re.search('reminders:.+:(.+)', keyboard[1][0]['callback_data'])[1] == "edit",
-                          session, user.id, page)
-
-    max_page = int(len(await function(session, user.id)) / 25) + 1
-    await callback_query.message.edit_text(text, reply_markup=get_reminders_list_inline_markup(hidden_button,
-                                                                                               re.search(
-                                                                                                   'reminders:.+:(.+)',
-                                                                                                   keyboard[1][0][
-                                                                                                       'callback_data'])[
-                                                                                                   1] == "edit",
-                                                                                               curr_page=page,
-                                                                                               max_page=max_page))
-
-
 @dp.callback_query_handler(text='search')
 @rate_limit(3)
 async def search(callback_query: CallbackQuery, session: AsyncSession, user: User):
@@ -104,24 +63,7 @@ async def search(callback_query: CallbackQuery, session: AsyncSession, user: Use
 
     keyboard = callback_query.message.reply_markup.inline_keyboard
 
-    row = 1 if len(keyboard) == 3 else 0
-
-    if re.search('reminders:(.+):.+', keyboard[row][0]['callback_data'])[1] == "old" and \
-            re.search('reminders:(.+):.+', keyboard[row][2]['callback_data'])[1] == "actual":
-        curr_list = "all"
-    elif re.search('reminders:(.+):.+', keyboard[row][0]['callback_data'])[1] == "all" and \
-            re.search('reminders:(.+):.+', keyboard[row][2]['callback_data'])[1] == "actual":
-        curr_list = "old"
-    else:
-        curr_list = "actual"
-
-    mode = "view" if re.search('reminders:.+:(.+)', keyboard[row][0]['callback_data'])[1] == "edit" else "edit"
-    if row == 1:
-        page = int(re.search('reminders:(\d+)', keyboard[1][1]['callback_data'])[1])
-    else:
-        page = 1
-
-    await callback_query.message.edit_text(text, reply_markup=get_reminders_search_inline_markup(curr_list, mode, page))
+    await callback_query.message.edit_text(text, reply_markup=get_reminders_search_inline_markup(keyboard[-2][1]['callback_data']))
 
 
 async def get_list(function, is_edit, *parametrs) -> str:
