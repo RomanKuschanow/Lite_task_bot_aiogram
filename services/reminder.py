@@ -70,14 +70,6 @@ async def get_all_actual_by_user_id(session: AsyncSession, user_id: int, *args) 
     return [r for r, in query]
 
 
-async def find(session: AsyncSession, user_id: int, *filter) -> list[Reminder]:
-    sql = select(Reminder).where(filter[0] == filter[1], Reminder.user_id == user_id)
-
-    query = await session.execute(sql)
-
-    return [r for r, in query]
-
-
 async def update_is_reminded(session: AsyncSession, id: int, is_reminded: bool):
     sql = update(Reminder).where(Reminder.id == id).values(is_reminded=is_reminded)
 
