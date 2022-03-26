@@ -56,7 +56,7 @@ async def action(callback_query: CallbackQuery, callback_data: dict, session: As
             data['main_message'] = callback_query.message.message_id
 
     if callback_data["filter"] == "time":
-        text = _("Отпраьте точное время")
+        text = _("Отправьте точное время")
 
         bot_message = await callback_query.message.answer(text, reply_markup=get_inline_states_markup(True))
 
@@ -147,7 +147,7 @@ async def get_reminder_date(message, session, user, state: FSMContext):
         return
 
     if not re.match(r'^(\d{2})[\ |\:]?(\d{2})$', message.text):
-        text = _('формат не соответсвует')
+        text = _('Формат не соответствует')
         bot_message = await message.answer(text, reply_markup=get_inline_states_markup())
         async with state.proxy() as data:
             data['fail'] += 1

@@ -11,9 +11,9 @@ def get_reminders_list_inline_markup(curr_list: str, is_edit: bool = False, curr
 
     action = 'edit' if is_edit else 'view'
 
-    tiles = [{'text': _("все"), 'callback': f"reminders:all:{curr_list}:{action}:{max_page}:{search_filter}"},
-             {'text': _("старые"), 'callback': f"reminders:old:{curr_list}:{action}:{max_page}:{search_filter}"},
-             {'text': _("предстоящие"), 'callback': f"reminders:actual:{curr_list}:{action}:{max_page}:{search_filter}"}]
+    tiles = [{'text': _("Все"), 'callback': f"reminders:all:{curr_list}:{action}:{max_page}:{search_filter}"},
+             {'text': _("Старые"), 'callback': f"reminders:old:{curr_list}:{action}:{max_page}:{search_filter}"},
+             {'text': _("Предстоящие"), 'callback': f"reminders:actual:{curr_list}:{action}:{max_page}:{search_filter}"}]
 
     for tile in range(3):
         if re.search("reminders:(.+):.+:.+:.+:.*:.*", tiles[tile - 1]['callback'])[1] == curr_list:

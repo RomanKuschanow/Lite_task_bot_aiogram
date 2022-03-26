@@ -68,7 +68,7 @@ page_callback = CallbackData('reminders', 'page')
 async def search(callback_query: CallbackQuery, session: AsyncSession, user: User):
     await callback_query.answer()
 
-    text = _("Выберите фильтр для поиска (можно несколько) инажмите 'Начать поиск'")
+    text = _("Выберите фильтр для поиска (можно несколько) и нажмите 'Начать поиск'")
 
     keyboard = callback_query.message.reply_markup.inline_keyboard
 

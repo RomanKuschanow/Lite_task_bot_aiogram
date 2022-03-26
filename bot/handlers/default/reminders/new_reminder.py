@@ -70,7 +70,7 @@ async def get_reminder_text(message: Message, state: FSMContext, call_from_back=
 @rate_limit(3)
 async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, session, user, state: FSMContext):
     await callback_query.answer()
-    text = _("Отпраьте точное время")
+    text = _("Отправьте точное время")
 
     datepicker = Datepicker(_get_datepicker_settings())
     date = await datepicker.process(callback_query, callback_data)
@@ -100,7 +100,7 @@ async def get_reminder_date(message, session, user, state: FSMContext):
         return
 
     if not re.match(r'^(\d{2})[\ |\:]?(\d{2})$', message.text):
-        text = _('формат не соответсвует')
+        text = _('Формат не соответствует')
         bot_message = await message.answer(text, reply_markup=get_inline_states_markup())
         async with state.proxy() as data:
             data['fail'] += 1
@@ -117,7 +117,7 @@ async def get_reminder_date(message, session, user, state: FSMContext):
             await create_reminder(session, user.id, data['text'],
                                     datetime.strptime(f"{data['date']} {match[1]}:{match[2]}", '%d.%m.%Y %H:%M'))
         except:
-            text = _('вы ввели несуществующее время')
+            text = _('Вы ввели несуществующее время')
             bot_message = await message.answer(text, reply_markup=get_inline_states_markup())
             async with state.proxy() as data:
                 data['fail'] += 1
@@ -171,7 +171,7 @@ async def new_reminder_via_regexp(message: Message, session: AsyncSession, user:
     reminder_text = match[1]
     date = datetime.strptime(match[2], '%d.%m.%Y %H:%M')
 
-    text = _('напоминание "{reminder_text}" установлено на {date}').format(reminder_text=reminder_text,
+    text = _("Напоминание '{reminder_text}' установлено на {date}").format(reminder_text=reminder_text,
                                                                                                       date=date.strftime("%d.%m.%Y %H:%M"))
 
     create_reminder(user.id, reminder_text, date)
