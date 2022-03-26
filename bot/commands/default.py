@@ -4,10 +4,10 @@ from aiogram.types import BotCommandScopeDefault, BotCommand
 def get_default_commands() -> list[BotCommand]:
     commands = [
         BotCommand('/start', 'запуск бота'),
-        BotCommand('/help', 'экскурс по основным функциям'),
-        BotCommand('/commands_list', 'список всех команд'),
+        BotCommand('/help', 'список всех команд'),
         BotCommand('/new_reminder', 'новое напоминание'),
         BotCommand('/reminders_list', 'список всех напоминаний пользователья'),
+        BotCommand('/feedback', 'оставить отзыв или пожелания'),
         BotCommand('/reset', 'сброс текущего действия')
     ]
 

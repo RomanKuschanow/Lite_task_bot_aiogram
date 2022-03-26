@@ -1,18 +1,13 @@
 from aiogram.dispatcher.filters.builtin import CommandStart
 from aiogram.types import Message
-from bot.keyboards.default import set_default_markup
-from utils.misc import rate_limit
 
 from loader import dp, _
 
 
 @dp.message_handler(CommandStart())
 async def bot_start(message: Message, user):
-    args = message.get_args()
+    text = _("Привет, я Task Bot. Ты можешь составить список задачь, а я в назначенное время напомню тебе их сделать\n"
+             "Пока что функционал у меня ограничен простыми напоминаниями, но в грядущих обновлениях мои возможности сильно увеличиться")
 
-    if not args:
-        text = _("Привет, я Task Bot. Я помогу тебе с планами на день, неделю, месяц.... жизнь 😉\n" \
-            "Если хочешь пройти небольшой экскурс по основным функциям, напиши /help, а для инфорамции о всех командах напиши /commands_list")
-
-        await message.answer(text)
+    await message.answer(text)
 

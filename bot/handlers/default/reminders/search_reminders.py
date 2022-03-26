@@ -51,7 +51,8 @@ async def action(callback_query: CallbackQuery, callback_data: dict, session: As
         async with state.proxy() as data:
             data['list'] = match[1]
             data['mode'] = match[2]
-            data['message'] = bot_message.message_id
+            data['message'] = list()
+            data['message'].append(bot_message.message_id)
             data['main_message'] = callback_query.message.message_id
 
     if callback_data["filter"] == "time":
@@ -130,7 +131,7 @@ async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, 
                                                                                   max_page, max_page,
                                                                                   f"{column}:{_filter}"))
 
-        await bot.delete_message(callback_query.message.chat.id, data['message'])
+        await bot.delete_message(callback_query.message.chat.id, data['message'][0])
 
     await state.finish()
 
