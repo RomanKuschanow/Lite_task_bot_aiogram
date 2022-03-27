@@ -6,17 +6,18 @@ services:
     build: .
     restart: always
 #    ports:
-#      - '${PORT:-8000}:8000'
+#      - '${WEBHOOK_PORT}:${WEBHOOK_PORT:-8000}'
     entrypoint:
-      - ./entrypoint.sh
+      - ./bin/entrypoint.sh
     volumes:
-      - ./data/logs:/usr/src/app/data/logs
+      - ./data/logs:/app/data/logs:rw
     depends_on:
       - postgres
       - redis
     environment:
       ADMINS: ${ADMINS}
       BOT_TOKEN: ${BOT_TOKEN}
+      RATE_LIMIT: ${RATE_LIMIT:-0.5}
 
       DATABASE_USER: postgres
       DATABASE_PASS: postgres
@@ -29,6 +30,7 @@ services:
       REDIS_PORT: 6379
       REDIS_DB: 5
 
+      WEBHOOK_PORT: ${WEBHOOK_PORT}
       WEBHOOK_HOST: ${WEBHOOK_HOST:-localhost}
       WEBHOOK_PATH: ${WEBHOOK_PATH}
 
