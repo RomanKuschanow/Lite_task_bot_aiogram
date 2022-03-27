@@ -10,3 +10,4 @@ aiogram-datepicker
 humanize
 pendulum
 pyTelegramBotAPI
+wayforpay
