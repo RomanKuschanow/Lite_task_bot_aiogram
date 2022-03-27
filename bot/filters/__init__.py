@@ -1,10 +1,13 @@
+from aiogram.dispatcher.filters import Regexp
+from aiogram.dispatcher.filters import Text
+
 from loader import dp
 from .admin import Admin
-from.status import Status
-from aiogram.dispatcher.filters import Text
-from aiogram.dispatcher.filters import Regexp
+from .confirm_payment import ConfirmPayment
+from .status import Status
 
-if __name__ == 'filters':
+if __name__ == 'bot.filters':
+    dp.filters_factory.bind(ConfirmPayment)
     dp.filters_factory.bind(Admin)
     dp.filters_factory.bind(Status)
     dp.filters_factory.bind(Text)

@@ -45,6 +45,17 @@ async def update_status(session: AsyncSession, id: int, status: str):
         await session.rollback()
 
 
+async def update_user_balance(session: AsyncSession, id: int, balance: float):
+    sql = update(User).where(User.id == id).values(balance=balance)
+
+    await session.execute(sql)
+
+    try:
+        await session.commit()
+    except:
+        await session.rollback()
+
+
 async def update_user(session: AsyncSession, user: tele_user) -> User:
     updated_user = await get_user(session, user.id)
 

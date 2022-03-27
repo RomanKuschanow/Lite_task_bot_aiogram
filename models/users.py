@@ -1,5 +1,5 @@
 from datetime import datetime
-from sqlalchemy import Column, Integer, BigInteger, DateTime, String, Boolean
+from sqlalchemy import Column, Integer, BigInteger, DateTime, String, Boolean, Float
 from sqlalchemy.orm import relationship
 
 from .base import db
@@ -15,6 +15,8 @@ class User(db):
     language = Column(String, default='ru')
 
     status = Column(String(255), default='user')
+
+    balance = Column(Float, default=0)
 
     is_admin = Column(Boolean, default=False)
 

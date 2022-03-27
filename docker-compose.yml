@@ -34,6 +34,9 @@ services:
       WEBHOOK_HOST: ${WEBHOOK_HOST:-localhost}
       WEBHOOK_PATH: ${WEBHOOK_PATH}
 
+      WAYFORPAY_ACCOUNT: ${WAYFORPAY_ACCOUNT}
+      WAYFORPAY_SECRET: ${WAYFORPAY_SECRET}
+
   redis:
     image: redis:alpine
     command: redis-server

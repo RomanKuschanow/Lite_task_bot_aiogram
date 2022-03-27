@@ -39,3 +39,6 @@ if WEBHOOK_PORT:
 
 I18N_DOMAIN = 'bot'
 LOCALES_DIR = f'{DIR}/locales'
+
+WAYFORPAY_ACCOUNT = config('WAYFORPAY_ACCOUNT', default=None)
+WAYFORPAY_SECRET = config('WAYFORPAY_SECRET', default=None)

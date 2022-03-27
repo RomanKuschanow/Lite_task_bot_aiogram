@@ -3,3 +3,4 @@ from .users import User
 #from .tasks import Task
 from .reminders import Reminder
 from .banned_users import BannedUser
+from .bills import Bill
