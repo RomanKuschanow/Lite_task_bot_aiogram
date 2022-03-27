@@ -9,3 +9,4 @@ loguru
 aiogram-datepicker
 humanize
 pendulum
+pyTelegramBotAPI
