@@ -17,10 +17,6 @@ FROM python:3.9-slim
 
 WORKDIR /app
 
-RUN addgroup --system app && adduser --system --group app
-
-USER app
-
 COPY --from=builder /app/wheels /wheels
 COPY --from=builder /app/requirements.txt .
 
