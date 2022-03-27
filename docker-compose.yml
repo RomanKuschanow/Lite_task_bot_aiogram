@@ -5,8 +5,8 @@ services:
   bot:
     build: .
     restart: always
-    ports:
-      - '${PORT:-8000}:8000'
+#    ports:
+#      - '${PORT:-8000}:8000'
     entrypoint:
       - ./entrypoint.sh
     volumes:
