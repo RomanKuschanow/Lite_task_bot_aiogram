@@ -10,7 +10,6 @@ def get_inline_tz_markup(region = None) -> InlineKeyboardMarkup:
     markup = InlineKeyboardMarkup(row_width=2, resize_keyboard=True)
 
     if region is None:
-        print(pytz.all_timezones)
         buttons = list(set([re.search('(.+)/.+', r)[1] for r in pytz.all_timezones if re.match('(.+)/.+', r)]))
     else:
         buttons = list(set([re.search('.+/(.+)', r)[1] for r in pytz.all_timezones if re.match(region, r)]))

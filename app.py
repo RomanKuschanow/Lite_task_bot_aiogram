@@ -1,5 +1,4 @@
 from aiogram import executor
-import pytz
 
 from loader import dp, bot, config
 from models.base import create_async_database

@@ -1,5 +1,5 @@
 from aiogram.dispatcher.filters.state import StatesGroup, State
 
 
-class Balance(StatesGroup):
+class Donate(StatesGroup):
     top_up_balance = State()

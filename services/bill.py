@@ -10,7 +10,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from loader import config
 from models import Bill, User
-from services.user import update_user_balance
 from utils.misc.logging import logger
 
 
@@ -63,7 +62,7 @@ def _generate_signature(merchant_key, data_str: str):
     return hmac.new(merchant_key.encode(), data_str.encode(), hashlib.md5).hexdigest()
 
 
-def generate_invoice_link(bill: Bill) -> str:
+def generate_invoice_link(bill: Bill, user: User) -> str:
     url = 'https://api.wayforpay.com/api'
 
     params = {
@@ -72,14 +71,14 @@ def generate_invoice_link(bill: Bill) -> str:
         'merchantAuthType': 'SimpleSignature',
         'merchantDomainName': 'http://t.me/Lite_task_bot',
         'apiVersion': 1,
-        'language': 'ru',
+        'language': user.language,
         'orderReference': bill.label,
         'orderDate': int(time()),
         'amount': bill.amount,
-        'currency': 'UAH',
+        'currency': 'USD',
         'orderTimeout': 86400,
         'productName': [
-            f'Донат в боте №{bill.id}'
+            f'Донат'
         ],
         'productPrice': [
             bill.amount
@@ -143,7 +142,5 @@ async def check_bill(session: AsyncSession, bill: Bill, user: User) -> bool:
     bill = await update_bill_status(session, bill, status)
 
     logger.info(f'Bill success {bill}, balance top up {amount}')
-
-    await update_user_balance(session, user.id, round(user.balance + amount, 2))
 
     return True

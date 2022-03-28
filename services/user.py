@@ -51,19 +51,8 @@ async def update_time_zone(session: AsyncSession, id: int, time_zone: str):
         await session.rollback()
 
 
-async def update_status(session: AsyncSession, id: int, status: str):
-    sql = update(User).where(User.id == id).values(status=status)
-
-    await session.execute(sql)
-
-    try:
-        await session.commit()
-    except:
-        await session.rollback()
-
-
-async def update_user_balance(session: AsyncSession, id: int, balance: float):
-    sql = update(User).where(User.id == id).values(balance=balance)
+async def update_status(session: AsyncSession, id: int, is_vip: bool):
+    sql = update(User).where(User.id == id).values(is_vip=is_vip)
 
     await session.execute(sql)
 

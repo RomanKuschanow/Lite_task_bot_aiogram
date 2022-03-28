@@ -15,9 +15,7 @@ class User(db):
     language = Column(String, default='ru')
     time_zone = Column(String, default='Europe/Kiev')
 
-    status = Column(String(255), default='user')
-
-    balance = Column(Float, default=0)
+    is_vip = Column(Boolean, default=False)
 
     is_admin = Column(Boolean, default=False)
 
