@@ -34,6 +34,23 @@ async def get_user(session: AsyncSession, id: int) -> User:
     return user
 
 
+async def get_user_time_zone(session: AsyncSession, id: int) -> str:
+    user = await get_user(session, id)
+
+    return user.time_zone
+
+
+async def update_time_zone(session: AsyncSession, id: int, time_zone: str):
+    sql = update(User).where(User.id == id).values(time_zone=time_zone)
+
+    await session.execute(sql)
+
+    try:
+        await session.commit()
+    except:
+        await session.rollback()
+
+
 async def update_status(session: AsyncSession, id: int, status: str):
     sql = update(User).where(User.id == id).values(status=status)
 

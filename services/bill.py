@@ -70,7 +70,7 @@ def generate_invoice_link(bill: Bill) -> str:
         'transactionType': 'CREATE_INVOICE',
         'merchantAccount': config.WAYFORPAY_ACCOUNT,
         'merchantAuthType': 'SimpleSignature',
-        'merchantDomainName': config.WAYFORPAY_ACCOUNT,
+        'merchantDomainName': 'http://t.me/Lite_task_bot',
         'apiVersion': 1,
         'language': 'ru',
         'orderReference': bill.label,

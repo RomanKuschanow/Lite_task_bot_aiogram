@@ -13,6 +13,7 @@ class User(db):
     first_name = Column(String(255))
     last_name = Column(String(255), default=None)
     language = Column(String, default='ru')
+    time_zone = Column(String, default='Europe/Kiev')
 
     status = Column(String(255), default='user')
 

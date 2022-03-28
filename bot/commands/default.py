@@ -9,6 +9,7 @@ def get_default_commands() -> list[BotCommand]:
         BotCommand('/reminders_list', 'список всех напоминаний пользователья'),
         BotCommand('/feedback', 'оставить отзыв или пожелания'),
         BotCommand('/lang', 'сменить язык'),
+        BotCommand('/tz', 'выбрать часовой пояс'),
         BotCommand('/reset', 'сброс текущего действия')
     ]
 

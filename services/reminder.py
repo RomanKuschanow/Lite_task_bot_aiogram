@@ -2,13 +2,20 @@ from sqlalchemy import select, update, delete
 from sqlalchemy.ext.asyncio import AsyncSession
 from models import Reminder
 
+from .user import get_user_time_zone
+
 from datetime import datetime
+import pytz
 
 from utils.misc.logging import logger
 
 
 async def create_reminder(session: AsyncSession, user_id: int, text: str, date: datetime) -> Reminder:
-    new_reminder = Reminder(user_id=user_id, text=text, date=date)
+    localize_date = pytz.timezone(await get_user_time_zone(session, user_id)).localize(date)
+
+    server_date = localize_date.astimezone(pytz.timezone('Europe/London'))
+
+    new_reminder = Reminder(user_id=user_id, text=text, date=server_date)
 
     session.add(new_reminder)
     await session.commit()
@@ -93,7 +100,11 @@ async def edit_text(session: AsyncSession, id: int, text: str):
 
 
 async def edit_date(session: AsyncSession, id: int, date: datetime):
-    sql = update(Reminder).where(Reminder.id == id).values(date=date)
+    localize_date = pytz.timezone(await get_user_time_zone(session, user_id)).localize(date)
+
+    server_date = localize_date.astimezone(pytz.timezone('Europe/London'))
+
+    sql = update(Reminder).where(Reminder.id == id).values(date=server_date)
 
     await session.execute(sql)
 
