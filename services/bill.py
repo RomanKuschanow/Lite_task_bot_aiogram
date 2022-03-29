@@ -90,7 +90,7 @@ def generate_invoice_link(bill: Bill, user: User) -> str:
     data_str = ';'.join([
         params['merchantAccount'], params['merchantDomainName'], params['orderReference'],
         str(params['orderDate']), str(params['amount']), params['currency'], params['productName'][0],
-        str(params['productPrice'][0]), str(params['productCount'][0])
+        str(params['productCount'][0]), str(params['productPrice'][0])
     ])
 
     params['merchantSignature'] = _generate_signature(config.WAYFORPAY_SECRET, data_str)

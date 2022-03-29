@@ -31,7 +31,8 @@ async def _user_top_up_balance_invoice(message: Message, user: User, session, st
 
     text = _('Номер: {id}\n'
              'Донат на сумму: {amount}$\n\n' +
-             ('После оплаты нажмите "Оплатил ✅", и получите полный доступ к функционалу бота' if not user.is_vip else '')).format(id=bill.id, amount=amount)
+             ('После оплаты нажмите "Оплатил ✅", и получите полный доступ к функционалу бота'
+              if not user.is_vip else '')).format(id=bill.id, amount=amount)
 
     await message.answer(text, reply_markup=get_payment_inline_markup(link, bill.id if not user.is_vip else None))
     await state.finish()

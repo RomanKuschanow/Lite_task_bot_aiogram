@@ -10,7 +10,7 @@ class ConfirmPayment(BoundFilter):
     def __init__(self, confirm_payment):
         self.confirm_payment = confirm_payment
 
-    async def check(self, call, *args):
+    async def check(self, call: CallbackQuery):
         if isinstance(call, CallbackQuery):
             text = call.data
         else:

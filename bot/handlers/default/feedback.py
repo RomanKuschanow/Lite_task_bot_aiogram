@@ -1,18 +1,16 @@
-from aiogram.dispatcher.filters.builtin import CommandStart
 from aiogram.types import Message
-from bot.keyboards.inline import get_inline_states_markup
-from utils.misc import rate_limit
-from bot.states import Feedback
-from models import User
 
+from bot.keyboards.inline import get_inline_states_markup
+from bot.states import Feedback
 from loader import dp, _, bot
+from models import User
 
 
 @dp.message_handler(commands='feedback')
 async def feedback(message: Message, user, state):
     await Feedback.start.set()
 
-    text = _("Напиши сообщение которое увидят разработчики")
+    text = _('Напиши сообщение которое увидят разработчики')
 
     bot_message = await message.answer(text, reply_markup=get_inline_states_markup(True))
 
@@ -24,7 +22,7 @@ async def feedback(message: Message, user, state):
 
 @dp.message_handler(state=Feedback.start)
 async def forward(message: Message, user: User, state):
-    text = f"{message.text} \n\n{user}"
+    text = f'{message.text} \n\n{user}'
 
     await bot.send_message(-1001588079833, text=text)
 
@@ -37,4 +35,3 @@ async def forward(message: Message, user: User, state):
                     continue
 
     await state.finish()
-

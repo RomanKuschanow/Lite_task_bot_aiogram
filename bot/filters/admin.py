@@ -7,10 +7,10 @@ from services.user import get_user
 class Admin(BoundFilter):
     key = 'is_admin'
 
-    def __init__(self, is_admin, *args, **kwargs):
+    def __init__(self, is_admin):
         self.is_admin = is_admin
 
-    async def check(self, message):
+    async def check(self, message: Message):
         session = message.bot.get('session')
         user = await get_user(session, message.from_user.id)
 

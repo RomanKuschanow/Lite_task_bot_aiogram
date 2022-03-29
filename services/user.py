@@ -1,14 +1,13 @@
+from aiogram.types import User as tele_user
+from pendulum import now
 from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
-from pendulum import now
 
 from data.config import ADMINS
-
-from aiogram.types import User as tele_user
-
+from loader import bot, _
 from models import User
-from utils.misc.logging import logger
 from services.banned_user import add_user_to_list
+from utils.misc.logging import logger
 
 
 async def create_user(session: AsyncSession, user: tele_user) -> User:
@@ -109,8 +108,6 @@ async def ban_user(session: AsyncSession, id: int) -> User:
     except:
         await session.rollback()
 
-    from loader import bot, _
-
     logger.info(f'User {id} banned')
 
     await add_user_to_list(session, user)
@@ -124,14 +121,12 @@ async def ban_user(session: AsyncSession, id: int) -> User:
 async def permanent_ban(session: AsyncSession, id: int) -> User:
     user = await get_user(session, id)
 
-    user.is_banned = True;
+    user.is_banned = True
 
     try:
         await session.commit()
     except:
         await session.rollback()
-
-    from loader import bot, _
 
     logger.info(f'User {id} banned permanent')
 

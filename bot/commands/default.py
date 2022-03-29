@@ -1,4 +1,5 @@
 from aiogram.types import BotCommandScopeDefault, BotCommand
+
 from loader import _
 
 

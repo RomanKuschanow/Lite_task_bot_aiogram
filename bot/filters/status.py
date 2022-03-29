@@ -7,10 +7,10 @@ from services.user import get_user
 class Status(BoundFilter):
     key = 'status'
 
-    def __init__(self, status, *args, **kwargs):
+    def __init__(self, status: str):
         self.status = status
 
-    async def check(self, message):
+    async def check(self, message: Message):
         session = message.bot.get('session')
         user = await get_user(session, message.from_user.id)
 

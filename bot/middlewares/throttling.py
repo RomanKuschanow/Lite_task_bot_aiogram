@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from aiogram import Dispatcher
 from aiogram.dispatcher.handler import CancelHandler, current_handler
 from aiogram.dispatcher.middlewares import BaseMiddleware
@@ -5,8 +7,7 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.utils.exceptions import Throttled
 
 from loader import _, config
-from datetime import datetime
-from services.user import ban_user, permanent_ban
+from services.user import permanent_ban
 
 
 class ThrottlingMiddleware(BaseMiddleware):
@@ -46,13 +47,13 @@ class ThrottlingMiddleware(BaseMiddleware):
                 await message.reply(_('Я тебя сейчас забаню!'))
             if throttled.exceeded_count == 5:
                 if user.banned_until > datetime.now():
-                    await message.reply(_("Добро пожаловать в перманентный бан. ГГВП. Сайонара"))
+                    await message.reply(_('Добро пожаловать в перманентный бан. ГГВП. Сайонара'))
                     await permanent_ban(session, user.id)
 
                 if user.ban_count == 1:
                     await message.reply(_('Я тебя забанил, пока только на три часа. С каждым разом будет все больше'))
                 else:
                     await message.reply(_('Бан на {hours}').format(
-                        hours= user.banned_until - datetime.now()))
+                        hours=user.banned_until - datetime.now()))
 
             raise CancelHandler()

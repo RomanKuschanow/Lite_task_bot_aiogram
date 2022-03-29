@@ -1,13 +1,12 @@
+from datetime import datetime
+
+import pytz
 from sqlalchemy import select, update, delete
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from models import Reminder
-
-from .user import get_user_time_zone
-
-from datetime import datetime
-import pytz
-
 from utils.misc.logging import logger
+from .user import get_user_time_zone
 
 
 async def create_reminder(session: AsyncSession, user_id: int, text: str, date: datetime) -> Reminder:

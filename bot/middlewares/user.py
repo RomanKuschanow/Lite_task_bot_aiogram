@@ -1,10 +1,11 @@
+from datetime import datetime
+
 from aiogram.dispatcher.handler import CancelHandler
 from aiogram.dispatcher.middlewares import BaseMiddleware
 from aiogram.types import Message, CallbackQuery, InlineQuery
 
-from services.user import get_or_create_user
-from datetime import datetime
 from loader import _
+from services.user import get_or_create_user
 
 
 class UsersMiddleware(BaseMiddleware):

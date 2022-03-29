@@ -1,12 +1,11 @@
-from sqlalchemy import Column, Integer, BigInteger, String
-
 from base import db
+from sqlalchemy import Column, Integer, BigInteger, String
 
 
 class Timetable(db):
     __tablename__ = 'timetable'
 
-    id = Column(BigInteger().with_variant(Integer, "sqlite"), primary_key=True)
+    id = Column(BigInteger().with_variant(Integer, 'sqlite'), primary_key=True)
     user_id = Column(BigInteger)
 
     day = Column(String)

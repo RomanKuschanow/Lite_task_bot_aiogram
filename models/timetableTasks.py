@@ -1,5 +1,5 @@
-from datetime import datetime
 import json
+from datetime import datetime
 
 
 class Timetable_Task():
@@ -18,4 +18,3 @@ class Timetable_Task():
 
     def __repr__(self) -> str:
         return self.to_str()
-

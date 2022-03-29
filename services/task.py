@@ -1,10 +1,10 @@
-from sqlalchemy import select, update, delete
-from sqlalchemy.ext.asyncio import AsyncSession
-from models import Task
-
-from models.tasks import Task
 from datetime import datetime
 
+from sqlalchemy import select, update, delete
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from models import Task
+from models.tasks import Task
 from utils.misc.logging import logger
 
 
@@ -32,7 +32,7 @@ def get_task(session: AsyncSession, id: int, user_id: int = None) -> Task:
     return task
 
 
-def get_all_sorted_by(session: AsyncSession, user_id: int, sort, order = Task.end_date.asc) -> list[Task]:
+def get_all_sorted_by(session: AsyncSession, user_id: int, sort, order=Task.end_date.asc) -> list[Task]:
     sql = select(Task).where(sort()).order_by(order())
     query = await session.execute(sql)
 

@@ -7,9 +7,9 @@ from .base import db
 class Task(db):
     __tablename__ = 'task'
 
-    id = Column(BigInteger().with_variant(Integer, "sqlite"), primary_key=True)
+    id = Column(BigInteger().with_variant(Integer, 'sqlite'), primary_key=True)
     user_id = Column(BigInteger, ForeignKey('users.id'))
-    user = relationship("User", back_populates="tasks")
+    user = relationship('User', back_populates='tasks')
 
     text = Column(String)
 
@@ -22,4 +22,3 @@ class Task(db):
 
     def __repr__(self) -> str:
         return f'{self.task}' + f': {self.end_date}' if self.end_date else ''
-

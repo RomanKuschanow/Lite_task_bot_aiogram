@@ -3,20 +3,18 @@ from datetime import datetime
 
 from aiogram.dispatcher import FSMContext
 from aiogram.types import Message, CallbackQuery, ContentTypes
-from aiogram_datepicker import Datepicker
 from aiogram.utils.callback_data import CallbackData
+from aiogram_datepicker import Datepicker
 
-from services.reminder import get_reminder, edit_text, edit_date, delete_reminder
+from bot.filters import vip
+from bot.keyboards.inline import get_edit_reminders_inline_markup, get_inline_states_markup
 from bot.states.edit_reminder import EditReminder
 from loader import dp, _, bot
-from aiogram_datepicker import Datepicker
-from bot.keyboards.inline import get_edit_reminders_inline_markup, get_inline_states_markup
+from services.reminder import get_reminder, edit_text, edit_date, delete_reminder
 from .datepicker_settings import _get_datepicker_settings
-from utils.misc import rate_limit
-from bot.filters import vip
 
-edit_callback = CallbackData("reminder", "edit", "param", "id")
-delete_callback = CallbackData("reminder", "delete", "id")
+edit_callback = CallbackData('reminder', 'edit', 'param', 'id')
+delete_callback = CallbackData('reminder', 'delete', 'id')
 
 
 @dp.message_handler(commands='start', text_startswith='/start edit_reminder')
@@ -31,7 +29,7 @@ async def edit_reminder_menu(message: Message, state: FSMContext, session, user)
         await message.delete()
 
 
-@dp.callback_query_handler(text="reminder:edit:cancel")
+@dp.callback_query_handler(text='reminder:edit:cancel')
 async def cancel_edit(callback_query: CallbackQuery):
     await callback_query.answer()
 
@@ -52,14 +50,14 @@ async def edit_reminder(callback_query: CallbackQuery, callback_data: dict, stat
     await callback_query.answer()
 
     if callback_data['param'] == 'text':
-        text = _("Отправьте мне текст напоминания")
+        text = _('Отправьте мне текст напоминания')
 
         bot_message = await callback_query.message.answer(text, reply_markup=get_inline_states_markup(True))
 
         await EditReminder.text.set()
 
     elif callback_data['param'] == 'date':
-        text = _("Выберите дату")
+        text = _('Выберите дату')
 
         datepicker = Datepicker(_get_datepicker_settings(True))
         markup = datepicker.start_calendar()
@@ -113,12 +111,12 @@ date_reminders = CallbackData('datepicker', 'day', 'set-day', 'year', 'month', '
 async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, session, user, state: FSMContext):
     await callback_query.answer()
 
-    text = _("Отправьте точное время")
+    text = _('Отправьте точное время')
 
     datepicker = Datepicker(_get_datepicker_settings())
     if callback_data['set-day'] == 'set-day':
         async with state.proxy() as data:
-            data['date'] = f"{callback_data['day']}.{callback_data['month']}.{callback_data['year']}"
+            data['date'] = f'{callback_data["day"]}.{callback_data["month"]}.{callback_data["year"]}'
     else:
         return
 
@@ -155,7 +153,7 @@ async def get_reminder_date(message, session, user, state: FSMContext):
     async with state.proxy() as data:
         try:
             await edit_date(session, data['id'],
-                            datetime.strptime(f"{data['date']} {match[1]}:{match[2]}", '%d.%m.%Y %H:%M'))
+                            datetime.strptime(f'{data["date"]} {match[1]}:{match[2]}', '%d.%m.%Y %H:%M'))
         except:
             text = _('Вы ввели несуществующее время')
             bot_message = await message.answer(text, reply_markup=get_inline_states_markup())
@@ -181,7 +179,7 @@ async def get_reminder_date(message, session, user, state: FSMContext):
     await state.finish()
 
 
-@dp.callback_query_handler(text="back", state=EditReminder.time)
+@dp.callback_query_handler(text='back', state=EditReminder.time)
 async def back(callback_query: CallbackQuery, state: FSMContext):
     await callback_query.answer()
 
@@ -194,7 +192,7 @@ async def back(callback_query: CallbackQuery, state: FSMContext):
         await EditReminder.date.set()
         datepicker = Datepicker(_get_datepicker_settings(True))
         markup = datepicker.start_calendar()
-        text = _("Выберите дату")
+        text = _('Выберите дату')
 
         bot_message = await callback_query.message.answer(text, reply_markup=markup)
         data['message'].append(bot_message.message_id)
