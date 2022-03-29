@@ -31,6 +31,4 @@ async def set_default_commands():
 async def set_user_commands(id: int, lang: str):
     commands = get_default_commands(lang)
 
-    await bot.delete_my_commands(scope=BotCommandScopeChat(id), language_code='ru')
-    await bot.delete_my_commands(scope=BotCommandScopeChat(id), language_code='en')
     await bot.set_my_commands(commands, scope=BotCommandScopeChat(id))
