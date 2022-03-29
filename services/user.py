@@ -2,6 +2,7 @@ from aiogram.types import User as tele_user
 from pendulum import now
 from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
+from bot.commands import set_user_commands
 
 from data.config import ADMINS
 from loader import bot, _
@@ -50,8 +51,19 @@ async def update_time_zone(session: AsyncSession, id: int, time_zone: str):
         await session.rollback()
 
 
-async def update_status(session: AsyncSession, id: int, is_vip: bool):
+async def update_status(session: AsyncSession, id: int, is_vip: bool = True):
     sql = update(User).where(User.id == id).values(is_vip=is_vip)
+
+    await session.execute(sql)
+
+    try:
+        await session.commit()
+    except:
+        await session.rollback()
+
+
+async def update_is_admin(session: AsyncSession, id: int, is_admin: bool = True):
+    sql = update(User).where(User.id == id).values(is_admin=is_admin)
 
     await session.execute(sql)
 
@@ -81,6 +93,8 @@ async def update_user(session: AsyncSession, user: tele_user) -> User:
 
 async def edit_user_language(session: AsyncSession, id: int, language: str):
     sql = update(User).where(User.id == id).values(language=language)
+
+    await set_user_commands(id, language)
 
     await session.execute(sql)
     await session.commit()

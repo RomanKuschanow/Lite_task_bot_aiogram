@@ -37,7 +37,7 @@ def get_reminders_list_inline_markup(curr_list: str, is_edit: bool = False, curr
         InlineKeyboardButton(tiles[1]['text'], callback_data=f'{tiles[1]["callback"]}'))
 
     markup.row(
-        InlineKeyboardButton(_('🔎 Поиск') if search_filter == ':' else _('❌ Сбросить фильтр'),
+        InlineKeyboardButton(_('🔎 Фильтры') if search_filter == ':' else _('❌ Сбросить фильтр'),
                              callback_data='search' if search_filter == ':'
                              else f'reminders:{curr_list}:{curr_list}:{action}:max:{":"}'),
 

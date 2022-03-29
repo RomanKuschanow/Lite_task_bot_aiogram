@@ -1,12 +1,10 @@
 from aiogram.dispatcher import FSMContext
 from aiogram.types import Message, CallbackQuery
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from bot.keyboards.inline import get_inline_tz_markup
 from services.user import update_time_zone
 from bot.states import TimeZone
 from loader import dp, _
-import pytz
 
 
 @dp.message_handler(commands='tz')

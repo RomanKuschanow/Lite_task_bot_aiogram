@@ -12,7 +12,7 @@ from utils.misc.logging import logger
 
 @dp.message_handler(commands='donate', state='*')
 async def _user_top_up_balance(message: Message):
-    text = _('Напиши сумму в долларах, которую хотите задонатить')
+    text = _('Напиши сумму в долларах (минимум 1), которую хотите задонатить')
 
     await message.answer(text)
     await Donate.top_up_balance.set()
@@ -21,8 +21,8 @@ async def _user_top_up_balance(message: Message):
 @dp.message_handler(state=Donate.top_up_balance)
 async def _user_top_up_balance_invoice(message: Message, user: User, session, state):
     amount = message.text
-    if not amount.isnumeric():
-        return await message.answer(_('Введите целое число, например: 5'))
+    if not amount.isnumeric() or int(message.text) < 1:
+        return await message.answer(_('Введите целое число больше 0, например: 5'))
 
     bill = await create_bill(session, amount, message.from_user.id)
     logger.info(f'{user} create {bill}')
