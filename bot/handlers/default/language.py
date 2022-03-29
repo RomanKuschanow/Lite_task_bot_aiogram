@@ -1,6 +1,7 @@
 from aiogram.dispatcher.filters.builtin import Regexp
 from aiogram.types import CallbackQuery, Message
 from sqlalchemy.ext.asyncio import AsyncSession
+from bot.commands import set_user_commands
 
 from bot.keyboards.inline import get_language_inline_markup
 from loader import dp, _, i18n
@@ -14,6 +15,7 @@ async def change_language(callback_query: CallbackQuery, regexp: Regexp, session
 
     await edit_user_language(session, callback_query.from_user.id, language)
     i18n.set_user_locale(language)
+    await set_user_commands(user.id, language)
 
     await callback_query.message.answer(_('Язык изменен\nНапиши /help чтобы узнать как я могу тебе помочь'))
     await callback_query.message.delete()

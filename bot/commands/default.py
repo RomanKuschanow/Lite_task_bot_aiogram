@@ -1,7 +1,7 @@
 from aiogram.types import BotCommandScopeDefault, BotCommandScopeChat, BotCommand
 from models import User
 
-from loader import _
+from loader import _, bot
 
 
 def get_default_commands(lang) -> list[BotCommand]:
@@ -24,7 +24,6 @@ async def set_default_commands():
     commands_ru = get_default_commands('ru')
     commands_en = get_default_commands('en')
 
-    from loader import bot
     await bot.set_my_commands(commands_ru, scope=BotCommandScopeDefault(), language_code='ru')
     await bot.set_my_commands(commands_en, scope=BotCommandScopeDefault(), language_code='en')
 
@@ -32,5 +31,5 @@ async def set_default_commands():
 async def set_user_commands(id: int, lang: str):
     commands = get_default_commands(lang)
 
-    from loader import bot
-    await bot.set_my_commands(commands, scope=BotCommandScopeChat(id), language_code=lang)
+    await bot.set_my_commands(commands, scope=BotCommandScopeChat(id), language_code='ru')
+    await bot.set_my_commands(commands, scope=BotCommandScopeChat(id), language_code='en')
