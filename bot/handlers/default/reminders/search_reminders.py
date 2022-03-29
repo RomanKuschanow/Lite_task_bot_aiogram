@@ -16,10 +16,13 @@ from models import Reminder
 from models import User
 from datetime import datetime
 
+from bot.filters import vip
+
 search_callback = CallbackData("reminder", "search", "filter", "", "")
 
 
 @dp.callback_query_handler(search_callback.filter())
+@vip()
 async def action(callback_query: CallbackQuery, callback_data: dict, session: AsyncSession, user: User, state):
     await callback_query.answer()
 

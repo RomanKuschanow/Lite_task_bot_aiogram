@@ -13,6 +13,7 @@ from aiogram_datepicker import Datepicker
 from bot.keyboards.inline import get_edit_reminders_inline_markup, get_inline_states_markup
 from .datepicker_settings import _get_datepicker_settings
 from utils.misc import rate_limit
+from bot.filters import vip
 
 edit_callback = CallbackData("reminder", "edit", "param", "id")
 delete_callback = CallbackData("reminder", "delete", "id")
@@ -46,6 +47,7 @@ async def del_reminder(callback_query: CallbackQuery, callback_data: dict, sessi
 
 
 @dp.callback_query_handler(edit_callback.filter())
+@vip()
 async def edit_reminder(callback_query: CallbackQuery, callback_data: dict, state: FSMContext):
     await callback_query.answer()
 

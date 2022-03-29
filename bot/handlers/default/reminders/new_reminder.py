@@ -14,9 +14,11 @@ from models import User
 from services.reminder import create_reminder
 from utils.misc import rate_limit
 from .datepicker_settings import _get_datepicker_settings
+from bot.filters import vip
 
 
 @dp.message_handler(commands='new_reminder')
+@vip(5)
 async def new_reminder(message: Message, state: FSMContext, call_from_back=False):
     text = _("Отправьте мне текст напоминания")
 

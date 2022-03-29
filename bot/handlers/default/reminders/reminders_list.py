@@ -8,6 +8,7 @@ from loader import dp, _
 from models import User, Reminder
 from services.reminder import get_all_by_user_id, get_all_actual_by_user_id, get_all_old_by_user_id
 from utils.misc import rate_limit
+from bot.filters import vip
 
 
 list_callback = CallbackData('reminders', 'list', 'curr_list', 'action', 'curr_page', 'column', 'filter')
@@ -65,6 +66,7 @@ page_callback = CallbackData('reminders', 'page')
 
 @dp.callback_query_handler(text='search')
 @rate_limit(3)
+@vip()
 async def search(callback_query: CallbackQuery, session: AsyncSession, user: User):
     await callback_query.answer()
 

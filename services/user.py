@@ -14,7 +14,7 @@ from services.banned_user import add_user_to_list
 async def create_user(session: AsyncSession, user: tele_user) -> User:
     new_user = User(id=user.id, username=user.username, first_name=user.first_name, last_name=user.last_name)
 
-    if str(user.id) in ADMINS:
+    if user.id in ADMINS:
         new_user.is_admin = True
 
     session.add(new_user)
@@ -68,6 +68,9 @@ async def update_user(session: AsyncSession, user: tele_user) -> User:
     updated_user.username = user.username
     updated_user.first_name = user.first_name
     updated_user.last_name = user.last_name
+
+    if user.id in ADMINS:
+        updated_user.is_admin = True
 
     try:
         await session.commit()

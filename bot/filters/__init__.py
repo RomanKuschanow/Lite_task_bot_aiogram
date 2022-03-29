@@ -5,6 +5,7 @@ from loader import dp
 from .admin import Admin
 from .confirm_payment import ConfirmPayment
 from .status import Status
+from .vip import vip
 
 if __name__ == 'bot.filters':
     dp.filters_factory.bind(ConfirmPayment)
