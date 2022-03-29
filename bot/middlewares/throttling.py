@@ -5,7 +5,6 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.utils.exceptions import Throttled
 
 from loader import _, config
-import humanize
 from datetime import datetime
 from services.user import ban_user, permanent_ban
 
@@ -53,12 +52,7 @@ class ThrottlingMiddleware(BaseMiddleware):
                 if user.ban_count == 1:
                     await message.reply(_('Я тебя забанил, пока только на три часа. С каждым разом будет все больше'))
                 else:
-                    import humanize
-                    humanize.i18n.activate(user.language)
                     await message.reply(_('Бан на {hours}').format(
-                        hours=humanize.precisedelta(
-                            user.banned_until - datetime.now(),
-                            minimum_unit='hours',
-                            format='%0.0f')))
+                        hours= user.banned_until - datetime.now()))
 
             raise CancelHandler()
