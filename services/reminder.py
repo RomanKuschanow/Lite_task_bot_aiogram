@@ -12,7 +12,9 @@ from .user import get_user_time_zone
 async def create_reminder(session: AsyncSession, user_id: int, text: str, date: datetime) -> Reminder:
     localize_date = pytz.timezone(await get_user_time_zone(session, user_id)).localize(date)
 
-    server_date = localize_date.astimezone(pytz.UTC)
+    d = localize_date.astimezone(pytz.UTC)
+
+    server_date = datetime(d.year, d.month, d.day, d.hour, d.minute)
 
     new_reminder = Reminder(user_id=user_id, text=text, date=server_date)
 
@@ -101,7 +103,9 @@ async def edit_text(session: AsyncSession, id: int, text: str):
 async def edit_date(session: AsyncSession, id: int, date: datetime):
     localize_date = pytz.timezone(await get_user_time_zone(session, user_id)).localize(date)
 
-    server_date = localize_date.astimezone(pytz.UTC)
+    d = localize_date.astimezone(pytz.UTC)
+
+    server_date = datetime(d.year, d.month, d.day, d.hour, d.minute)
 
     sql = update(Reminder).where(Reminder.id == id).values(date=server_date)
 

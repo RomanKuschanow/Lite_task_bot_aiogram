@@ -1,8 +1,9 @@
 from pendulum import now
-from sqlalchemy import Column, Integer, BigInteger, TIMESTAMP, String, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, BigInteger, DateTime, String, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 
 from .base import db
+import pytz
 
 
 class Reminder(db):
@@ -14,11 +15,13 @@ class Reminder(db):
 
     text = Column(String)
 
-    date = Column(TIMESTAMP, default=now().add(minutes=30))
+    date = Column(DateTime, default=now().add(minutes=30))
 
     is_reminded = Column(Boolean, default=False)
     is_deleted = Column(Boolean, default=False)
 
     def __repr__(self) -> str:
-        date_str = self.date.strftime('%d.%m.%Y %H:%M')
-        return f'{self.text}: {date_str}'
+        server_date = pytz.timezone('UTC').localize(self.date)
+
+        date = server_date.astimezone(pytz.timezone(self.user.time_zone))
+        return f'{self.text}: {date.strftime("%d.%m.%Y %H:%M")}'

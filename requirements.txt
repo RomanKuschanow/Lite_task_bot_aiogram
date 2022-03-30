@@ -10,3 +10,4 @@ aiogram-datepicker
 pendulum
 pyTelegramBotAPI
 pytz
+alembic

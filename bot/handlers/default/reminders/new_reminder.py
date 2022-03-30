@@ -116,7 +116,7 @@ async def get_reminder_date(message, session, user, state: FSMContext):
     async with state.proxy() as data:
         # try:
         await create_reminder(session, user.id, data['text'],
-                              datetime.strptime(f'{data["date"]} {match[1]}:{match[2]}', '%d.%m.%Y %H:%M'))
+                                  datetime.strptime(f'{data["date"]} {match[1]}:{match[2]}', '%d.%m.%Y %H:%M'))
         # except:
         #     text = _('Вы ввели несуществующее время')
         #     bot_message = await message.answer(text, reply_markup=get_inline_states_markup())

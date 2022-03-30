@@ -10,19 +10,19 @@ services:
     entrypoint:
       - ./bin/entrypoint.sh
     depends_on:
-#      - postgres
+      - postgres
       - redis
     environment:
       ADMINS: ${ADMINS}
       BOT_TOKEN: ${BOT_TOKEN}
       RATE_LIMIT: ${RATE_LIMIT:-0.5}
 
-#      DATABASE_USER: postgres
-#      DATABASE_PASS: postgres
-#      DATABASE_HOST: postgres
-#      DATABASE_PORT: 5432
+      DATABASE_USER: postgres
+      DATABASE_PASS: postgres
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
 
-#      DATABASE_NAME: postgres
+      DATABASE_NAME: postgres
 
       REDIS_HOST: redis
       REDIS_PORT: 6379
@@ -44,16 +44,16 @@ services:
     environment:
       - REDIS_REPLICATION_MODE=master
 
-#  postgres:
-#    image: postgres
-#    restart: always
-#    environment:
-#      POSTGRES_PASSWORD: postgres
-#    volumes:
-#      - postgres_data:/var/lib/postgresql/data/
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
 
 
 volumes:
   redis_data:
   redis_conf:
-#  postgres_data:
+  postgres_data:
