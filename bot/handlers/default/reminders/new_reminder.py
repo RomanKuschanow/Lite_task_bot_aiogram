@@ -18,7 +18,7 @@ from .datepicker_settings import _get_datepicker_settings
 
 @dp.message_handler(commands='new_reminder')
 @vip(5)
-async def new_reminder(message: Message, state: FSMContext, call_from_back=False):
+async def new_reminder(message: Message, state: FSMContext, session, user, call_from_back=False):
     text = _('Отправьте мне текст напоминания')
 
     bot_message = await message.answer(text, reply_markup=get_inline_states_markup(True))
@@ -143,13 +143,13 @@ async def get_reminder_date(message, session, user, state: FSMContext):
 
 
 @dp.callback_query_handler(text='back', state=[NewReminder.date, NewReminder.time])
-async def back(callback_query: CallbackQuery, state: FSMContext):
+async def back(callback_query: CallbackQuery, state: FSMContext, session, user):
     await callback_query.answer()
     async with state.proxy() as data:
         curr_state = data.state
     if curr_state == 'NewReminder:date':
         await NewReminder.time.set()
-        await new_reminder(callback_query.message, state, True)
+        await new_reminder(callback_query.message, state, session, user, True)
         async with state.proxy() as data:
             for i in range(3):
                 await bot.delete_message(callback_query.message.chat.id, data['message'][-2])

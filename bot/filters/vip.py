@@ -7,7 +7,12 @@ from services.reminder import get_all_actual_by_user_id
 def vip(limit=None):
     def wrapper(func):
         async def decorator(*args, **kwargs):
-            user = kwargs['user']
+            if 'user' not in kwargs:
+                user = args[3]
+                session = args[2]
+            else:
+                user = kwargs['user']
+                session = kwargs['session']
 
             if not user:
                 return False
