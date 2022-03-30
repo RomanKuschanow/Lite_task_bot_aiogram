@@ -10,7 +10,7 @@ services:
     entrypoint:
       - ./bin/entrypoint.sh
     depends_on:
-      - postgres
+#      - postgres
       - redis
     environment:
       ADMINS: ${ADMINS}
