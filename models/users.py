@@ -23,8 +23,8 @@ class User(db):
     reminders = relationship('Reminder', back_populates='user')
     # tasks = relationship('Task', back_populates='user')
 
-    created_at = Column(DateTime, default=lambda: datetime.now())
-    updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
+    created_at = Column(DateTime, default=lambda: datetime.now(tz=None))
+    updated_at = Column(DateTime, default=datetime.now(tz=None), onupdate=datetime.now(tz=None))
 
     banned_until = Column(DateTime, nullable=True)
     ban_count = Column(Integer, default=0)
