@@ -1,5 +1,5 @@
 from pendulum import now
-from sqlalchemy import Column, Integer, BigInteger, DateTime, String, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, BigInteger, TIMESTAMP, String, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 
 from .base import db
@@ -14,7 +14,7 @@ class Reminder(db):
 
     text = Column(String)
 
-    date = Column(DateTime, default=now().add(minutes=30))
+    date = Column(TIMESTAMP, default=now().add(minutes=30))
 
     is_reminded = Column(Boolean, default=False)
     is_deleted = Column(Boolean, default=False)
