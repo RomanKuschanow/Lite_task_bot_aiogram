@@ -4,7 +4,7 @@ $(eval $(RUN_ARGS):;@:)
 BACKUPS_PATH := ./data/backups/postgres
 
 run:
-	docker-compose -f docker-compose.yml up --build -d
+	docker-compose -f docker-compose.yml up -d ${BACKUPS_PATH}
 
 psql:
 	docker-compose exec postgres psql -U postgres postgres
