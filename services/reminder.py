@@ -14,7 +14,7 @@ async def create_reminder(session: AsyncSession, user_id: int, text: str, date: 
 
     server_date = localize_date.astimezone(pytz.UTC)
 
-    new_reminder = Reminder(user_id=user_id, text=text, date=server_date)
+    new_reminder = Reminder(user_id=user_id, text=text, date=server_date.replace(tz=None))
 
     session.add(new_reminder)
     await session.commit()
@@ -103,7 +103,7 @@ async def edit_date(session: AsyncSession, id: int, date: datetime):
 
     server_date = localize_date.astimezone(pytz.UTC)
 
-    sql = update(Reminder).where(Reminder.id == id).values(date=server_date)
+    sql = update(Reminder).where(Reminder.id == id).values(date=server_date.replace(tz=None))
 
     await session.execute(sql)
 
