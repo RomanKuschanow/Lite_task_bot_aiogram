@@ -92,10 +92,7 @@ async def update_is_reminded(session: AsyncSession, id: int, is_reminded: bool):
 
     await session.execute(sql)
 
-    try:
-        await save_commit(session)
-    except:
-        await session.rollback()
+    await save_commit(session)
 
 
 @save_execute
@@ -104,10 +101,7 @@ async def edit_text(session: AsyncSession, id: int, text: str):
 
     await session.execute(sql)
 
-    try:
-        await save_commit(session)
-    except:
-        await session.rollback()
+    await save_commit(session)
 
 
 @save_execute
@@ -122,10 +116,7 @@ async def edit_date(session: AsyncSession, id: int, date: datetime):
 
     await session.execute(sql)
 
-    try:
-        await save_commit(session)
-    except:
-        await session.rollback()
+    await save_commit(session)
 
 
 @save_execute

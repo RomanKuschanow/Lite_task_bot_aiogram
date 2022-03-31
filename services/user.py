@@ -49,10 +49,7 @@ async def update_time_zone(session: AsyncSession, id: int, time_zone: str):
 
     await session.execute(sql)
 
-    try:
-        await save_commit(session)
-    except:
-        await session.rollback()
+    await save_commit(session)
 
 
 @save_execute
@@ -61,10 +58,7 @@ async def update_status(session: AsyncSession, id: int, is_vip: bool = True):
 
     await session.execute(sql)
 
-    try:
-        await save_commit(session)
-    except:
-        await session.rollback()
+    await save_commit(session)
 
 
 @save_execute
@@ -73,10 +67,7 @@ async def update_is_admin(session: AsyncSession, id: int, is_admin: bool = True)
 
     await session.execute(sql)
 
-    try:
-        await save_commit(session)
-    except:
-        await session.rollback()
+    await save_commit(session)
 
 
 @save_execute
@@ -90,10 +81,7 @@ async def update_user(session: AsyncSession, user: tele_user) -> User:
     if user.id in ADMINS:
         updated_user.is_admin = True
 
-    try:
-        await save_commit(session)
-    except:
-        await session.rollback()
+    await save_commit(session)
 
     return updated_user
 
@@ -125,10 +113,7 @@ async def ban_user(session: AsyncSession, id: int) -> User:
     user.ban_count += 1
     user.banned_until = now().add(hours=(3 * user.ban_count))
 
-    try:
-        await save_commit(session)
-    except:
-        await session.rollback()
+    await save_commit(session)
 
     logger.info(f'User {id} banned')
 
@@ -146,10 +131,7 @@ async def permanent_ban(session: AsyncSession, id: int) -> User:
 
     user.is_banned = True
 
-    try:
-        await save_commit(session)
-    except:
-        await session.rollback()
+    await save_commit(session)
 
     logger.info(f'User {id} banned permanent')
 

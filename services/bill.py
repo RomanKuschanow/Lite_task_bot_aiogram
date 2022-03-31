@@ -38,11 +38,7 @@ async def get_bill_by_label(session: AsyncSession, label: str) -> Bill:
 async def update_bill_status(session: AsyncSession, bill: Bill, status: str) -> Bill:
     bill.status = status
 
-    try:
-        await save_commit(session)
-    except Exception as e:
-        await session.rollback()
-        logger.error(e)
+    await save_commit(session)
 
     return bill
 
@@ -52,11 +48,8 @@ async def create_bill(session: AsyncSession, amount: int, user_id: int) -> Bill:
     new_bill = Bill(amount=amount, user_id=user_id, label=f'donate:{user_id}:{uuid4()}')
 
     session.add(new_bill)
-    try:
-        await save_commit(session)
-    except Exception as e:
-        await session.rollback()
-        logger.error(e)
+
+    await save_commit(session)
 
     logger.info(f'New bill {new_bill}')
 
