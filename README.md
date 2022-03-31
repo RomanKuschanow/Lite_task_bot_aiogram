@@ -1,1 +1,1 @@
-# aiogram-SQLAlchemy-docker-template
+# Lite task bot
