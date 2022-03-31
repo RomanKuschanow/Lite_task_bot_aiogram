@@ -6,10 +6,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from data.config import ADMINS
 from loader import bot, _
 from models import User
+from utils.misc import save_execute, save_commit
 from services.banned_user import add_user_to_list
 from utils.misc.logging import logger
 
 
+@save_execute
 async def create_user(session: AsyncSession, user: tele_user) -> User:
     new_user = User(id=user.id, username=user.username, first_name=user.first_name, last_name=user.last_name)
 
@@ -17,13 +19,14 @@ async def create_user(session: AsyncSession, user: tele_user) -> User:
         new_user.is_admin = True
 
     session.add(new_user)
-    await session.commit()
+    await save_commit(session)
 
     logger.info(f'New user {new_user}')
 
     return new_user
 
 
+@save_execute
 async def get_user(session: AsyncSession, id: int) -> User:
     sql = select(User).where(User.id == id)
     query = await session.execute(sql)
@@ -33,45 +36,50 @@ async def get_user(session: AsyncSession, id: int) -> User:
     return user
 
 
+@save_execute
 async def get_user_time_zone(session: AsyncSession, id: int) -> str:
     user = await get_user(session, id)
 
     return user.time_zone
 
 
+@save_execute
 async def update_time_zone(session: AsyncSession, id: int, time_zone: str):
     sql = update(User).where(User.id == id).values(time_zone=time_zone)
 
     await session.execute(sql)
 
     try:
-        await session.commit()
+        await save_commit(session)
     except:
         await session.rollback()
 
 
+@save_execute
 async def update_status(session: AsyncSession, id: int, is_vip: bool = True):
     sql = update(User).where(User.id == id).values(is_vip=is_vip)
 
     await session.execute(sql)
 
     try:
-        await session.commit()
+        await save_commit(session)
     except:
         await session.rollback()
 
 
+@save_execute
 async def update_is_admin(session: AsyncSession, id: int, is_admin: bool = True):
     sql = update(User).where(User.id == id).values(is_admin=is_admin)
 
     await session.execute(sql)
 
     try:
-        await session.commit()
+        await save_commit(session)
     except:
         await session.rollback()
 
 
+@save_execute
 async def update_user(session: AsyncSession, user: tele_user) -> User:
     updated_user = await get_user(session, user.id)
 
@@ -83,20 +91,22 @@ async def update_user(session: AsyncSession, user: tele_user) -> User:
         updated_user.is_admin = True
 
     try:
-        await session.commit()
+        await save_commit(session)
     except:
         await session.rollback()
 
     return updated_user
 
 
+@save_execute
 async def edit_user_language(session: AsyncSession, id: int, language: str):
     sql = update(User).where(User.id == id).values(language=language)
 
     await session.execute(sql)
-    await session.commit()
+    await save_commit(session)
 
 
+@save_execute
 async def get_or_create_user(session: AsyncSession, tele_user: tele_user) -> User:
     user = await get_user(session, tele_user.id)
 
@@ -108,6 +118,7 @@ async def get_or_create_user(session: AsyncSession, tele_user: tele_user) -> Use
     return await create_user(session, tele_user)
 
 
+@save_execute
 async def ban_user(session: AsyncSession, id: int) -> User:
     user = await get_user(session, id)
 
@@ -115,7 +126,7 @@ async def ban_user(session: AsyncSession, id: int) -> User:
     user.banned_until = now().add(hours=(3 * user.ban_count))
 
     try:
-        await session.commit()
+        await save_commit(session)
     except:
         await session.rollback()
 
@@ -129,13 +140,14 @@ async def ban_user(session: AsyncSession, id: int) -> User:
     return user
 
 
+@save_execute
 async def permanent_ban(session: AsyncSession, id: int) -> User:
     user = await get_user(session, id)
 
     user.is_banned = True
 
     try:
-        await session.commit()
+        await save_commit(session)
     except:
         await session.rollback()
 

@@ -10,9 +10,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from loader import config
 from models import Bill, User
+from utils.misc import save_execute, save_commit
 from utils.misc.logging import logger
 
 
+@save_execute
 async def get_bill(session: AsyncSession, id: int) -> Bill:
     sql = select(Bill).where(Bill.id == id)
     query = await session.execute(sql)
@@ -22,6 +24,7 @@ async def get_bill(session: AsyncSession, id: int) -> Bill:
     return bill
 
 
+@save_execute
 async def get_bill_by_label(session: AsyncSession, label: str) -> Bill:
     sql = select(Bill).where(Bill.label == label).limit(1)
     query = await session.execute(sql)
@@ -31,11 +34,12 @@ async def get_bill_by_label(session: AsyncSession, label: str) -> Bill:
     return bill
 
 
+@save_execute
 async def update_bill_status(session: AsyncSession, bill: Bill, status: str) -> Bill:
     bill.status = status
 
     try:
-        await session.commit()
+        await save_commit(session)
     except Exception as e:
         await session.rollback()
         logger.error(e)
@@ -43,12 +47,13 @@ async def update_bill_status(session: AsyncSession, bill: Bill, status: str) -> 
     return bill
 
 
+@save_execute
 async def create_bill(session: AsyncSession, amount: int, user_id: int) -> Bill:
     new_bill = Bill(amount=amount, user_id=user_id, label=f'donate:{user_id}:{uuid4()}')
 
     session.add(new_bill)
     try:
-        await session.commit()
+        await save_commit(session)
     except Exception as e:
         await session.rollback()
         logger.error(e)
@@ -108,6 +113,7 @@ def generate_invoice_link(bill: Bill, user: User) -> str:
     return link
 
 
+@save_execute
 async def check_bill(session: AsyncSession, bill: Bill, user: User) -> bool:
     url = 'https://api.wayforpay.com/api'
 

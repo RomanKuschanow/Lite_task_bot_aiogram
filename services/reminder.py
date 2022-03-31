@@ -5,10 +5,12 @@ from sqlalchemy import select, update, delete
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from models import Reminder
+from utils.misc import save_execute, save_commit
 from utils.misc.logging import logger
 from .user import get_user_time_zone
 
 
+@save_execute
 async def create_reminder(session: AsyncSession, user_id: int, text: str, date: datetime) -> Reminder:
     localize_date = pytz.timezone(await get_user_time_zone(session, user_id)).localize(date)
 
@@ -19,13 +21,14 @@ async def create_reminder(session: AsyncSession, user_id: int, text: str, date: 
     new_reminder = Reminder(user_id=user_id, text=text, date=server_date)
 
     session.add(new_reminder)
-    await session.commit()
+    await save_commit(session)
 
     logger.info(f'New reminder {new_reminder}')
 
     return new_reminder
 
 
+@save_execute
 async def get_reminder(session: AsyncSession, id: int, user_id: int = None) -> Reminder:
     if user_id is None:
         sql = select(Reminder).where(Reminder.id == id)
@@ -39,6 +42,7 @@ async def get_reminder(session: AsyncSession, id: int, user_id: int = None) -> R
     return reminder
 
 
+@save_execute
 async def get_all(session: AsyncSession) -> list[Reminder]:
     sql = select(Reminder)
     query = await session.execute(sql)
@@ -46,6 +50,7 @@ async def get_all(session: AsyncSession) -> list[Reminder]:
     return [r for r, in query]
 
 
+@save_execute
 async def get_all_actual(session: AsyncSession) -> list[Reminder]:
     sql = select(Reminder).where(Reminder.date < datetime.now(), Reminder.is_reminded == False,
                                  Reminder.is_deleted == False)
@@ -54,6 +59,7 @@ async def get_all_actual(session: AsyncSession) -> list[Reminder]:
     return [r for r, in query]
 
 
+@save_execute
 async def get_all_by_user_id(session: AsyncSession, user_id: int, *args) -> list[Reminder]:
     sql = select(Reminder).where(Reminder.user_id == user_id, Reminder.is_deleted == False).order_by(
         Reminder.date.asc())
@@ -62,6 +68,7 @@ async def get_all_by_user_id(session: AsyncSession, user_id: int, *args) -> list
     return [r for r, in query]
 
 
+@save_execute
 async def get_all_old_by_user_id(session: AsyncSession, user_id: int, *args) -> list[Reminder]:
     sql = select(Reminder).where(Reminder.is_reminded == True, Reminder.user_id == user_id,
                                  Reminder.is_deleted == False).order_by(Reminder.date.asc())
@@ -70,6 +77,7 @@ async def get_all_old_by_user_id(session: AsyncSession, user_id: int, *args) -> 
     return [r for r, in query]
 
 
+@save_execute
 async def get_all_actual_by_user_id(session: AsyncSession, user_id: int, *args) -> list[Reminder]:
     sql = select(Reminder).where(Reminder.is_reminded == False, Reminder.user_id == user_id,
                                  Reminder.is_deleted == False).order_by(Reminder.date.asc())
@@ -78,28 +86,31 @@ async def get_all_actual_by_user_id(session: AsyncSession, user_id: int, *args) 
     return [r for r, in query]
 
 
+@save_execute
 async def update_is_reminded(session: AsyncSession, id: int, is_reminded: bool):
     sql = update(Reminder).where(Reminder.id == id).values(is_reminded=is_reminded)
 
     await session.execute(sql)
 
     try:
-        await session.commit()
+        await save_commit(session)
     except:
         await session.rollback()
 
 
+@save_execute
 async def edit_text(session: AsyncSession, id: int, text: str):
     sql = update(Reminder).where(Reminder.id == id).values(text=text)
 
     await session.execute(sql)
 
     try:
-        await session.commit()
+        await save_commit(session)
     except:
         await session.rollback()
 
 
+@save_execute
 async def edit_date(session: AsyncSession, id: int, date: datetime):
     localize_date = pytz.timezone(await get_user_time_zone(session, user_id)).localize(date)
 
@@ -112,27 +123,30 @@ async def edit_date(session: AsyncSession, id: int, date: datetime):
     await session.execute(sql)
 
     try:
-        await session.commit()
+        await save_commit(session)
     except:
         await session.rollback()
 
 
+@save_execute
 async def delete_reminder(session: AsyncSession, user_id: int, id: int):
     sql = update(Reminder).where(Reminder.user_id == user_id, Reminder.id == id).values(is_deleted=True)
     query = await session.execute(sql)
 
-    await session.commit()
+    await save_commit(session)
 
 
+@save_execute
 async def true_delete_reminder(session: AsyncSession, user_id: int, id: int):
     sql = delete(Reminder).where(Reminder.user_id == user_id, Reminder.id == id)
     query = await session.execute(sql)
 
-    await session.commit()
+    await save_commit(session)
 
 
+@save_execute
 async def delete_all_by_user_id(session: AsyncSession, user_id: int):
     sql = delete(Reminder).where(Reminder.user_id == user_id)
     query = await session.execute(sql)
 
-    await session.commit()
+    await save_commit(session)

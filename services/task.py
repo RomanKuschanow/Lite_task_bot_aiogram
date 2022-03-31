@@ -12,7 +12,7 @@ def create_task(session: AsyncSession, user_id: int, text: str, end_date: dateti
     new_task = Task(user_id=user_id, text=text, end_date=end_date, priority=priority)
 
     session.add(new_task)
-    await session.commit()
+    await save_commit(session)
 
     logger.info(f'New task {new_task}')
 
@@ -50,18 +50,19 @@ def delete_task(session: AsyncSession, user_id: int, id: int):
     sql = update(Task).where(Task.user_id == user_id, Task.id == id).values(is_deleted=True)
     query = await session.execute(sql)
 
-    await session.commit()
+    await save_commit(session)
 
 
+@save_execute
 async def true_delete_reminder(session: AsyncSession, user_id: int, id: int):
     sql = delete(Task).where(Task.user_id == user_id, Task.id == id)
     query = await session.execute(sql)
 
-    await session.commit()
+    await save_commit(session)
 
 
 def delete_all_by_user_id(session: AsyncSession, user_id: int):
     sql = delete(Task).where(Task.user_id == user_id)
     query = await session.execute(sql)
 
-    await session.commit()
+    await save_commit(session)
