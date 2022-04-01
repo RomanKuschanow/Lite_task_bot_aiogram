@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bot VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-03-29 15:08+0300\n"
+"POT-Creation-Date: 2022-04-01 13:50+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,11 +53,21 @@ msgstr ""
 msgid "сброс текущего действия"
 msgstr ""
 
-#: bot/filters/vip.py:21
+#: bot/filters/vip.py:26
 msgid ""
 "К сожалению разработчикам тоже нужно что-то кушать, по этому некоторые "
 "функции доступны только после доната. Это можно сделать введя доманду "
 "/donate"
+msgstr ""
+
+#: bot/handlers/admins/add_admin.py:11
+#: bot/handlers/admins/change_user_status.py:11
+msgid "Теперь введи id пользователя"
+msgstr ""
+
+#: bot/handlers/admins/add_admin.py:26
+#: bot/handlers/admins/change_user_status.py:26
+msgid "мне нужен набор цифр"
 msgstr ""
 
 #: bot/handlers/default/cancel.py:9
@@ -107,13 +117,13 @@ msgid ""
 "редактировании напоминания бот стал вести себя не корректно"
 msgstr ""
 
-#: bot/handlers/default/language.py:18
+#: bot/handlers/default/language.py:20
 msgid ""
 "Язык изменен\n"
 "Напиши /help чтобы узнать как я могу тебе помочь"
 msgstr ""
 
-#: bot/handlers/default/language.py:24
+#: bot/handlers/default/language.py:26
 msgid "Выберите свой язык"
 msgstr ""
 
@@ -124,23 +134,23 @@ msgstr ""
 #: bot/handlers/default/start.py:10
 msgid ""
 "Привет, я Task Bot. Ты можешь составить список задач, а я в назначенное "
-"время напомню тебе их сделать\n"
+"время напомню тебе о них.\n"
 "Пока что функционал у меня ограничен простыми напоминаниями, но в "
-"грядущих обновлениях мои возможности сильно увеличиться\n"
-"А теперь ты можешь выбрать свой язык, нажав на одну из кнопок ниже\n"
-"Так же рекомендую выбрать ваш часовой пояс, если он не соответствует "
+"грядущих обновлениях мои возможности сильно возрастут.\n"
+"Теперь ты можешь выбрать свой язык, нажав на одну из кнопок ниже.\n"
+"Так же рекомендую выбрать часовой пояс, если он не соответствует "
 "киевскому: /tz"
 msgstr ""
 
-#: bot/handlers/default/time_zone.py:14 bot/handlers/default/time_zone.py:52
+#: bot/handlers/default/time_zone.py:12 bot/handlers/default/time_zone.py:50
 msgid "Выберите ваш регион"
 msgstr ""
 
-#: bot/handlers/default/time_zone.py:30
+#: bot/handlers/default/time_zone.py:28
 msgid "Теперь выберите часовой пояс"
 msgstr ""
 
-#: bot/handlers/default/time_zone.py:67
+#: bot/handlers/default/time_zone.py:65
 msgid "Ваш часовой пояс установлен на {region}/{city}"
 msgstr ""
 
@@ -164,7 +174,7 @@ msgid "Выбрать"
 msgstr ""
 
 #: bot/handlers/default/reminders/edit_reminder.py:53
-#: bot/handlers/default/reminders/new_reminder.py:22
+#: bot/handlers/default/reminders/new_reminder.py:23
 msgid "Отправьте мне текст напоминания"
 msgstr ""
 
@@ -176,39 +186,39 @@ msgstr ""
 
 #: bot/handlers/default/reminders/edit_reminder.py:80
 #: bot/handlers/default/reminders/edit_reminder.py:134
-#: bot/handlers/default/reminders/new_reminder.py:39
-#: bot/handlers/default/reminders/new_reminder.py:95
+#: bot/handlers/default/reminders/new_reminder.py:40
+#: bot/handlers/default/reminders/new_reminder.py:96
 #: bot/handlers/default/reminders/search_reminders.py:75
 #: bot/handlers/default/reminders/search_reminders.py:145
 msgid "Вы прислали мне {type}, а нужно прислать текст"
 msgstr ""
 
 #: bot/handlers/default/reminders/edit_reminder.py:114
-#: bot/handlers/default/reminders/new_reminder.py:74
+#: bot/handlers/default/reminders/new_reminder.py:75
 #: bot/handlers/default/reminders/search_reminders.py:59
 msgid "Отправьте точное время"
 msgstr ""
 
 #: bot/handlers/default/reminders/edit_reminder.py:143
-#: bot/handlers/default/reminders/new_reminder.py:104
+#: bot/handlers/default/reminders/new_reminder.py:105
 #: bot/handlers/default/reminders/search_reminders.py:154
 msgid "Формат не соответствует"
 msgstr ""
 
 #: bot/handlers/default/reminders/edit_reminder.py:158
-#: bot/handlers/default/reminders/new_reminder.py:120
+#: bot/handlers/default/reminders/new_reminder.py:121
 msgid "Вы ввели несуществующее время"
 msgstr ""
 
-#: bot/handlers/default/reminders/new_reminder.py:47
+#: bot/handlers/default/reminders/new_reminder.py:48
 msgid "Теперь выберите дату"
 msgstr ""
 
-#: bot/handlers/default/reminders/new_reminder.py:127
+#: bot/handlers/default/reminders/new_reminder.py:128
 msgid "Напоминание \"{text}\" установлено на {date} {hours}:{minutes}"
 msgstr ""
 
-#: bot/handlers/default/reminders/new_reminder.py:174
+#: bot/handlers/default/reminders/new_reminder.py:175
 msgid "Напоминание \"{reminder_text}\" установлено на {date}"
 msgstr ""
 
@@ -221,7 +231,7 @@ msgid "У вас нет напоминаний в этой категории"
 msgstr ""
 
 #: bot/handlers/default/reminders/reminders_list.py:75
-msgid "Выберите фильтр для поиска (можно несколько) и нажмите \"Начать поиск\""
+msgid "Выберите фильтр"
 msgstr ""
 
 #: bot/handlers/default/reminders/reminders_list.py:114
@@ -333,11 +343,11 @@ msgstr ""
 msgid "Чел, ты в <s>муте</s> бане еще на {date}"
 msgstr ""
 
-#: services/user.py:119
+#: services/user.py:123
 msgid "Пользователь {id} забанен"
 msgstr ""
 
-#: services/user.py:139
+#: services/user.py:141
 msgid "Пользователь {id} забанен навсегда"
 msgstr ""
 
