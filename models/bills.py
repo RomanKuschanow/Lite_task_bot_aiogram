@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, Integer, String, Float, Sequence
+from sqlalchemy import Column, DateTime, Integer, String, Float
 
 from .base import db
 
@@ -8,7 +8,7 @@ from .base import db
 class Bill(db):
     __tablename__ = 'bills'
 
-    id = Column(Integer, Sequence('bills_id'), primary_key=True)
+    id = Column(Integer, primary_key=True)
 
     label = Column(String)
     status = Column(String)
