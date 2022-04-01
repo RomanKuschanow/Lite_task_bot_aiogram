@@ -7,7 +7,7 @@ import pytz
 
 
 class Reminder(db):
-    __tablename__ = 'reminder'
+    __tablename__ = 'reminders'
 
     id = Column(BigInteger().with_variant(Integer, 'sqlite'), primary_key=True)
     user_id = Column(BigInteger, ForeignKey('users.id'))
