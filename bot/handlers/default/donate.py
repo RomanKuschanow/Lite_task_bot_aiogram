@@ -3,7 +3,7 @@ from aiogram.types import Message
 
 from bot.keyboards.inline.payment import get_payment_inline_markup
 from bot.states import Donate
-from loader import dp, _
+from loader import dp, _, bot
 from models import User, Bill
 from services.bill import create_bill, generate_invoice_link, check_bill
 from services.user import update_status
@@ -11,18 +11,27 @@ from utils.misc.logging import logger
 
 
 @dp.message_handler(commands='donate', state='*')
-async def _user_top_up_balance(message: Message):
+async def donate(message: Message, state):
     text = _('Напиши сумму в долларах (минимум 1), которую хотите задонатить')
 
-    await message.answer(text)
+    bot_message = await message.answer(text)
     await Donate.top_up_balance.set()
 
+    async with state.proxy() as data:
+        data['message'] = list()
+        data['message'].append(message.message_id)
+        data['message'].append(bot_message.message_id)
 
-@dp.message_handler(state=Donate.top_up_balance)
-async def _user_top_up_balance_invoice(message: Message, user: User, session, state):
+
+@dp.message_handler(state=Donate.top_up_balance, menu=False)
+async def donate_invoice(message: Message, user: User, session, state):
     amount = message.text
     if not amount.isnumeric() or int(message.text) < 1:
-        return await message.answer(_('Введите целое число больше 0, например: 5'))
+        bot_message = await message.answer(_('Введите целое число больше 0, например: 5'))
+        async with state.proxy() as data:
+            data['message'].append(message.message_id)
+            data['message'].append(bot_message.message_id)
+        return
 
     bill = await create_bill(session, amount, message.from_user.id)
     logger.info(f'{user} create {bill}')
@@ -35,11 +44,21 @@ async def _user_top_up_balance_invoice(message: Message, user: User, session, st
               if not user.is_vip else '')).format(id=bill.id, amount=amount)
 
     await message.answer(text, reply_markup=get_payment_inline_markup(link, bill.id if not user.is_vip else None))
+
+    async with state.proxy() as data:
+        data['message'].append(message.message_id)
+
+        for mes in data['message']:
+            try:
+                await bot.delete_message(message.chat.id, mes)
+            except:
+                continue
+
     await state.finish()
 
 
 @dp.callback_query_handler(state='*', confirm_payment=True)
-async def _check_bill(callback_query: CallbackQuery, bill: Bill, session, user: User):
+async def check_bill(callback_query: CallbackQuery, bill: Bill, session, user: User):
     bill = await check_bill(session, bill, user)
 
     if bill:

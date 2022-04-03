@@ -2,6 +2,8 @@ from aiogram.types import CallbackQuery
 
 from loader import dp, _, bot
 
+from bot.keyboards.default.menu import get_menu_keyboard_markup
+
 
 @dp.callback_query_handler(text='cancel', state='*')
 async def bot_start(callback_query: CallbackQuery, state):
@@ -18,5 +20,5 @@ async def bot_start(callback_query: CallbackQuery, state):
 
     await state.finish()
 
-    await callback_query.message.answer(text)
+    await callback_query.message.answer(text, reply_markup=get_menu_keyboard_markup())
     await callback_query.message.delete()

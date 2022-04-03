@@ -1,1 +1,1 @@
-from .default import *
+from .menu import get_menu_keyboard_markup

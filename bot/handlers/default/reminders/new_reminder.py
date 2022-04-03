@@ -9,6 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from bot.filters import vip
 from bot.keyboards.inline import get_inline_states_markup
+from bot.keyboards.default.menu import get_menu_keyboard_markup
 from bot.states import NewReminder
 from loader import dp, _, bot
 from models import User
@@ -34,7 +35,7 @@ async def new_reminder(message: Message, state: FSMContext, session, user, call_
         data['message'].append(bot_message.message_id)
 
 
-@dp.message_handler(state=NewReminder.text, content_types=ContentTypes.ANY)
+@dp.message_handler(state=NewReminder.text, content_types=ContentTypes.ANY, menu=False)
 async def get_reminder_text(message: Message, state: FSMContext, call_from_back=False):
     if message.content_type != 'text':
         text = _('Вы прислали мне {type}, а нужно прислать текст').format(type=message.content_type)
@@ -90,7 +91,7 @@ async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, 
         data['message'].append(bot_message.message_id)
 
 
-@dp.message_handler(state=NewReminder.time, content_types=ContentTypes.ANY)
+@dp.message_handler(state=NewReminder.time, content_types=ContentTypes.ANY, menu=False)
 async def get_reminder_date(message, session, user, state: FSMContext):
     if message.content_type != 'text':
         text = _('Вы прислали мне {type}, а нужно прислать текст').format(type=message.content_type)
@@ -131,7 +132,7 @@ async def get_reminder_date(message, session, user, state: FSMContext):
                                                                                         minutes=match[2])
         data['message'].append(message.message_id)
 
-    await message.answer(text)
+    await message.answer(text, reply_markup=get_menu_keyboard_markup())
 
     async with state.proxy() as data:
         for mes in data['message']:
@@ -177,4 +178,4 @@ async def new_reminder_via_regexp(message: Message, session: AsyncSession, user:
 
     await create_reminder(session, user.id, reminder_text, date)
 
-    await message.reply(text)
+    await message.reply(text, reply_markup=get_menu_keyboard_markup())
