@@ -39,9 +39,9 @@ async def donate_invoice(message: Message, user: User, session, state):
     link = generate_invoice_link(bill, user)
 
     text = _('Номер: {id}\n'
-             'Донат на сумму: {amount}$\n\n' +
-             ('После оплаты нажмите "Оплатил ✅", и получите полный доступ к функционалу бота'
-              if not user.is_vip else '')).format(id=bill.id, amount=amount)
+             'Донат на сумму: {amount}$\n\n').format(id=bill.id, amount=amount) + _(
+        'После оплаты нажмите "Оплатил ✅", и получите полный доступ к функционалу бота'
+        if not user.is_vip else '')
 
     await message.answer(text, reply_markup=get_payment_inline_markup(link, bill.id if not user.is_vip else None))
 
@@ -58,7 +58,7 @@ async def donate_invoice(message: Message, user: User, session, state):
 
 
 @dp.callback_query_handler(state='*', confirm_payment=True)
-async def check_bill(callback_query: CallbackQuery, bill: Bill, session, user: User):
+async def _check_bill(callback_query: CallbackQuery, bill: Bill, session, user: User):
     bill = await check_bill(session, bill, user)
 
     if bill:

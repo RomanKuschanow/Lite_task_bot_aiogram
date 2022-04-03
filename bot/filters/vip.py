@@ -20,7 +20,6 @@ def vip(limit=None):
             if user.is_admin or user.is_vip:
                 return await _attributes_check(func, args, kwargs)
 
-            session = kwargs['session']
             reminders = await get_all_actual_by_user_id(session, user.id)
 
             text = _(
