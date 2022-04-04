@@ -14,7 +14,7 @@ def get_admin_commands(lang) -> list[BotCommand]:
         BotCommand('/change_user_status', _('Выдать пользователю VIP-статус', locale=lang)),
         BotCommand('/send_all', _('Отправить сообщение всем пользователям', locale=lang)),
         BotCommand('/send_private', _('Отправить личное сообщение пользователю', locale=lang)),
-        BotCommand('/admin_menu', _('Вызвать админ-меню'))
+        BotCommand('/admin_menu', _('Вызвать админ-меню', locale=lang))
     ])
 
     return commands
