@@ -9,13 +9,13 @@ from bot.keyboards.default import get_menu_keyboard_markup, get_admin_keyboard_m
 from loader import dp, bot, _
 
 
-@dp.message_handler(commands="admin_menu")
+@dp.message_handler(commands="admin_menu", is_admin=True)
 async def admin_menu(message: Message, user):
     await message.answer(_("Выбери действие из меню 👇"), reply_markup=get_admin_keyboard_markup())
 
 
-@dp.message_handler(text="➕ Добавить Админа", state="*")
-@dp.message_handler(text="➕ Add Admin", state="*")
+@dp.message_handler(text="➕ Добавить Админа", state="*", is_admin=True)
+@dp.message_handler(text="➕ Add Admin", state="*", is_admin=True)
 async def _new_reminder(message: Message, state, session, user):
     async with state.proxy() as data:
         if 'message' in data:
@@ -29,8 +29,8 @@ async def _new_reminder(message: Message, state, session, user):
     await add_admin(message, state)
 
 
-@dp.message_handler(text="🎁 Выдать VIP", state="*")
-@dp.message_handler(text="🎁 Issue VIP", state="*")
+@dp.message_handler(text="🎁 Выдать VIP", state="*", is_admin=True)
+@dp.message_handler(text="🎁 Issue VIP", state="*", is_admin=True)
 async def _reminders_list(message: Message, session, user, state):
     async with state.proxy() as data:
         if 'message' in data:
@@ -44,8 +44,8 @@ async def _reminders_list(message: Message, session, user, state):
     await change_status(message, session)
 
 
-@dp.message_handler(text="🔖 Рассылка", state="*")
-@dp.message_handler(text="🛠 Admin keyboard", state="*")
+@dp.message_handler(text="🔖 Рассылка", state="*", is_admin=True)
+@dp.message_handler(text="🛠 Admin keyboard", state="*", is_admin=True)
 async def _reminders_list(message: Message, state):
     async with state.proxy() as data:
         if 'message' in data:
@@ -59,8 +59,8 @@ async def _reminders_list(message: Message, state):
     await _sender(message, state)
 
 
-@dp.message_handler(text="📫 Личка", state="*")
-@dp.message_handler(text="💵 Donat", state="*")
+@dp.message_handler(text="📫 Личка", state="*", is_admin=True)
+@dp.message_handler(text="💵 Donat", state="*", is_admin=True)
 async def sender(message: Message, session, user, state):
     async with state.proxy() as data:
         if 'message' in data:
@@ -74,8 +74,8 @@ async def sender(message: Message, session, user, state):
     await _private_sender(message, state)
 
 
-@dp.message_handler(text="🧾 Меню", state="*")
-@dp.message_handler(text="❔ Help by commands", state="*")
+@dp.message_handler(text="🧾 Меню", state="*", is_admin=True)
+@dp.message_handler(text="🧾 Menu", state="*", is_admin=True)
 async def _menu(message: Message, state, user):
     async with state.proxy() as data:
         if 'message' in data:
