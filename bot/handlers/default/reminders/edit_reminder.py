@@ -23,7 +23,7 @@ delete_callback = CallbackData('reminder', 'delete', 'id')
 async def edit_reminder_menu(message: Message, state: FSMContext, session, user):
     args = message.get_args()
     id = re.search('edit_reminder_(\d+)', args)[1]
-    reminder = await get_reminder(session, id, user.id)
+    reminder = await get_reminder(session, int(id), user.id)
 
     if reminder:
         await message.answer(f'{"✅" if reminder.is_reminded else "❌"} {reminder}',
