@@ -74,7 +74,7 @@ async def edit_reminder(callback_query: CallbackQuery, callback_data: dict, stat
         data['main_message'] = callback_query.message.message_id
 
 
-@dp.message_handler(state=EditReminder.text, content_types=ContentTypes.ANY)
+@dp.message_handler(state=EditReminder.text, content_types=ContentTypes.ANY, menu=False)
 async def get_reminder_text(message: Message, state: FSMContext, session, user):
     if message.content_type != 'text':
         text = _('Вы прислали мне {type}, а нужно прислать текст').format(type=message.content_type)
@@ -128,7 +128,7 @@ async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, 
         data['message'].append(bot_message.message_id)
 
 
-@dp.message_handler(state=EditReminder.time, content_types=ContentTypes.ANY)
+@dp.message_handler(state=EditReminder.time, content_types=ContentTypes.ANY, menu=False)
 async def get_reminder_date(message, session, user, state: FSMContext):
     if message.content_type != 'text':
         text = _('Вы прислали мне {type}, а нужно прислать текст').format(type=message.content_type)

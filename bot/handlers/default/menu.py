@@ -74,7 +74,7 @@ async def _donate(message: Message, session, user, state):
 
 @dp.message_handler(text="❔ Помощь по командам", state="*")
 @dp.message_handler(text="❔ Help by commands", state="*")
-async def _help(message: Message, state):
+async def _help(message: Message, state, user):
     async with state.proxy() as data:
         if 'message' in data:
             for mes in data['message']:
@@ -84,4 +84,4 @@ async def _help(message: Message, state):
                     continue
 
     await state.finish()
-    await help(message)
+    await help(message, user)
