@@ -76,6 +76,11 @@ async def update_status(session: AsyncSession, id: int, is_vip: bool = True):
 
     await session.execute(sql)
 
+    if is_vip:
+        await bot.send_message(id, _("Поздравляю! 🎉🎉🎉 Ты получил VIP-статус"))
+    else:
+        await bot.send_message(id, _("У тебя забрали VIP-статус 😢"))
+
     await save_commit(session)
 
 
