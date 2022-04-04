@@ -32,3 +32,4 @@ async def bot_start(message: Message):
     text = _('Выберите свой язык')
 
     await message.answer(text, reply_markup=get_language_inline_markup())
+    await message.delete()
