@@ -31,11 +31,11 @@ async def edit_reminder_menu(message: Message, state: FSMContext, session, user)
         await message.delete()
 
 
-@dp.callback_query_handler(text='reminder:edit:cancel')
-async def cancel_edit(callback_query: CallbackQuery):
-    await callback_query.answer()
-
-    await callback_query.message.delete()
+# @dp.callback_query_handler(text='reminder:edit:cancel')
+# async def cancel_edit(callback_query: CallbackQuery):
+#     await callback_query.answer()
+#
+#     await callback_query.message.delete()
 
 
 @dp.callback_query_handler(delete_callback.filter())
