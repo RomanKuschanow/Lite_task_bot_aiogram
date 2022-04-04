@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bot VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-04-04 18:49+0300\n"
+"POT-Creation-Date: 2022-04-04 22:42+0300\n"
 "PO-Revision-Date: 2022-03-26 19:00+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -17,6 +17,10 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
+
+#: wayforpay.py:36
+msgid "Оплата прошла успешно ✅"
+msgstr "Payment was successful ✅"
 
 #: bot/commands/admin.py:13
 msgid "Сделать пользователя администратором"
@@ -113,7 +117,7 @@ msgid "Статус изменен, id: {id}"
 msgstr "Status changed, id: {id}"
 
 #: bot/handlers/admin/menu.py:14 bot/handlers/default/menu.py:14
-#: bot/handlers/default/menu.py:55
+#: bot/handlers/default/menu.py:57
 msgid "Выбери действие из меню 👇"
 msgstr "Choose an action from the menu 👇"
 
@@ -170,20 +174,6 @@ msgstr ""
 "Donate amount: {amount}$\n"
 "\n"
 
-#: bot/handlers/default/donate.py:50
-msgid ""
-"После оплаты нажмите \"Оплатил ✅\", и получите полный доступ к "
-"функционалу бота"
-msgstr "After payment, click \"Paid ✅\", and get full access to bot functionality"
-
-#: bot/handlers/default/donate.py:75
-msgid "Оплата прошла успешно ✅"
-msgstr "Payment was successful ✅"
-
-#: bot/handlers/default/donate.py:77
-msgid "Оплата еще не прошла, нажмите на кнопку чуть позже"
-msgstr "Payment has not yet passed, click on the button a little later"
-
 #: bot/handlers/default/feedback.py:20
 msgid "Напиши сообщение которое увидят разработчики"
 msgstr "Write a message that the developers will see"
@@ -213,19 +203,19 @@ msgid ""
 msgstr ""
 "/start - Start bot\n"
 "/help - Display this list\n"
-"/new_reminder - Create a new reminder. You must enter a name, "
-"select date and exact time of reminder\n"
-"/reminders_list - Displays a list of all reminders. Using the keyboard"
-"under the message, you can filter them for a more convenient search, and"
-"also change name and/or time\n"
+"/new_reminder - Create a new reminder. You must enter a name, select date"
+" and exact time of reminder\n"
+"/reminders_list - Displays a list of all reminders. Using the "
+"keyboardunder the message, you can filter them for a more convenient "
+"search, andalso change name and/or time\n"
 "/donate - Donate to developers (minimum $1)\n"
 "/feedback - Feedback from developers\n"
 "/menu - Display menu\n"
 "/remove_menu - Hides the menu\n"
 "/lang - Allows you to change the language\n"
 "/tz - Select timezone\n"
-"/reset - Resets the state of the bot. Useful if when creating or "
-"editing a reminder, the bot began to behave incorrectly\n"
+"/reset - Resets the state of the bot. Useful if when creating or editing "
+"a reminder, the bot began to behave incorrectly\n"
 "\n"
 
 #: bot/handlers/default/help.py:23
@@ -271,7 +261,7 @@ msgstr ""
 msgid "Выберите свой язык"
 msgstr "Choose your language"
 
-#: bot/handlers/default/menu.py:19
+#: bot/handlers/default/menu.py:20
 msgid "Клавиатура убрана. Вызвать ее можно командой /menu"
 msgstr "The keyboard has been removed. You can call it with the /menu command"
 
@@ -440,10 +430,6 @@ msgstr "🛠 Admin keyboard"
 #: bot/keyboards/inline/payment.py:9
 msgid "Оплатить 💸"
 msgstr "Pay 💸"
-
-#: bot/keyboards/inline/payment.py:11
-msgid "Оплатил ✅"
-msgstr "Paid ✅"
 
 #: bot/keyboards/inline/reminders/edit_reminder.py:9
 msgid "📝 Изменить название"

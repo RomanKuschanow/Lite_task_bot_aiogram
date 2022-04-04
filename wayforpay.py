@@ -3,8 +3,10 @@ import logging
 from aiohttp import web
 from aiohttp.web_request import Request
 
+from loader import bot, _
 from models.base import create_async_database
 from services.bill import get_bill_by_label, check_bill
+from services.user import get_user, update_status
 
 routes = web.RouteTableDef()
 logging.basicConfig(level=logging.INFO)
@@ -24,7 +26,15 @@ async def _wayforpay(request: Request):
 
     bill = await get_bill_by_label(session, label)
     if bill:
-        await check_bill(session, bill)
+        if not bill or not await check_bill(session, bill):
+            await session.close()
+            return web.json_response({'ok': True})
+
+        user = await get_user(session, bill.user_id)
+        if user.is_vip:
+            await bot.send_message(bill.user_id, _('Оплата прошла успешно ✅'))
+        else:
+            await update_status(session, bill.user_id, True)
 
     await session.close()
 

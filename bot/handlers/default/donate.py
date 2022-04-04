@@ -47,11 +47,9 @@ async def donate_invoice(message: Message, user: User, session, state):
                            "укажи в сообщении номер чека"), reply_markup=get_menu_keyboard_markup(user.is_admin))
 
     text = _('Номер: {id}\n'
-             'Донат на сумму: {amount}$\n\n').format(id=bill.id, amount=amount) + _(
-        'После оплаты нажмите "Оплатил ✅", и получите полный доступ к функционалу бота'
-        if not user.is_vip else '')
+             'Донат на сумму: {amount}$\n\n').format(id=bill.id, amount=amount)
 
-    await message.answer(text, reply_markup=get_payment_inline_markup(link, bill.id if not user.is_vip else None))
+    await message.answer(text, reply_markup=get_payment_inline_markup(link))
 
     async with state.proxy() as data:
         data['message'].append(message.message_id)
@@ -63,15 +61,3 @@ async def donate_invoice(message: Message, user: User, session, state):
                 continue
 
     await state.finish()
-
-
-@dp.callback_query_handler(state='*', confirm_payment=True)
-async def _check_bill(callback_query: CallbackQuery, bill: Bill, session, user: User):
-    bill = await check_bill(session, bill)
-
-    if bill:
-        await callback_query.message.delete()
-        await update_status(session, user.id, True)
-        return await callback_query.message.answer(_('Оплата прошла успешно ✅'))
-
-    return await callback_query.answer(_('Оплата еще не прошла, нажмите на кнопку чуть позже'), show_alert=True)
