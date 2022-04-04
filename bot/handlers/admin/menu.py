@@ -17,7 +17,7 @@ async def admin_menu(message: Message, user):
 
 @dp.message_handler(text="➕ Добавить Админа", state="*", is_admin=True)
 @dp.message_handler(text="➕ Add Admin", state="*", is_admin=True)
-async def _new_reminder(message: Message, state, session, user):
+async def new_admin(message: Message, state, session, user):
     async with state.proxy() as data:
         if 'message' in data:
             for mes in data['message']:
@@ -32,7 +32,7 @@ async def _new_reminder(message: Message, state, session, user):
 
 @dp.message_handler(text="🎁 Выдать VIP", state="*", is_admin=True)
 @dp.message_handler(text="🎁 Add VIP", state="*", is_admin=True)
-async def _reminders_list(message: Message, session, user, state):
+async def add_vip(message: Message, session, user, state):
     async with state.proxy() as data:
         if 'message' in data:
             for mes in data['message']:
@@ -47,7 +47,7 @@ async def _reminders_list(message: Message, session, user, state):
 
 @dp.message_handler(text="🔖 Рассылка", state="*", is_admin=True)
 @dp.message_handler(text="🔖 Mailing", state="*", is_admin=True)
-async def _reminders_list(message: Message, state):
+async def mailing(message: Message, state):
     async with state.proxy() as data:
         if 'message' in data:
             for mes in data['message']:
@@ -62,7 +62,7 @@ async def _reminders_list(message: Message, state):
 
 @dp.message_handler(text="📫 Личка", state="*", is_admin=True)
 @dp.message_handler(text="📫 Personal", state="*", is_admin=True)
-async def sender(message: Message, session, user, state):
+async def personal(message: Message, session, user, state):
     async with state.proxy() as data:
         if 'message' in data:
             for mes in data['message']:
