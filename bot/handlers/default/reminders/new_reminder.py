@@ -77,6 +77,7 @@ async def get_reminder_text(message: Message, state: FSMContext, call_from_back=
 @rate_limit(3)
 async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, session, user, state: FSMContext):
     await callback_query.answer()
+
     text = _('Отправь точное время')
 
     datepicker = Datepicker(_get_datepicker_settings())
@@ -84,6 +85,7 @@ async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, 
     if date:
         async with state.proxy() as data:
             data['date'] = f'{date.day}.{date.month}.{date.year}'
+            await bot.edit_message_text(data['date'], callback_query.message.chat.id, callback_query.message.message_id)
     else:
         return
 

@@ -31,7 +31,7 @@ async def create_reminder(session: AsyncSession, user_id: int, text: str, date: 
 @save_execute
 async def get_reminder(session: AsyncSession, id: int, user_id: int = None) -> Reminder:
     if user_id is None:
-        sql = select(Reminder).where(Reminder.id == id)
+        sql = select(Reminder).where(Reminder.id == id, Reminder.is_deleted == False)
     else:
         sql = select(Reminder).where(Reminder.user_id == user_id, Reminder.id == id, Reminder.is_deleted == False)
 
@@ -105,7 +105,7 @@ async def edit_text(session: AsyncSession, id: int, text: str):
 
 
 @save_execute
-async def edit_date(session: AsyncSession, id: int, date: datetime):
+async def edit_date(session: AsyncSession, id: int, user_id, date: datetime):
     localize_date = pytz.timezone(await get_user_time_zone(session, user_id)).localize(date)
 
     d = localize_date.astimezone(pytz.UTC)

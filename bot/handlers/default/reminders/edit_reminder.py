@@ -124,6 +124,7 @@ async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, 
     if callback_data['set-day'] == 'set-day':
         async with state.proxy() as data:
             data['date'] = f'{callback_data["day"]}.{callback_data["month"]}.{callback_data["year"]}'
+            await bot.edit_message_text(data['date'], callback_query.message.chat.id, callback_query.message.message_id)
     else:
         return
 
@@ -159,7 +160,7 @@ async def get_reminder_date(message, session, user, state: FSMContext):
 
     async with state.proxy() as data:
         try:
-            await edit_date(session, data['id'],
+            await edit_date(session, data['id'], user.id,
                             datetime.strptime(f'{data["date"]} {match[1]}:{match[2]}', '%d.%m.%Y %H:%M'))
         except:
             text = _('Ты ввел несуществующее время')

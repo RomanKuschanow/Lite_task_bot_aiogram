@@ -83,7 +83,7 @@ async def search(callback_query: CallbackQuery, session: AsyncSession, user: Use
 async def get_list(function, is_edit, *parametrs) -> str:
     text = ""
 
-    deep_link = 'http://t.me/Lite_task_bot?start=edit_reminder_'
+    deep_link = 'http://t.me/testbottolearn_bot?start=edit_reminder_'
 
     reminders = list(await function(parametrs[0], parametrs[1]))
 
