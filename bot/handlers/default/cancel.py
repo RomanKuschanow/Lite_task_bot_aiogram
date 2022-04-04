@@ -6,7 +6,7 @@ from bot.keyboards.default.menu import get_menu_keyboard_markup
 
 
 @dp.callback_query_handler(text='cancel', state='*')
-async def bot_start(callback_query: CallbackQuery, state):
+async def bot_start(callback_query: CallbackQuery, state, user):
     await callback_query.answer()
     text = _('Действие отменено')
 

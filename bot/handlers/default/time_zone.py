@@ -1,7 +1,9 @@
 from aiogram.dispatcher import FSMContext
 from aiogram.types import Message, CallbackQuery
+from aiogram.types.reply_keyboard import ReplyKeyboardRemove
 
 from bot.keyboards.inline import get_inline_tz_markup
+from bot.keyboards.default.menu import get_menu_keyboard_markup
 from services.user import update_time_zone
 from bot.states import TimeZone
 from loader import dp, _
@@ -9,6 +11,9 @@ from loader import dp, _
 
 @dp.message_handler(commands='tz')
 async def time_zone(message: Message, user, state: FSMContext):
+    bot_message = await message.answer("⁠", reply_markup=ReplyKeyboardRemove())
+    await bot.delete_message(message.chat.id, bot_message.message_id)
+
     text = _('Выберите ваш регион')
 
     await TimeZone.region.set()
@@ -75,5 +80,5 @@ async def city(callback_query: CallbackQuery, session, user, state):
 
     await state.finish()
 
-    await callback_query.message.answer(text)
+    await callback_query.message.answer(text, reply_markup=get_menu_keyboard_markup(user.is_admin))
 

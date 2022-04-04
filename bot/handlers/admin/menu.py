@@ -45,7 +45,7 @@ async def _reminders_list(message: Message, session, user, state):
 
 
 @dp.message_handler(text="🔖 Рассылка", state="*")
-@dp.message_handler(text="🔖 Newsletter", state="*")
+@dp.message_handler(text="🛠 Admin keyboard", state="*")
 async def _reminders_list(message: Message, state):
     async with state.proxy() as data:
         if 'message' in data:
@@ -60,7 +60,7 @@ async def _reminders_list(message: Message, state):
 
 
 @dp.message_handler(text="📫 Личка", state="*")
-@dp.message_handler(text="📫 Personal", state="*")
+@dp.message_handler(text="💵 Donat", state="*")
 async def sender(message: Message, session, user, state):
     async with state.proxy() as data:
         if 'message' in data:
@@ -71,11 +71,11 @@ async def sender(message: Message, session, user, state):
                     continue
 
     await state.finish()
-    await private_sender(message, state)
+    await _private_sender(message, state)
 
 
 @dp.message_handler(text="🧾 Меню", state="*")
-@dp.message_handler(text="🧾 Menu", state="*")
+@dp.message_handler(text="❔ Help by commands", state="*")
 async def _menu(message: Message, state, user):
     async with state.proxy() as data:
         if 'message' in data:

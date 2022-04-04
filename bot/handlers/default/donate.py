@@ -1,7 +1,9 @@
 from aiogram.types import CallbackQuery
 from aiogram.types import Message
+from aiogram.types.reply_keyboard import ReplyKeyboardRemove
 
 from bot.keyboards.inline.payment import get_payment_inline_markup
+from bot.keyboards.default.menu import get_menu_keyboard_markup
 from bot.states import Donate
 from loader import dp, _, bot
 from models import User, Bill
@@ -12,6 +14,9 @@ from utils.misc.logging import logger
 
 @dp.message_handler(commands='donate', state='*')
 async def donate(message: Message, state):
+    bot_message = await message.answer("⁠", reply_markup=ReplyKeyboardRemove())
+    await bot.delete_message(message.chat.id, bot_message.message_id)
+
     text = _('Напиши сумму в долларах (минимум 1), которую хотите задонатить')
 
     bot_message = await message.answer(text)
@@ -37,6 +42,9 @@ async def donate_invoice(message: Message, user: User, session, state):
     logger.info(f'{user} create {bill}')
 
     link = generate_invoice_link(bill, user)
+
+    await message.answer(_("Спасибо. Следующее сообщение это чек. Если возникнут проблемы или вопросы по поводу оплаты, "
+                           "укажи в сообщении номер чека"), reply_markup=get_menu_keyboard_markup(user.is_admin))
 
     text = _('Номер: {id}\n'
              'Донат на сумму: {amount}$\n\n').format(id=bill.id, amount=amount) + _(

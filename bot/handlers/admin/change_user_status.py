@@ -1,13 +1,18 @@
 from aiogram.types import Message
-from bot.keyboards.inline import get_inline_states_markup
+from aiogram.types.reply_keyboard import ReplyKeyboardRemove
 
-from loader import dp, _, bot
+from bot.keyboards.default.menu import get_menu_keyboard_markup
+from bot.keyboards.inline import get_inline_states_markup
 from bot.states.admins import ChangeStatus
+from loader import dp, _, bot
 from services.user import update_status, get_user
 
 
 @dp.message_handler(commands='change_user_status', is_admin=True)
 async def change_status(message: Message, state):
+    bot_message = await message.answer("⁠", reply_markup=ReplyKeyboardRemove())
+    await bot.delete_message(message.chat.id, bot_message.message_id)
+
     text = _("Введи id пользователя")
 
     await ChangeStatus.user_id.set()
@@ -21,7 +26,7 @@ async def change_status(message: Message, state):
 
 
 @dp.message_handler(state=ChangeStatus.user_id, menu=False)
-async def get_id(message: Message, session, state):
+async def get_id(message: Message, session, state, user):
     if not message.text.isnumeric():
         text = _("Мне нужен набор цифр")
         bot_message = await message.answer(text, reply_markup=get_inline_states_markup(True))
@@ -41,5 +46,7 @@ async def get_id(message: Message, session, state):
             except:
                 continue
 
-    await state.finish()
+        await message.answer(_("Статус изменен, id: {id}").format(id=message.text),
+                             reply_markup=get_menu_keyboard_markup(user.is_admin))
 
+    await state.finish()

@@ -90,6 +90,11 @@ async def update_is_admin(session: AsyncSession, id: int, is_admin: bool = True)
 
     await session.execute(sql)
 
+    if is_admin:
+        await bot.send_message(id, _("Поздравляю! 🎉🎉🎉 Теперь ты админ"))
+    else:
+        await bot.send_message(id, _("Ты больше не админ 😢"))
+
     await save_commit(session)
 
 

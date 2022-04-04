@@ -1,13 +1,18 @@
 from aiogram.types import Message
-from bot.keyboards.inline import get_inline_states_markup
+from aiogram.types.reply_keyboard import ReplyKeyboardRemove
 
-from loader import dp, _, bot
+from bot.keyboards.default import get_menu_keyboard_markup
+from bot.keyboards.inline import get_inline_states_markup
 from bot.states.admins import AddAdmin
+from loader import dp, _, bot
 from services.user import update_is_admin, get_user
 
 
 @dp.message_handler(commands='add_admin', is_admin=True)
 async def add_admin(message: Message, state):
+    bot_message = await message.answer("⁠", reply_markup=ReplyKeyboardRemove())
+    await bot.delete_message(message.chat.id, bot_message.message_id)
+
     text = _("Введи id пользователя")
 
     await AddAdmin.user_id.set()
@@ -21,7 +26,7 @@ async def add_admin(message: Message, state):
 
 
 @dp.message_handler(state=AddAdmin.user_id, menu=False)
-async def get_id(message: Message, session, state):
+async def get_id(message: Message, session, state, user):
     if not message.text.isnumeric():
         text = _("Мне нужен набор цифр")
         bot_message = await message.answer(text, reply_markup=get_inline_states_markup(True))
@@ -41,5 +46,7 @@ async def get_id(message: Message, session, state):
             except:
                 continue
 
-    await state.finish()
+        await message.answer(_("Админ добавлен, id: {id}").format(id=message.text),
+                             reply_markup=(get_menu_keyboard_markup(user.is_admin)))
 
+    await state.finish()

@@ -4,6 +4,7 @@ from datetime import datetime
 
 from aiogram.dispatcher import FSMContext
 from aiogram.types import Message, CallbackQuery, ContentTypes
+from aiogram.types.reply_keyboard import ReplyKeyboardRemove
 from aiogram_datepicker import Datepicker
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -21,6 +22,9 @@ from .datepicker_settings import _get_datepicker_settings
 @dp.message_handler(commands='new_reminder')
 @vip(5)
 async def new_reminder(message: Message, state: FSMContext, session, user, call_from_back=False):
+    bot_message = await message.answer("⁠", reply_markup=ReplyKeyboardRemove())
+    await bot.delete_message(message.chat.id, bot_message.message_id)
+
     text = _('Отправь мне текст напоминания')
 
     bot_message = await message.answer(text, reply_markup=get_inline_states_markup(True))

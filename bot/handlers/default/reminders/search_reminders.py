@@ -3,6 +3,7 @@ from datetime import datetime
 
 from aiogram.dispatcher import FSMContext
 from aiogram.types import CallbackQuery, Message, ContentTypes
+from aiogram.types.reply_keyboard import ReplyKeyboardRemove
 from aiogram.utils.callback_data import CallbackData
 from aiogram_datepicker import Datepicker
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -10,6 +11,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from bot.filters import vip
 from bot.handlers.default.reminders.reminders_list import get_list
 from bot.keyboards.inline import get_inline_states_markup, get_reminders_list_inline_markup
+from bot.keyboards.default.menu import get_menu_keyboard_markup
 from bot.states import SearchReminder
 from loader import dp, _, bot
 from models import User
@@ -22,6 +24,9 @@ search_callback = CallbackData('reminder', 'search', 'filter', "", "")
 @dp.callback_query_handler(search_callback.filter())
 @vip()
 async def action(callback_query: CallbackQuery, callback_data: dict, session: AsyncSession, user: User, state):
+    bot_message = await callback_query.message.answer("⁠", reply_markup=ReplyKeyboardRemove())
+    await bot.delete_message(callback_query.message.chat.id, bot_message.message_id)
+
     await callback_query.answer()
 
     keyboard = callback_query.message.reply_markup.inline_keyboard
@@ -102,6 +107,8 @@ async def get_reminder_text(message: Message, state: FSMContext, session, user):
                 await bot.delete_message(message.chat.id, mes)
             except:
                 continue
+
+    await message.answer(_("Напоминания отфильтрованы"), reply_markup=get_menu_keyboard_markup(user.is_admin))
 
     await state.finish()
 
@@ -187,5 +194,7 @@ async def get_reminder_date(message, session, user, state: FSMContext):
                 await bot.delete_message(message.chat.id, mes)
             except:
                 continue
+
+    await message.answer(_("Напоминания отфильтрованы"), reply_markup=get_menu_keyboard_markup(user.is_admin))
 
     await state.finish()

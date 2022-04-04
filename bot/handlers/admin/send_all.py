@@ -1,5 +1,7 @@
 from aiogram.types import Message, ContentTypes
+from aiogram.types.reply_keyboard import ReplyKeyboardRemove
 from bot.keyboards.inline import get_inline_states_markup
+from bot.keyboards.default.menu import get_menu_keyboard_markup
 
 from loader import dp, _, bot
 from bot.states.admins import AddAdmin
@@ -13,6 +15,9 @@ from threading import Thread
 
 @dp.message_handler(commands="send_all", is_admin=True)
 async def _sender(message: Message, state):
+    bot_message = await message.answer("⁠", reply_markup=ReplyKeyboardRemove())
+    await bot.delete_message(message.chat.id, bot_message.message_id)
+
     text = _("Введи текст")
 
     bot_message = await message.answer(text, reply_markup=get_inline_states_markup(True))
@@ -26,7 +31,7 @@ async def _sender(message: Message, state):
 
 
 @dp.message_handler(state=Sender.text_all, content_types=ContentTypes.ANY, menu=False)
-async def get_text(message: Message, state):
+async def get_text(message: Message, state, user):
     if message.content_type != 'text':
         text = _('Ты прислал мне {type}, а нужно прислать текст').format(type=message.content_type)
         bot_message = await message.answer(text, reply_markup=get_inline_states_markup(True))
@@ -48,6 +53,8 @@ async def get_text(message: Message, state):
                     await bot.delete_message(message.chat.id, mes)
                 except:
                     continue
+
+            await message.answer(_("Сообщение отправлено"), reply_markup=get_menu_keyboard_markup(user.is_admin))
 
     await state.finish()
 
