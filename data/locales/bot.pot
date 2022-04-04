@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bot VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-04-04 11:25+0300\n"
+"POT-Creation-Date: 2022-04-04 15:31+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,22 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
+
+#: bot/commands/admin.py:13
+msgid "Сделать пользователя администратором"
+msgstr ""
+
+#: bot/commands/admin.py:14
+msgid "Выдать пользователю VIP-статус"
+msgstr ""
+
+#: bot/commands/admin.py:15
+msgid "Отправить сообщение всем пользователям"
+msgstr ""
+
+#: bot/commands/admin.py:16
+msgid "Отправить личное сообщение пользователю"
+msgstr ""
 
 #: bot/commands/default.py:9
 msgid "запуск бота"
@@ -64,14 +80,36 @@ msgid ""
 "/donate"
 msgstr ""
 
-#: bot/handlers/admins/add_admin.py:11
-#: bot/handlers/admins/change_user_status.py:11
-msgid "Теперь введи id пользователя"
+#: bot/handlers/admin/add_admin.py:11
+#: bot/handlers/admin/change_user_status.py:11
+#: bot/handlers/admin/send_private.py:13
+msgid "Введи id пользователя"
 msgstr ""
 
-#: bot/handlers/admins/add_admin.py:26
-#: bot/handlers/admins/change_user_status.py:26
-msgid "мне нужен набор цифр"
+#: bot/handlers/admin/add_admin.py:26
+#: bot/handlers/admin/change_user_status.py:26
+#: bot/handlers/admin/send_private.py:38
+msgid "Мне нужен набор цифр"
+msgstr ""
+
+#: bot/handlers/admin/menu.py:14 bot/handlers/default/menu.py:13
+#: bot/handlers/default/menu.py:49
+msgid "Выбери действие из меню 👇"
+msgstr ""
+
+#: bot/handlers/admin/send_all.py:16 bot/handlers/admin/send_private.py:46
+msgid "Введи текст"
+msgstr ""
+
+#: bot/handlers/admin/send_all.py:31 bot/handlers/admin/send_private.py:30
+#: bot/handlers/admin/send_private.py:66
+#: bot/handlers/default/reminders/edit_reminder.py:80
+#: bot/handlers/default/reminders/edit_reminder.py:134
+#: bot/handlers/default/reminders/new_reminder.py:41
+#: bot/handlers/default/reminders/new_reminder.py:97
+#: bot/handlers/default/reminders/search_reminders.py:75
+#: bot/handlers/default/reminders/search_reminders.py:145
+msgid "Ты прислал мне {type}, а нужно прислать текст"
 msgstr ""
 
 #: bot/handlers/default/cancel.py:11
@@ -111,7 +149,7 @@ msgstr ""
 msgid "Напиши сообщение которое увидят разработчики"
 msgstr ""
 
-#: bot/handlers/default/help.py:10
+#: bot/handlers/default/help.py:9
 msgid ""
 "/start — Запуск бота\n"
 "/help — Вывод этого списка\n"
@@ -130,7 +168,18 @@ msgid ""
 "\n"
 msgstr ""
 
-#: bot/handlers/default/help.py:23
+#: bot/handlers/default/help.py:22
+msgid ""
+"\n"
+"Команды администраторов:\n"
+"/add_admin — Добавить админа по id пользователя\n"
+"/change_user_status — Выдать VIP-статус по id пользователя\n"
+"/send_all — Отправить сообщение всем пользователям\n"
+"/send_private — Отправить сообщение пользователю по его id\n"
+"/admin_menu — Вызов админ-клавиатуры"
+msgstr ""
+
+#: bot/handlers/default/help.py:29
 msgid ""
 "‼ Если ты еще не донатил, тебе не доступны или ограничены некоторые "
 "функции:\n"
@@ -139,18 +188,14 @@ msgid ""
 "❌ Одновременно можно создать только 5 активных напоминаний"
 msgstr ""
 
-#: bot/handlers/default/language.py:21
+#: bot/handlers/default/language.py:25
 msgid ""
 "Язык изменен\n"
 "Напиши /help чтобы узнать как я могу тебе помочь"
 msgstr ""
 
-#: bot/handlers/default/language.py:28
+#: bot/handlers/default/language.py:32
 msgid "Выберите свой язык"
-msgstr ""
-
-#: bot/handlers/default/menu.py:13
-msgid "Выбери действие из меню 👇"
 msgstr ""
 
 #: bot/handlers/default/reset.py:17
@@ -201,28 +246,19 @@ msgstr ""
 
 #: bot/handlers/default/reminders/edit_reminder.py:53
 #: bot/handlers/default/reminders/new_reminder.py:24
-msgid "Отправьте мне текст напоминания"
+msgid "Отправь мне текст напоминания"
 msgstr ""
 
 #: bot/handlers/default/reminders/edit_reminder.py:60
 #: bot/handlers/default/reminders/edit_reminder.py:195
 #: bot/handlers/default/reminders/search_reminders.py:46
-msgid "Выберите дату"
-msgstr ""
-
-#: bot/handlers/default/reminders/edit_reminder.py:80
-#: bot/handlers/default/reminders/edit_reminder.py:134
-#: bot/handlers/default/reminders/new_reminder.py:41
-#: bot/handlers/default/reminders/new_reminder.py:97
-#: bot/handlers/default/reminders/search_reminders.py:75
-#: bot/handlers/default/reminders/search_reminders.py:145
-msgid "Вы прислали мне {type}, а нужно прислать текст"
+msgid "Выбери дату"
 msgstr ""
 
 #: bot/handlers/default/reminders/edit_reminder.py:114
 #: bot/handlers/default/reminders/new_reminder.py:76
 #: bot/handlers/default/reminders/search_reminders.py:59
-msgid "Отправьте точное время"
+msgid "Отправь точное время"
 msgstr ""
 
 #: bot/handlers/default/reminders/edit_reminder.py:143
@@ -233,11 +269,11 @@ msgstr ""
 
 #: bot/handlers/default/reminders/edit_reminder.py:158
 #: bot/handlers/default/reminders/new_reminder.py:122
-msgid "Вы ввели несуществующее время"
+msgid "Ты ввел несуществующее время"
 msgstr ""
 
 #: bot/handlers/default/reminders/new_reminder.py:49
-msgid "Теперь выберите дату"
+msgid "Теперь выбери дату"
 msgstr ""
 
 #: bot/handlers/default/reminders/new_reminder.py:129
@@ -265,7 +301,27 @@ msgid "У вас еще нет ни одного напоминания c эти
 msgstr ""
 
 #: bot/handlers/default/reminders/search_reminders.py:31
-msgid "Отправьте мне текст для поиска"
+msgid "Отправь мне текст для поиска"
+msgstr ""
+
+#: bot/keyboards/default/admin.py:9
+msgid "➕ Добавить Админа"
+msgstr ""
+
+#: bot/keyboards/default/admin.py:9
+msgid "🎁 Выдать VIP"
+msgstr ""
+
+#: bot/keyboards/default/admin.py:10
+msgid "🔖 Рассылка"
+msgstr ""
+
+#: bot/keyboards/default/admin.py:10
+msgid "📫 Личка"
+msgstr ""
+
+#: bot/keyboards/default/admin.py:11
+msgid "🧾 Меню"
 msgstr ""
 
 #: bot/keyboards/default/menu.py:9
@@ -277,7 +333,7 @@ msgid "📝 Список напоминаний"
 msgstr ""
 
 #: bot/keyboards/default/menu.py:11
-msgid "🛠 Админ клавиатура"
+msgid "🛠 Админ-клавиатура"
 msgstr ""
 
 #: bot/keyboards/default/menu.py:13
@@ -381,11 +437,11 @@ msgstr ""
 msgid "Чел, ты в <s>муте</s> бане еще на {date}"
 msgstr ""
 
-#: services/user.py:123
+#: services/user.py:141
 msgid "Пользователь {id} забанен"
 msgstr ""
 
-#: services/user.py:141
+#: services/user.py:159
 msgid "Пользователь {id} забанен навсегда"
 msgstr ""
 

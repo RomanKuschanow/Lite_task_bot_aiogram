@@ -37,6 +37,24 @@ async def get_user(session: AsyncSession, id: int) -> User:
 
 
 @save_execute
+async def get_user_language(session: AsyncSession, id: int) -> str:
+    sql = select(User).where(User.id == id)
+    query = await session.execute(sql)
+
+    user = query.scalar_one_or_none()
+
+    return user.language
+
+
+@save_execute
+async def get_all_user_id(session: AsyncSession) -> list[User]:
+    sql = select(User.id)
+    query = await session.execute(sql)
+
+    return [u for u, in query]
+
+
+@save_execute
 async def get_user_time_zone(session: AsyncSession, id: int) -> str:
     user = await get_user(session, id)
 

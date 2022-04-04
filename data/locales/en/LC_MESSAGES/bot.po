@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bot VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-04-04 11:25+0300\n"
+"POT-Creation-Date: 2022-04-04 15:31+0300\n"
 "PO-Revision-Date: 2022-03-26 19:00+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -17,6 +17,22 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
+
+#: bot/commands/admin.py:13
+msgid "Сделать пользователя администратором"
+msgstr "Make the user an administrator"
+
+#: bot/commands/admin.py:14
+msgid "Выдать пользователю VIP-статус"
+msgstr "Give the user a VIP status"
+
+#: bot/commands/admin.py:15
+msgid "Отправить сообщение всем пользователям"
+msgstr "Send message to all users"
+
+#: bot/commands/admin.py:16
+msgid "Отправить личное сообщение пользователю"
+msgstr "Send a private message to a user"
 
 #: bot/commands/default.py:9
 msgid "запуск бота"
@@ -44,7 +60,7 @@ msgstr "leave feedback or wishes"
 
 #: bot/commands/default.py:15
 msgid "Отобразить меню"
-msgstr ""
+msgstr "Show menu"
 
 #: bot/commands/default.py:16
 msgid "сменить язык"
@@ -66,17 +82,39 @@ msgid ""
 msgstr ""
 "Unfortunately, developers also need something to eat, so some functions "
 "are available only after donation. This can be done by entering the "
-"command/donate"
+"command /donate"
 
-#: bot/handlers/admins/add_admin.py:11
-#: bot/handlers/admins/change_user_status.py:11
-msgid "Теперь введи id пользователя"
-msgstr ""
+#: bot/handlers/admin/add_admin.py:11
+#: bot/handlers/admin/change_user_status.py:11
+#: bot/handlers/admin/send_private.py:13
+msgid "Введи id пользователя"
+msgstr "Enter user id"
 
-#: bot/handlers/admins/add_admin.py:26
-#: bot/handlers/admins/change_user_status.py:26
-msgid "мне нужен набор цифр"
-msgstr ""
+#: bot/handlers/admin/add_admin.py:26
+#: bot/handlers/admin/change_user_status.py:26
+#: bot/handlers/admin/send_private.py:38
+msgid "Мне нужен набор цифр"
+msgstr "I need a set of numbers"
+
+#: bot/handlers/admin/menu.py:14 bot/handlers/default/menu.py:13
+#: bot/handlers/default/menu.py:49
+msgid "Выбери действие из меню 👇"
+msgstr "Choose an action from the menu 👇"
+
+#: bot/handlers/admin/send_all.py:16 bot/handlers/admin/send_private.py:46
+msgid "Введи текст"
+msgstr "Enter text"
+
+#: bot/handlers/admin/send_all.py:31 bot/handlers/admin/send_private.py:30
+#: bot/handlers/admin/send_private.py:66
+#: bot/handlers/default/reminders/edit_reminder.py:80
+#: bot/handlers/default/reminders/edit_reminder.py:134
+#: bot/handlers/default/reminders/new_reminder.py:41
+#: bot/handlers/default/reminders/new_reminder.py:97
+#: bot/handlers/default/reminders/search_reminders.py:75
+#: bot/handlers/default/reminders/search_reminders.py:145
+msgid "Ты прислал мне {type}, а нужно прислать текст"
+msgstr "You sent me {type}, but I need to send the text"
 
 #: bot/handlers/default/cancel.py:11
 msgid "Действие отменено"
@@ -118,8 +156,7 @@ msgstr "Payment has not yet passed, click on the button a little later"
 msgid "Напиши сообщение которое увидят разработчики"
 msgstr "Write a message that the developers will see"
 
-#: bot/handlers/default/help.py:10
-
+#: bot/handlers/default/help.py:9
 msgid ""
 "/start — Запуск бота\n"
 "/help — Вывод этого списка\n"
@@ -153,7 +190,25 @@ msgstr ""
 "a reminder, the bot began to behave incorrectly\n"
 "\n"
 
-#: bot/handlers/default/help.py:23
+#: bot/handlers/default/help.py:22
+msgid ""
+"\n"
+"Команды администраторов:\n"
+"/add_admin — Добавить админа по id пользователя\n"
+"/change_user_status — Выдать VIP-статус по id пользователя\n"
+"/send_all — Отправить сообщение всем пользователям\n"
+"/send_private — Отправить сообщение пользователю по его id\n"
+"/admin_menu — Вызов админ-клавиатуры"
+msgstr ""
+"\n"
+"Admin Commands:\n"
+"/add_admin - Add admin by user id\n"
+"/change_user_status - Give VIP status by user id\n"
+"/send_all - Send message to all users\n"
+"/send_private - Send a message to a user by his id\n"
+"/admin_menu - Call the admin keyboard"
+
+#: bot/handlers/default/help.py:29
 msgid ""
 "‼ Если ты еще не донатил, тебе не доступны или ограничены некоторые "
 "функции:\n"
@@ -166,7 +221,7 @@ msgstr ""
 "❌ Editing (only the delete button is available in the editing menu)\n"
 "❌ You can only create 5 active reminders at a time"
 
-#: bot/handlers/default/language.py:21
+#: bot/handlers/default/language.py:25
 msgid ""
 "Язык изменен\n"
 "Напиши /help чтобы узнать как я могу тебе помочь"
@@ -174,13 +229,9 @@ msgstr ""
 "Language changed\n"
 "Type /help to find out how I can help you"
 
-#: bot/handlers/default/language.py:28
+#: bot/handlers/default/language.py:32
 msgid "Выберите свой язык"
 msgstr "Choose your language"
-
-#: bot/handlers/default/menu.py:13
-msgid "Выбери действие из меню 👇"
-msgstr "Choose an action from the menu 👇"
 
 #: bot/handlers/default/reset.py:17
 msgid "Действие прервано"
@@ -236,28 +287,19 @@ msgstr "Select"
 
 #: bot/handlers/default/reminders/edit_reminder.py:53
 #: bot/handlers/default/reminders/new_reminder.py:24
-msgid "Отправьте мне текст напоминания"
+msgid "Отправь мне текст напоминания"
 msgstr "Send me a reminder text"
 
 #: bot/handlers/default/reminders/edit_reminder.py:60
 #: bot/handlers/default/reminders/edit_reminder.py:195
 #: bot/handlers/default/reminders/search_reminders.py:46
-msgid "Выберите дату"
+msgid "Выбери дату"
 msgstr "Select a date"
-
-#: bot/handlers/default/reminders/edit_reminder.py:80
-#: bot/handlers/default/reminders/edit_reminder.py:134
-#: bot/handlers/default/reminders/new_reminder.py:41
-#: bot/handlers/default/reminders/new_reminder.py:97
-#: bot/handlers/default/reminders/search_reminders.py:75
-#: bot/handlers/default/reminders/search_reminders.py:145
-msgid "Вы прислали мне {type}, а нужно прислать текст"
-msgstr "You sent me {type}, but I need to send the text"
 
 #: bot/handlers/default/reminders/edit_reminder.py:114
 #: bot/handlers/default/reminders/new_reminder.py:76
 #: bot/handlers/default/reminders/search_reminders.py:59
-msgid "Отправьте точное время"
+msgid "Отправь точное время"
 msgstr "Submit the correct time"
 
 #: bot/handlers/default/reminders/edit_reminder.py:143
@@ -268,11 +310,11 @@ msgstr "Format does not match"
 
 #: bot/handlers/default/reminders/edit_reminder.py:158
 #: bot/handlers/default/reminders/new_reminder.py:122
-msgid "Вы ввели несуществующее время"
+msgid "Ты ввел несуществующее время"
 msgstr "You entered a non-existent time"
 
 #: bot/handlers/default/reminders/new_reminder.py:49
-msgid "Теперь выберите дату"
+msgid "Теперь выбери дату"
 msgstr "Now choose a date"
 
 #: bot/handlers/default/reminders/new_reminder.py:129
@@ -300,8 +342,28 @@ msgid "У вас еще нет ни одного напоминания c эти
 msgstr "You don't have any reminders with this filter yet"
 
 #: bot/handlers/default/reminders/search_reminders.py:31
-msgid "Отправьте мне текст для поиска"
+msgid "Отправь мне текст для поиска"
 msgstr "Send me search text"
+
+#: bot/keyboards/default/admin.py:9
+msgid "➕ Добавить Админа"
+msgstr "➕ Add Admin"
+
+#: bot/keyboards/default/admin.py:9
+msgid "🎁 Выдать VIP"
+msgstr "🎁 Issue VIP"
+
+#: bot/keyboards/default/admin.py:10
+msgid "🔖 Рассылка"
+msgstr "🔖 Newsletter"
+
+#: bot/keyboards/default/admin.py:10
+msgid "📫 Личка"
+msgstr "📫 Personal"
+
+#: bot/keyboards/default/admin.py:11
+msgid "🧾 Меню"
+msgstr "🧾 Menu"
 
 #: bot/keyboards/default/menu.py:9
 msgid "➕ Новое напоминание"
@@ -312,7 +374,7 @@ msgid "📝 Список напоминаний"
 msgstr "📝 Reminder List"
 
 #: bot/keyboards/default/menu.py:11
-msgid "🛠 Админ клавиатура"
+msgid "🛠 Админ-клавиатура"
 msgstr "🛠 Admin keyboard"
 
 #: bot/keyboards/default/menu.py:13
@@ -416,55 +478,11 @@ msgstr "Ban for {hours}"
 msgid "Чел, ты в <s>муте</s> бане еще на {date}"
 msgstr "Man, you're banned for {date}"
 
-#: services/user.py:123
+#: services/user.py:141
 msgid "Пользователь {id} забанен"
 msgstr "User {id} banned"
 
-#: services/user.py:141
+#: services/user.py:159
 msgid "Пользователь {id} забанен навсегда"
 msgstr "User {id} banned permanently"
-
-#~ msgid "👥 Количество пользователей"
-#~ msgstr "👥 Number of users"
-
-#~ msgid "🔎 Поиск"
-#~ msgstr "🔎 Search"
-
-#~ msgid "🔎 Начать поиск"
-#~ msgstr "🔎 Start search"
-
-#~ msgid ""
-#~ "Привет, я Task Bot. Ты можешь "
-#~ "составить список задач, а я в "
-#~ "назначенное время напомню тебе их "
-#~ "сделать\n"
-#~ "Пока что функционал у меня ограничен "
-#~ "простыми напоминаниями, но в грядущих "
-#~ "обновлениях мои возможности сильно увеличиться"
-#~ "\n"
-#~ "А теперь ты можешь выбрать свой язык, нажав на одну из кнопок ниже\n"
-#~ "Так же рекомендую выбрать ваш часовой"
-#~ " пояс, если он не соответствует "
-#~ "киевскому: /tz"
-#~ msgstr ""
-#~ "Hi, I'm Task Bot. You can make "
-#~ "a list of tasks, and I'll go "
-#~ "to the scheduled onetime to remind "
-#~ "you to make them\n"
-#~ "So far, my functionality is limited "
-#~ "to simple reminders, but in In the"
-#~ " coming updates, my options will "
-#~ "increase a lot\n"
-#~ "And now you can choose your "
-#~ "language by clicking on one of the"
-#~ " buttons below\n"
-#~ "I also recommend choosing your time "
-#~ "zone if it doesn't match to Kiev:"
-#~ " /tz"
-
-#~ msgid "🆘 Помощь"
-#~ msgstr "🆘 Help"
-
-#~ msgid "📁 Экспорт пользователей"
-#~ msgstr "📁 Export users"
 

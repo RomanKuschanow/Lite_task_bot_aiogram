@@ -28,7 +28,7 @@ async def action(callback_query: CallbackQuery, callback_data: dict, session: As
     match = re.search('reminders:.+:(.+):(.+):.+:.*', keyboard[-1][0]['callback_data'])
 
     if callback_data['filter'] == 'text':
-        text = _('Отправьте мне текст для поиска')
+        text = _('Отправь мне текст для поиска')
 
         bot_message = await callback_query.message.answer(text, reply_markup=get_inline_states_markup(True))
 
@@ -43,7 +43,7 @@ async def action(callback_query: CallbackQuery, callback_data: dict, session: As
     if callback_data['filter'] == 'date':
         datepicker = Datepicker(_get_datepicker_settings(True))
         markup = datepicker.start_calendar()
-        text = _('Выберите дату')
+        text = _('Выбери дату')
 
         bot_message = await callback_query.message.answer(text, reply_markup=markup)
 
@@ -56,7 +56,7 @@ async def action(callback_query: CallbackQuery, callback_data: dict, session: As
             data['main_message'] = callback_query.message.message_id
 
     if callback_data['filter'] == 'time':
-        text = _('Отправьте точное время')
+        text = _('Отправь точное время')
 
         bot_message = await callback_query.message.answer(text, reply_markup=get_inline_states_markup(True))
 
@@ -72,7 +72,7 @@ async def action(callback_query: CallbackQuery, callback_data: dict, session: As
 @dp.message_handler(state=SearchReminder.text, content_types=ContentTypes.ANY, menu=False)
 async def get_reminder_text(message: Message, state: FSMContext, session, user):
     if message.content_type != 'text':
-        text = _('Вы прислали мне {type}, а нужно прислать текст').format(type=message.content_type)
+        text = _('Ты прислал мне {type}, а нужно прислать текст').format(type=message.content_type)
         bot_message = await message.answer(text, reply_markup=get_inline_states_markup(True))
         async with state.proxy() as data:
             data['message'].append(message.message_id)
@@ -142,7 +142,7 @@ async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, 
 @dp.message_handler(state=SearchReminder.time, content_types=ContentTypes.ANY, menu=False)
 async def get_reminder_date(message, session, user, state: FSMContext):
     if message.content_type != 'text':
-        text = _('Вы прислали мне {type}, а нужно прислать текст').format(type=message.content_type)
+        text = _('Ты прислал мне {type}, а нужно прислать текст').format(type=message.content_type)
         bot_message = await message.answer(text, reply_markup=get_inline_states_markup())
         async with state.proxy() as data:
             data['fail'] += 1

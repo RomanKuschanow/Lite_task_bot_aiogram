@@ -1,4 +1,4 @@
-from .admins import dp
+from .admin import dp
 from .default import dp
 from .errors import dp
 

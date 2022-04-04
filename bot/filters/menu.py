@@ -11,9 +11,9 @@ class Menu(BoundFilter):
     async def check(self, message: Message):
         if message.text in ["➕ Новое напоминание", "📝 Список напоминаний", "🛠 Админ клавиатура", "💵 Донат",
                             "❔ Помощь по командам", "➕ New reminder", "📝 Reminder List", "🛠 Admin keyboard",
-                            "💵 Donat", "❔ Help by commands"]:
-            print(message.text)
-            print(self.menu == True)
+                            "💵 Donat", "❔ Help by commands", "➕ Добавить Админа", "🎁 Выдать VIP", "🔖 Рассылка",
+                            "📫 Личка", "🧾 Меню", "➕ Add Admin", "🎁 Issue VIP", "🔖 Newsletter", "📫 Personal",
+                            "🧾 Menu"]:
             return self.menu == True
         else:
             return True

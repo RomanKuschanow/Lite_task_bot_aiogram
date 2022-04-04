@@ -20,5 +20,5 @@ async def bot_start(callback_query: CallbackQuery, state):
 
     await state.finish()
 
-    await callback_query.message.answer(text, reply_markup=get_menu_keyboard_markup())
+    await callback_query.message.answer(text, reply_markup=get_menu_keyboard_markup(user.is_admin))
     await callback_query.message.delete()

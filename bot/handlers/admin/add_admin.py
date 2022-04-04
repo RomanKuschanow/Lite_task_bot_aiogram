@@ -2,15 +2,15 @@ from aiogram.types import Message
 from bot.keyboards.inline import get_inline_states_markup
 
 from loader import dp, _, bot
-from bot.states.admins import ChangeStatus
-from services.user import update_status, get_user
+from bot.states.admins import AddAdmin
+from services.user import update_is_admin, get_user
 
 
-@dp.message_handler(commands='change_user_status', is_admin=True)
-async def change_status(message: Message, state):
-    text = _("Теперь введи id пользователя")
+@dp.message_handler(commands='add_admin', is_admin=True)
+async def add_admin(message: Message, state):
+    text = _("Введи id пользователя")
 
-    await ChangeStatus.user_id.set()
+    await AddAdmin.user_id.set()
 
     bot_message = await message.answer(text, reply_markup=get_inline_states_markup(True))
 
@@ -20,10 +20,10 @@ async def change_status(message: Message, state):
         data['message'].append(bot_message.message_id)
 
 
-@dp.message_handler(state=ChangeStatus.user_id)
+@dp.message_handler(state=AddAdmin.user_id, menu=False)
 async def get_id(message: Message, session, state):
     if not message.text.isnumeric():
-        text = _("мне нужен набор цифр")
+        text = _("Мне нужен набор цифр")
         bot_message = await message.answer(text, reply_markup=get_inline_states_markup(True))
         async with state.proxy() as data:
             data['message'].append(message.message_id)
@@ -31,7 +31,7 @@ async def get_id(message: Message, session, state):
         return
 
     if await get_user(session, int(message.text)):
-        await update_status(session, int(message.text))
+        await update_is_admin(session, int(message.text))
 
     async with state.proxy() as data:
         data['message'].append(message.message_id)

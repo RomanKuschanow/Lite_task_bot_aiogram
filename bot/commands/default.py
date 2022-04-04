@@ -21,7 +21,7 @@ def get_default_commands(lang) -> list[BotCommand]:
     return commands
 
 
-async def set_default_commands():
+async def set_default_commands(is_admin: bool = False):
     commands_ru = get_default_commands('ru')
     commands_en = get_default_commands('en')
 
@@ -29,7 +29,7 @@ async def set_default_commands():
     await bot.set_my_commands(commands_en, scope=BotCommandScopeDefault(), language_code='en')
 
 
-async def set_user_commands(id: int, lang: str):
+async def set_user_commands(id: int, lang: str, is_admin: bool = False):
     commands = get_default_commands(lang)
 
     await bot.set_my_commands(commands, scope=BotCommandScopeChat(id))
