@@ -6,7 +6,7 @@ DIR = Path(__file__).absolute().parent
 
 BOT_TOKEN = config('BOT_TOKEN')
 ADMINS = [int(_) for _ in config('ADMINS', default='').split()]
-FEED_BACK_CHANEL = int(config('FEED_BACK_CHANEL'))
+FEED_BACK_CHANEL = config('FEED_BACK_CHANEL', cast=int, default=-1001)
 RATE_LIMIT = config('RATE_LIMIT', default=0.5, cast=float)
 
 DB_USER = config('DATABASE_USER', default=None)
