@@ -43,6 +43,7 @@ async def del_reminder(callback_query: CallbackQuery, callback_data: dict, sessi
     await callback_query.answer()
 
     await delete_reminder(session, user.id, int(callback_data['id']))
+    await callback_query.message.answer(_("Напоминание удалено"), reply_markup=get_menu_keyboard_markup(user.is_admin))
     await callback_query.message.delete()
 
 
