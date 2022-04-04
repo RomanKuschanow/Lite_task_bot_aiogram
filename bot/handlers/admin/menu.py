@@ -12,6 +12,7 @@ from loader import dp, bot, _
 @dp.message_handler(commands="admin_menu", is_admin=True)
 async def admin_menu(message: Message, user):
     await message.answer(_("Выбери действие из меню 👇"), reply_markup=get_admin_keyboard_markup())
+    await message.delete()
 
 
 @dp.message_handler(text="➕ Добавить Админа", state="*", is_admin=True)
@@ -41,7 +42,7 @@ async def _reminders_list(message: Message, session, user, state):
                     continue
 
     await state.finish()
-    await change_status(message, session)
+    await change_status(message, state)
 
 
 @dp.message_handler(text="🔖 Рассылка", state="*", is_admin=True)

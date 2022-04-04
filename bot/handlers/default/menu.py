@@ -12,11 +12,13 @@ from loader import dp, bot, _
 @dp.message_handler(commands="menu")
 async def menu(message: Message, user):
     await message.answer(_("Выбери действие из меню 👇"), reply_markup=get_menu_keyboard_markup(user.is_admin))
+    await message.delete()
 
 
 @dp.message_handler(commands="remove_menu")
 async def remove_menu(message: Message, user):
     await message.answer(_("Клавиатура убрана. Вызвать ее можно командой /menu"), reply_markup=ReplyKeyboardRemove())
+    await message.delete()
 
 
 @dp.message_handler(text="➕ Новое напоминание", state="*")
