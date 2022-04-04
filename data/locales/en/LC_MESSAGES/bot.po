@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bot VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-04-04 17:37+0300\n"
+"POT-Creation-Date: 2022-04-04 18:45+0300\n"
 "PO-Revision-Date: 2022-03-26 19:00+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -108,8 +108,8 @@ msgstr "Admin added, id: {id}"
 msgid "Статус изменен, id: {id}"
 msgstr "Status changed, id: {id}"
 
-#: bot/handlers/admin/menu.py:14 bot/handlers/default/menu.py:13
-#: bot/handlers/default/menu.py:49
+#: bot/handlers/admin/menu.py:14 bot/handlers/default/menu.py:14
+#: bot/handlers/default/menu.py:55
 msgid "Выбери действие из меню 👇"
 msgstr "Choose an action from the menu 👇"
 
@@ -153,8 +153,8 @@ msgid ""
 "Спасибо. Следующее сообщение это чек. Если возникнут проблемы или вопросы"
 " по поводу оплаты, укажи в сообщении номер чека"
 msgstr ""
-"Thank you. Next message is the receipt. If you have any problems or questions"
-"For payment, please include the check number in the message"
+"Thank you. Next message is the receipt. If you have any problems or "
+"questionsFor payment, please include the check number in the message"
 
 #: bot/handlers/default/donate.py:49
 msgid ""
@@ -264,6 +264,10 @@ msgstr ""
 #: bot/handlers/default/language.py:32
 msgid "Выберите свой язык"
 msgstr "Choose your language"
+
+#: bot/handlers/default/menu.py:19
+msgid "Клавиатура убрана. Вызвать ее можно командой /menu"
+msgstr "The keyboard has been removed. You can call it with the /menu command"
 
 #: bot/handlers/default/reset.py:17
 msgid "Действие прервано"

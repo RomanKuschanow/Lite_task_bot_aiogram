@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bot VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-04-04 17:37+0300\n"
+"POT-Creation-Date: 2022-04-04 18:45+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -104,8 +104,8 @@ msgstr ""
 msgid "Статус изменен, id: {id}"
 msgstr ""
 
-#: bot/handlers/admin/menu.py:14 bot/handlers/default/menu.py:13
-#: bot/handlers/default/menu.py:49
+#: bot/handlers/admin/menu.py:14 bot/handlers/default/menu.py:14
+#: bot/handlers/default/menu.py:55
 msgid "Выбери действие из меню 👇"
 msgstr ""
 
@@ -226,6 +226,10 @@ msgstr ""
 
 #: bot/handlers/default/language.py:32
 msgid "Выберите свой язык"
+msgstr ""
+
+#: bot/handlers/default/menu.py:19
+msgid "Клавиатура убрана. Вызвать его можно командой /menu"
 msgstr ""
 
 #: bot/handlers/default/reset.py:17

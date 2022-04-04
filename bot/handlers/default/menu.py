@@ -1,4 +1,5 @@
 from aiogram.types import Message
+from aiogram.types.reply_keyboard import ReplyKeyboardRemove
 
 from bot.handlers.default.donate import donate
 from bot.handlers.default.help import help
@@ -11,6 +12,11 @@ from loader import dp, bot, _
 @dp.message_handler(commands="menu")
 async def menu(message: Message, user):
     await message.answer(_("Выбери действие из меню 👇"), reply_markup=get_menu_keyboard_markup(user.is_admin))
+
+
+@dp.message_handler(commands="remove_menu")
+async def remove_menu(message: Message, user):
+    await message.answer(_("Клавиатура убрана. Вызвать ее можно командой /menu"), reply_markup=ReplyKeyboardRemove())
 
 
 @dp.message_handler(text="➕ Новое напоминание", state="*")
