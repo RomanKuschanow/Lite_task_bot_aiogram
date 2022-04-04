@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bot VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-04-04 18:45+0300\n"
+"POT-Creation-Date: 2022-04-04 18:49+0300\n"
 "PO-Revision-Date: 2022-03-26 19:00+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -67,14 +67,18 @@ msgid "Отобразить меню"
 msgstr "Show menu"
 
 #: bot/commands/default.py:16
+msgid "Скрыть меню"
+msgstr "Hide menu"
+
+#: bot/commands/default.py:17
 msgid "сменить язык"
 msgstr "change language"
 
-#: bot/commands/default.py:17
+#: bot/commands/default.py:18
 msgid "выбрать часовой пояс"
 msgstr "choose timezone"
 
-#: bot/commands/default.py:18
+#: bot/commands/default.py:19
 msgid "сброс текущего действия"
 msgstr "reset current action"
 
@@ -199,7 +203,8 @@ msgid ""
 " так же изменить название и/или время\n"
 "/donate — Пожертвовать разработчикам (минимум 1 доллар)\n"
 "/feedback — Обратная связь с разработчиками\n"
-"/menu — Отобразит меню если оно по какой-то причине пропало\n"
+"/menu — Отобразит меню\n"
+"/remove_menu — Скроет меню\n"
 "/lang — Позволяет сменить язык\n"
 "/tz — Выбрать часовой пояс\n"
 "/reset — Сбрасывает состояние бота. Полезно если при создании или "
@@ -208,21 +213,22 @@ msgid ""
 msgstr ""
 "/start - Start bot\n"
 "/help - Display this list\n"
-"/new_reminder - Create a new reminder. You must enter a name, select date"
-" and exact time of reminder\n"
-"/reminders_list - Displays a list of all reminders. Using the "
-"keyboardunder the message, you can filter them for a more convenient "
-"search, andalso change name and/or time\n"
+"/new_reminder - Create a new reminder. You must enter a name, "
+"select date and exact time of reminder\n"
+"/reminders_list - Displays a list of all reminders. Using the keyboard"
+"under the message, you can filter them for a more convenient search, and"
+"also change name and/or time\n"
 "/donate - Donate to developers (minimum $1)\n"
 "/feedback - Feedback from developers\n"
-"/menu - Display the menu if it is missing for some reason\n"
+"/menu - Display menu\n"
+"/remove_menu - Hides the menu\n"
 "/lang - Allows you to change the language\n"
 "/tz - Select timezone\n"
-"/reset - Resets the state of the bot. Useful if when creating or editing "
-"a reminder, the bot began to behave incorrectly\n"
+"/reset - Resets the state of the bot. Useful if when creating or "
+"editing a reminder, the bot began to behave incorrectly\n"
 "\n"
 
-#: bot/handlers/default/help.py:22
+#: bot/handlers/default/help.py:23
 msgid ""
 "\n"
 "Команды администраторов:\n"
@@ -240,7 +246,7 @@ msgstr ""
 "/send_private - Send a message to a user by his id\n"
 "/admin_menu - Call the admin keyboard"
 
-#: bot/handlers/default/help.py:29
+#: bot/handlers/default/help.py:30
 msgid ""
 "‼ Если ты еще не донатил, тебе не доступны или ограничены некоторые "
 "функции:\n"

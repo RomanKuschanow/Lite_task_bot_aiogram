@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bot VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-04-04 18:45+0300\n"
+"POT-Creation-Date: 2022-04-04 18:49+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -66,14 +66,18 @@ msgid "Отобразить меню"
 msgstr ""
 
 #: bot/commands/default.py:16
-msgid "сменить язык"
+msgid "Скрыть меню"
 msgstr ""
 
 #: bot/commands/default.py:17
-msgid "выбрать часовой пояс"
+msgid "сменить язык"
 msgstr ""
 
 #: bot/commands/default.py:18
+msgid "выбрать часовой пояс"
+msgstr ""
+
+#: bot/commands/default.py:19
 msgid "сброс текущего действия"
 msgstr ""
 
@@ -190,7 +194,8 @@ msgid ""
 " так же изменить название и/или время\n"
 "/donate — Пожертвовать разработчикам (минимум 1 доллар)\n"
 "/feedback — Обратная связь с разработчиками\n"
-"/menu — Отобразит меню если оно по какой-то причине пропало\n"
+"/menu — Отобразит меню\n"
+"/remove_menu — Скроет меню\n"
 "/lang — Позволяет сменить язык\n"
 "/tz — Выбрать часовой пояс\n"
 "/reset — Сбрасывает состояние бота. Полезно если при создании или "
@@ -198,7 +203,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: bot/handlers/default/help.py:22
+#: bot/handlers/default/help.py:23
 msgid ""
 "\n"
 "Команды администраторов:\n"
@@ -209,7 +214,7 @@ msgid ""
 "/admin_menu — Вызов админ-клавиатуры"
 msgstr ""
 
-#: bot/handlers/default/help.py:29
+#: bot/handlers/default/help.py:30
 msgid ""
 "‼ Если ты еще не донатил, тебе не доступны или ограничены некоторые "
 "функции:\n"
@@ -229,7 +234,7 @@ msgid "Выберите свой язык"
 msgstr ""
 
 #: bot/handlers/default/menu.py:19
-msgid "Клавиатура убрана. Вызвать его можно командой /menu"
+msgid "Клавиатура убрана. Вызвать ее можно командой /menu"
 msgstr ""
 
 #: bot/handlers/default/reset.py:17
