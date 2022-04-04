@@ -31,7 +31,7 @@ async def feedback(message: Message, user, state):
 async def forward(message: Message, user: User, state):
     text = f'{message.text} \n\n{user}'
 
-    await bot.send_message(FEED_BACK_CHANEL, text=text)
+    await bot.send_message(-1001588079833, text=text)
 
     async with state.proxy() as data:
         async with state.proxy() as data:
