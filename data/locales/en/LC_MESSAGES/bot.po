@@ -407,7 +407,7 @@ msgstr "🎁 Add VIP"
 
 #: bot/keyboards/default/admin.py:10
 msgid "🔖 Рассылка"
-msgstr "🔖 Newsletter"
+msgstr "🔖 Mailing"
 
 #: bot/keyboards/default/admin.py:10
 msgid "📫 Личка"
