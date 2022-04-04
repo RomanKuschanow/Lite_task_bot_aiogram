@@ -67,7 +67,7 @@ async def donate_invoice(message: Message, user: User, session, state):
 
 @dp.callback_query_handler(state='*', confirm_payment=True)
 async def _check_bill(callback_query: CallbackQuery, bill: Bill, session, user: User):
-    bill = await check_bill(session, bill, user)
+    bill = await check_bill(session, bill)
 
     if bill:
         await callback_query.message.delete()

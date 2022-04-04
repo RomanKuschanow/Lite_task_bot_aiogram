@@ -107,7 +107,7 @@ def generate_invoice_link(bill: Bill, user: User) -> str:
 
 
 @save_execute
-async def check_bill(session: AsyncSession, bill: Bill, user: User) -> bool:
+async def check_bill(session: AsyncSession, bill: Bill) -> bool:
     url = 'https://api.wayforpay.com/api'
 
     params = {
