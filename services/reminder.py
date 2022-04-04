@@ -47,7 +47,7 @@ async def get_all(session: AsyncSession) -> list[Reminder]:
     sql = select(Reminder)
     query = await session.execute(sql)
 
-    return [r for r, in query]
+    return
 
 
 @save_execute

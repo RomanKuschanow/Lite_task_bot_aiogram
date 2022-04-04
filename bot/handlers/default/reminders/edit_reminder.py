@@ -49,7 +49,7 @@ async def del_reminder(callback_query: CallbackQuery, callback_data: dict, sessi
 @dp.callback_query_handler(edit_callback.filter())
 @vip()
 async def edit_reminder(callback_query: CallbackQuery, callback_data: dict, state: FSMContext):
-    bot_message = await message.answer("⁠", reply_markup=ReplyKeyboardRemove())
+    bot_message = await callback_query.message.answer("⁠", reply_markup=ReplyKeyboardRemove())
     await bot.delete_message(message.chat.id, bot_message.message_id)
 
     await callback_query.answer()
