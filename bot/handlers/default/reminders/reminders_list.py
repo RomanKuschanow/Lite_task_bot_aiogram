@@ -11,6 +11,8 @@ from models import User
 from services.reminder import get_all_by_user_id, get_all_actual_by_user_id, get_all_old_by_user_id
 from utils.misc import rate_limit
 
+from data.config import BOT_NAME
+
 list_callback = CallbackData('reminders', 'list', 'curr_list', 'action', 'curr_page', 'column', 'filter')
 
 
@@ -83,7 +85,7 @@ async def search(callback_query: CallbackQuery, session: AsyncSession, user: Use
 async def get_list(function, is_edit, *parametrs) -> str:
     text = ""
 
-    deep_link = 'http://t.me/Lite_task_bot?start=edit_reminder_'
+    deep_link = f'http://t.me/{BOT_NAME}?start=edit_reminder_'
 
     reminders = list(await function(parametrs[0], parametrs[1]))
 
