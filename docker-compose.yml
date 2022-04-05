@@ -16,8 +16,8 @@ services:
     environment:
       ADMINS: ${ADMINS}
       BOT_TOKEN: ${BOT_TOKEN}
-      FEED_BACK_CHANEL: ${-1001588079833}
-      BOT_NAME: ${Lite_task_bot}
+      FEED_BACK_CHANEL: ${FEED_BACK_CHANEL}
+      BOT_NAME: ${BOT_NAME}
       RATE_LIMIT: ${RATE_LIMIT:-0.5}
 
       DATABASE_USER: postgres
