@@ -48,7 +48,7 @@ async def get_or_crate_settings(session: AsyncSession, user_id: int) -> Settings
     if settings:
         return settings
     else:
-        return create_user_settings(session, user_id)
+        return await create_user_settings(session, user_id)
 
 
 
