@@ -2,7 +2,7 @@ from aiogram.types import CallbackQuery
 
 from loader import dp, _, bot
 
-from bot.keyboards.default.menu import get_menu_keyboard_markup
+from bot.keyboards.default.set_menu import set_menu
 
 
 @dp.callback_query_handler(text='cancel', state='*')
@@ -20,5 +20,5 @@ async def bot_start(callback_query: CallbackQuery, state, user):
 
     await state.finish()
 
-    await callback_query.message.answer(text, reply_markup=get_menu_keyboard_markup(user.is_admin))
+    await callback_query.message.answer(text, reply_markup=set_menu(user))
     await callback_query.message.delete()

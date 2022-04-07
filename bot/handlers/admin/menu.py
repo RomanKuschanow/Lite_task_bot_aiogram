@@ -5,13 +5,19 @@ from bot.handlers.admin.change_user_status import change_status
 from bot.handlers.admin.send_all import _sender
 from bot.handlers.admin.send_private import _sender as private_sender
 from bot.handlers.default.menu import menu
-from bot.keyboards.default import get_admin_keyboard_markup
+from bot.keyboards.default.set_menu import set_menu
+from services.settings import update_settings
 from loader import dp, bot, _
 
 
 @dp.message_handler(commands="admin_menu", is_admin=True)
-async def admin_menu(message: Message, user):
-    await message.answer(_("Выбери действие из меню 👇"), reply_markup=get_admin_keyboard_markup())
+async def admin_menu(message: Message, user, settings, session):
+    settings.kb_enabled = True
+    settings.last_kb = "admin"
+
+    await update_settings(session, settings)
+
+    await message.answer(_("Выбери действие из меню 👇"), reply_markup=set_menu(user))
     await message.delete()
 
 
@@ -77,7 +83,12 @@ async def personal(message: Message, session, user, state):
 
 @dp.message_handler(text="🧾 Меню", state="*", is_admin=True)
 @dp.message_handler(text="🧾 Menu", state="*", is_admin=True)
-async def _menu(message: Message, state, user):
+async def _menu(message: Message, state, user, settings, session):
+    settings.kb_enabled = True
+    settings.last_kb = "main"
+
+    await update_settings(session, settings)
+
     async with state.proxy() as data:
         if 'message' in data:
             for mes in data['message']:
@@ -87,4 +98,4 @@ async def _menu(message: Message, state, user):
                     continue
 
     await state.finish()
-    await menu(message, user)
+    await menu(message, user, settings, session)

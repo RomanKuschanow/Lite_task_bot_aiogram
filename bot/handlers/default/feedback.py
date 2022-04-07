@@ -2,7 +2,7 @@ from aiogram.types import Message
 from aiogram.types.reply_keyboard import ReplyKeyboardRemove
 
 from bot.keyboards.inline import get_inline_states_markup
-from bot.keyboards.default.menu import get_menu_keyboard_markup
+from bot.keyboards.default.set_menu import set_menu
 from bot.states import Feedback
 from loader import dp, _, bot
 from models import User
@@ -41,6 +41,6 @@ async def forward(message: Message, user: User, state):
                 except:
                     continue
 
-    await message.answer(_("Спасибо. Мы получили твое сообщение"), reply_markup=get_menu_keyboard_markup(user.is_admin))
+    await message.answer(_("Спасибо. Мы получили твое сообщение"), reply_markup=set_menu(user))
 
     await state.finish()

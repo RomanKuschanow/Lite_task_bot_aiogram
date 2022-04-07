@@ -3,7 +3,7 @@ from aiogram.types import CallbackQuery, Message
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from bot.commands import set_user_commands, set_admin_commands
-from bot.keyboards.default.menu import get_menu_keyboard_markup
+from bot.keyboards.default.set_menu import set_menu
 from bot.keyboards.inline import get_language_inline_markup
 from loader import dp, _, i18n
 from models import User
@@ -23,7 +23,7 @@ async def change_language(callback_query: CallbackQuery, regexp: Regexp, session
         await set_user_commands(user.id, language)
 
     await callback_query.message.answer(_('Язык изменен\nНапиши /help чтобы узнать как я могу тебе помочь'),
-                                        reply_markup=get_menu_keyboard_markup(user.is_admin))
+                                        reply_markup=set_menu(user))
     await callback_query.message.delete()
 
 

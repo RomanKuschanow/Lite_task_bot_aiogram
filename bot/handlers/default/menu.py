@@ -5,19 +5,29 @@ from bot.handlers.default.donate import donate
 from bot.handlers.default.help import help
 from bot.handlers.default.reminders.new_reminder import new_reminder
 from bot.handlers.default.reminders.reminders_list import reminders_list
-from bot.keyboards.default import get_menu_keyboard_markup, get_admin_keyboard_markup
+from bot.keyboards.default.set_menu import set_menu
+from services.settings import update_settings
 from loader import dp, bot, _
 
 
 @dp.message_handler(commands="menu")
-async def menu(message: Message, user):
-    await message.answer(_("Выбери действие из меню 👇"), reply_markup=get_menu_keyboard_markup(user.is_admin))
+async def menu(message: Message, user, settings, session):
+    settings.kb_enabled = True
+    settings.last_kb = "main"
+
+    await update_settings(session, settings)
+
+    await message.answer(_("Выбери действие из меню 👇"), reply_markup=set_menu(user))
     await message.delete()
 
 
 @dp.message_handler(commands="remove_menu")
-async def remove_menu(message: Message, user):
-    await message.answer(_("Клавиатура убрана. Вызвать ее можно командой /menu"), reply_markup=ReplyKeyboardRemove())
+async def remove_menu(message: Message, user, settings, session):
+    settings.kb_enabled = False
+
+    await update_settings(session, settings)
+
+    await message.answer(_("Клавиатура убрана. Вызвать ее можно командой /menu"), reply_markup=set_menu(user))
     await message.delete()
 
 
@@ -53,8 +63,13 @@ async def _reminders_list(message: Message, session, user, state):
 
 @dp.message_handler(text="🛠 Админ-клавиатура", state="*")
 @dp.message_handler(text="🛠 Admin keyboard", state="*")
-async def _reminders_list(message: Message, state):
-    await message.answer(_("Выбери действие из меню 👇"), reply_markup=get_admin_keyboard_markup())
+async def _reminders_list(message: Message, state, user, settings, session):
+    settings.kb_enabled = True
+    settings.last_kb = "admin"
+
+    await update_settings(session, settings)
+
+    await message.answer(_("Выбери действие из меню 👇"), reply_markup=set_menu(user))
     async with state.proxy() as data:
         if 'message' in data:
             for mes in data['message']:

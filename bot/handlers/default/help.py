@@ -1,6 +1,6 @@
 from aiogram.types import Message
 
-from bot.keyboards.default.menu import get_menu_keyboard_markup
+from bot.keyboards.default.set_menu import set_menu
 from loader import dp, _
 
 
@@ -32,5 +32,5 @@ async def help(message: Message, user):
                  '❌ Редактирование (в меню редактирования доступна только кнопка удаления)\n'
                  '❌ Одновременно можно создать только 5 активных напоминаний') if not user.is_vip else ""))
 
-    await message.answer(text, reply_markup=get_menu_keyboard_markup(user.is_admin))
+    await message.answer(text, reply_markup=set_menu(user))
     await message.delete()

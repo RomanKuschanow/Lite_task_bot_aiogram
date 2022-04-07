@@ -22,6 +22,7 @@ class User(db):
 
     reminders = relationship('Reminder', back_populates='user')
     # tasks = relationship('Task', back_populates='user')
+    settings = relationship('Settings', back_populates='user', uselist=False)
 
     created_at = Column(DateTime, default=lambda: datetime.now(tz=None))
 

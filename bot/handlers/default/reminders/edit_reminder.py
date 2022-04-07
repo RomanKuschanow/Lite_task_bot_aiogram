@@ -9,11 +9,12 @@ from aiogram.types.reply_keyboard import ReplyKeyboardRemove
 
 from bot.filters import vip
 from bot.keyboards.inline import get_edit_reminders_inline_markup, get_inline_states_markup
-from bot.keyboards.default.menu import get_menu_keyboard_markup
+from bot.keyboards.default.set_menu import set_menu
 from bot.states.default.edit_reminder import EditReminder
 from loader import dp, _, bot
 from services.reminder import get_reminder, edit_text, edit_date, delete_reminder
 from .datepicker_settings import _get_datepicker_settings
+from bot.keyboards.default.set_menu import set_menu
 
 edit_callback = CallbackData('reminder', 'edit', 'param', 'id')
 delete_callback = CallbackData('reminder', 'delete', 'id')
@@ -43,7 +44,7 @@ async def del_reminder(callback_query: CallbackQuery, callback_data: dict, sessi
     await callback_query.answer()
 
     await delete_reminder(session, user.id, int(callback_data['id']))
-    await callback_query.message.answer(_("Напоминание удалено"), reply_markup=get_menu_keyboard_markup(user.is_admin))
+    await callback_query.message.answer(_("Напоминание удалено"), reply_markup=set_menu(user))
     await callback_query.message.delete()
 
 
@@ -107,7 +108,7 @@ async def get_reminder_text(message: Message, state: FSMContext, session, user):
             except:
                 continue
 
-    await message.answer(_("Напоминание отредактировано"), reply_markup=get_menu_keyboard_markup(user.is_admin))
+    await message.answer(_("Напоминание отредактировано"), reply_markup=set_menu(user))
 
     await state.finish()
 
@@ -185,7 +186,7 @@ async def get_reminder_date(message, session, user, state: FSMContext):
             except:
                 continue
 
-    await message.answer(_("Напоминание отредактировано"), reply_markup=get_menu_keyboard_markup(user.is_admin))
+    await message.answer(_("Напоминание отредактировано"), reply_markup=set_menu(user))
 
     await state.finish()
 

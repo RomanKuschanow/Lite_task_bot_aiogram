@@ -11,7 +11,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from bot.filters import vip
 from bot.handlers.default.reminders.reminders_list import get_list
 from bot.keyboards.inline import get_inline_states_markup, get_reminders_list_inline_markup
-from bot.keyboards.default.menu import get_menu_keyboard_markup
+from bot.keyboards.default.set_menu import set_menu
 from bot.states import SearchReminder
 from loader import dp, _, bot
 from models import User
@@ -108,7 +108,7 @@ async def get_reminder_text(message: Message, state: FSMContext, session, user):
             except:
                 continue
 
-    await message.answer(_("Напоминания отфильтрованы"), reply_markup=get_menu_keyboard_markup(user.is_admin))
+    await message.answer(_("Напоминания отфильтрованы"), reply_markup=set_menu(user))
 
     await state.finish()
 
@@ -195,6 +195,6 @@ async def get_reminder_date(message, session, user, state: FSMContext):
             except:
                 continue
 
-    await message.answer(_("Напоминания отфильтрованы"), reply_markup=get_menu_keyboard_markup(user.is_admin))
+    await message.answer(_("Напоминания отфильтрованы"), reply_markup=set_menu(user))
 
     await state.finish()

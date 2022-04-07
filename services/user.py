@@ -21,6 +21,10 @@ async def create_user(session: AsyncSession, user: tele_user) -> User:
     session.add(new_user)
     await save_commit(session)
 
+    from .settings import create_user_settings
+
+    await create_user_settings(session, new_user.id)
+
     logger.info(f'New user {new_user}')
 
     return new_user

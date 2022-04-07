@@ -16,7 +16,10 @@ async def on_startup(dispatcher):
 
     for admin_id in config.ADMINS:
         await bot.send_message(admin_id, 'Бот успешно запущен')
-        await set_admin_commands(admin_id, await get_user_language(session, admin_id))
+        try:
+            await set_admin_commands(admin_id, await get_user_language(session, admin_id))
+        except:
+            continue
 
     from scheduler import t
     t.start()

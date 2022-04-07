@@ -3,7 +3,7 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.types.reply_keyboard import ReplyKeyboardRemove
 
 from bot.keyboards.inline import get_inline_tz_markup
-from bot.keyboards.default.menu import get_menu_keyboard_markup
+from bot.keyboards.default.set_menu import set_menu
 from services.user import update_time_zone
 from bot.states import TimeZone
 from loader import dp, _
@@ -80,5 +80,5 @@ async def city(callback_query: CallbackQuery, session, user, state):
 
     await state.finish()
 
-    await callback_query.message.answer(text, reply_markup=get_menu_keyboard_markup(user.is_admin))
+    await callback_query.message.answer(text, reply_markup=set_menu(user))
 

@@ -10,7 +10,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from bot.filters import vip
 from bot.keyboards.inline import get_inline_states_markup
-from bot.keyboards.default.menu import get_menu_keyboard_markup
+from bot.keyboards.default.set_menu import set_menu
 from bot.states import NewReminder
 from loader import dp, _, bot
 from models import User
@@ -138,7 +138,7 @@ async def get_reminder_date(message, session, user, state: FSMContext):
                                                                                         minutes=match[2])
         data['message'].append(message.message_id)
 
-    await message.answer(text, reply_markup=get_menu_keyboard_markup(user.is_admin))
+    await message.answer(text, reply_markup=set_menu(user))
 
     async with state.proxy() as data:
         for mes in data['message']:
@@ -184,4 +184,4 @@ async def new_reminder_via_regexp(message: Message, session: AsyncSession, user:
 
     await create_reminder(session, user.id, reminder_text, date)
 
-    await message.reply(text, reply_markup=get_menu_keyboard_markup(user.is_admin))
+    await message.reply(text, reply_markup=set_menu(user))

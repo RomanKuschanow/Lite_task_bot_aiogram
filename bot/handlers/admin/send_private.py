@@ -1,7 +1,7 @@
 from aiogram.types import Message, CallbackQuery, ContentTypes
 from aiogram.types.reply_keyboard import ReplyKeyboardRemove
 from bot.keyboards.inline import get_inline_states_markup
-from bot.keyboards.default.menu import get_menu_keyboard_markup
+from bot.keyboards.default.set_menu import set_menu
 
 from loader import dp, _, bot
 from bot.states.admins import AddAdmin
@@ -86,7 +86,7 @@ async def get_text(message: Message, state, user):
                 except:
                     continue
 
-        await message.answer(_("Сообщение доставлено"), reply_markup=get_menu_keyboard_markup(user.is_admin))
+        await message.answer(_("Сообщение доставлено"), reply_markup=set_menu(user))
 
     await state.finish()
 

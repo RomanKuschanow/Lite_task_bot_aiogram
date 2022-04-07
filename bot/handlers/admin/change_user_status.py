@@ -1,7 +1,7 @@
 from aiogram.types import Message
 from aiogram.types.reply_keyboard import ReplyKeyboardRemove
 
-from bot.keyboards.default.menu import get_menu_keyboard_markup
+from bot.keyboards.default.set_menu import set_menu
 from bot.keyboards.inline import get_inline_states_markup
 from bot.states.admins import ChangeStatus
 from loader import dp, _, bot
@@ -47,6 +47,6 @@ async def get_id(message: Message, session, state, user):
                 continue
 
         await message.answer(_("Статус изменен, id: {id}").format(id=message.text),
-                             reply_markup=get_menu_keyboard_markup(user.is_admin))
+                             reply_markup=set_menu(user))
 
     await state.finish()
