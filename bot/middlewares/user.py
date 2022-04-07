@@ -6,7 +6,7 @@ from aiogram.types import Message, CallbackQuery, InlineQuery
 
 from loader import _
 from services.user import get_or_create_user
-from services.settings import get_settings
+from services.settings import get_or_crate_settings
 
 
 class UsersMiddleware(BaseMiddleware):
@@ -19,7 +19,7 @@ class UsersMiddleware(BaseMiddleware):
 
         session = data['session'] = message.bot.get('session')
         user = data['user'] = await get_or_create_user(session, from_user)
-        settings = data['settings'] = await get_settings(session, user.id)
+        settings = data['settings'] = await get_or_crate_settings(session, user.id)
 
         if user.is_banned:
             raise CancelHandler()
@@ -37,7 +37,7 @@ class UsersMiddleware(BaseMiddleware):
 
         session = data['session'] = callback_query.bot.get('session')
         user = data['user'] = await get_or_create_user(session, from_user)
-        settings = data['settings'] = await get_settings(session, user.id)
+        settings = data['settings'] = await get_or_crate_settings(session, user.id)
 
         if user.is_banned:
             raise CancelHandler()
@@ -53,7 +53,7 @@ class UsersMiddleware(BaseMiddleware):
 
         session = data['session'] = inline_query.bot.get('session')
         user = data['user'] = await get_or_create_user(session, from_user)
-        settings = data['settings'] = await get_settings(session, user.id)
+        settings = data['settings'] = await get_or_crate_settings(session, user.id)
 
         if user.is_banned:
             raise CancelHandler()
