@@ -12,7 +12,7 @@ from utils.misc.logging import logger
 
 
 @save_execute
-async def create_user_settings(session: AsyncSession, user_id) -> Settings:
+async def create_user_settings(session: AsyncSession, user_id: int) -> Settings:
     settings = Settings(user_id=user_id)
 
     session.add(settings)
@@ -39,4 +39,16 @@ async def update_settings(session: AsyncSession, settings: Settings):
     updated_settings.last_kb = settings.last_kb
 
     await save_commit(session)
+
+
+@save_execute
+async def get_or_crate_settings(session: AsyncSession, user_id: int) -> Settings:
+    settings = await get_settings(session, user_id)
+
+    if settings:
+        return settings
+    else:
+        return create_user_settings(session, user_id)
+
+
 
