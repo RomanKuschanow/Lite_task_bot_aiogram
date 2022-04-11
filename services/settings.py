@@ -23,7 +23,7 @@ async def create_user_settings(session: AsyncSession, user_id: int) -> Settings:
 
 @save_execute
 async def get_settings(session: AsyncSession, user_id: int) -> Settings:
-    sql = select(Settings).where(user_id == user_id)
+    sql = select(Settings).where(Settings.user_id == user_id)
     query = await session.execute(sql)
     
     settings = query.scalar_one_or_none()
