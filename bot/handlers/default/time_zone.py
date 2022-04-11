@@ -6,7 +6,7 @@ from bot.keyboards.inline import get_inline_tz_markup
 from bot.keyboards.default.set_menu import set_menu
 from services.user import update_time_zone
 from bot.states import TimeZone
-from loader import dp, _
+from loader import dp, _, bot
 
 
 @dp.message_handler(commands='tz')
