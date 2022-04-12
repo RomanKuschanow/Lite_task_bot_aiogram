@@ -1,4 +1,3 @@
-import logging
 import re
 from datetime import datetime
 
@@ -9,8 +8,9 @@ from aiogram_datepicker import Datepicker
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from bot.filters import vip
-from bot.keyboards.inline import get_inline_states_markup
 from bot.keyboards.default.set_menu import set_menu
+from bot.keyboards.inline import get_inline_states_markup
+from bot.keyboards.inline import get_reminders_repeat_question_inline_markup
 from bot.states import NewReminder
 from loader import dp, _, bot
 from models import User
@@ -122,8 +122,9 @@ async def get_reminder_date(message, session, user, state: FSMContext):
 
     async with state.proxy() as data:
         try:
-            await create_reminder(session, user.id, data['text'],
-                                  datetime.strptime(f'{data["date"]} {match[1]}:{match[2]}', '%d.%m.%Y %H:%M'))
+            reminder = await create_reminder(session, user.id, data['text'],
+                                             datetime.strptime(f'{data["date"]} {match[1]}:{match[2]}',
+                                                               '%d.%m.%Y %H:%M'))
         except:
             text = _('Ты ввел несуществующее время')
             bot_message = await message.answer(text, reply_markup=get_inline_states_markup())
@@ -139,6 +140,8 @@ async def get_reminder_date(message, session, user, state: FSMContext):
         data['message'].append(message.message_id)
 
     await message.answer(text, reply_markup=set_menu(user))
+    await message.answer(_("Задать повторение для напоминания"),
+                         reply_markup=get_reminders_repeat_question_inline_markup(reminder.id))
 
     async with state.proxy() as data:
         for mes in data['message']:

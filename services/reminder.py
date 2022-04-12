@@ -18,7 +18,7 @@ async def create_reminder(session: AsyncSession, user_id: int, text: str, date: 
 
     server_date = datetime(d.year, d.month, d.day, d.hour, d.minute)
 
-    new_reminder = Reminder(user_id=user_id, text=text, date=server_date)
+    new_reminder = Reminder(user_id=user_id, text=text, date=server_date, next_date=server_date)
 
     session.add(new_reminder)
     await save_commit(session)
@@ -47,12 +47,12 @@ async def get_all(session: AsyncSession) -> list[Reminder]:
     sql = select(Reminder)
     query = await session.execute(sql)
 
-    return
+    return [r for r, in query]
 
 
 @save_execute
 async def get_all_actual(session: AsyncSession) -> list[Reminder]:
-    sql = select(Reminder).where(Reminder.date < datetime.now(), Reminder.is_reminded == False,
+    sql = select(Reminder).where(Reminder.next_date < datetime.now(), Reminder.is_reminded == False,
                                  Reminder.is_deleted == False)
     query = await session.execute(sql)
 
@@ -62,7 +62,7 @@ async def get_all_actual(session: AsyncSession) -> list[Reminder]:
 @save_execute
 async def get_all_by_user_id(session: AsyncSession, user_id: int, *args) -> list[Reminder]:
     sql = select(Reminder).where(Reminder.user_id == user_id, Reminder.is_deleted == False).order_by(
-        Reminder.date.asc())
+        Reminder.next_date.asc())
     query = await session.execute(sql)
 
     return [r for r, in query]
@@ -71,7 +71,7 @@ async def get_all_by_user_id(session: AsyncSession, user_id: int, *args) -> list
 @save_execute
 async def get_all_old_by_user_id(session: AsyncSession, user_id: int, *args) -> list[Reminder]:
     sql = select(Reminder).where(Reminder.is_reminded == True, Reminder.user_id == user_id,
-                                 Reminder.is_deleted == False).order_by(Reminder.date.asc())
+                                 Reminder.is_deleted == False).order_by(Reminder.next_date.asc())
     query = await session.execute(sql)
 
     return [r for r, in query]
@@ -80,7 +80,7 @@ async def get_all_old_by_user_id(session: AsyncSession, user_id: int, *args) -> 
 @save_execute
 async def get_all_actual_by_user_id(session: AsyncSession, user_id: int, *args) -> list[Reminder]:
     sql = select(Reminder).where(Reminder.is_reminded == False, Reminder.user_id == user_id,
-                                 Reminder.is_deleted == False).order_by(Reminder.date.asc())
+                                 Reminder.is_deleted == False).order_by(Reminder.next_date.asc())
     query = await session.execute(sql)
 
     return [r for r, in query]
@@ -105,14 +105,36 @@ async def edit_text(session: AsyncSession, id: int, text: str):
 
 
 @save_execute
-async def edit_date(session: AsyncSession, id: int, user_id, date: datetime):
-    localize_date = pytz.timezone(await get_user_time_zone(session, user_id)).localize(date)
+async def edit_date(session: AsyncSession, id: int, user_id: int, date: datetime, use_tz: bool = True):
+    if use_tz:
+        localize_date = pytz.timezone(await get_user_time_zone(session, user_id)).localize(date)
 
-    d = localize_date.astimezone(pytz.UTC)
+        d = localize_date.astimezone(pytz.UTC)
 
-    server_date = datetime(d.year, d.month, d.day, d.hour, d.minute)
+        server_date = datetime(d.year, d.month, d.day, d.hour, d.minute)
+    else:
+        server_date = date
 
-    sql = update(Reminder).where(Reminder.id == id).values(date=server_date)
+    sql = update(Reminder).where(Reminder.id == id).values(next_date=server_date)
+
+    await session.execute(sql)
+
+    await save_commit(session)
+
+
+@save_execute
+async def edit_repeating(session: AsyncSession, id: int, user_id: int, is_repeat: bool = True):
+    sql = update(Reminder).where(Reminder.id == id, Reminder.user_id == user_id).values(is_repeat=is_repeat,
+                                                                                        is_reminded=False)
+
+    await session.execute(sql)
+
+    await save_commit(session)
+
+
+@save_execute
+async def edit_repeat_settings(session: AsyncSession, id: int, user_id: int, **kwargs):
+    sql = update(Reminder).where(Reminder.id == id, Reminder.user_id == user_id).values(kwargs)
 
     await session.execute(sql)
 

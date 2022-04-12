@@ -10,18 +10,18 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from bot.filters import vip
 from bot.handlers.default.reminders.reminders_list import get_list
-from bot.keyboards.inline import get_inline_states_markup, get_reminders_list_inline_markup
 from bot.keyboards.default.set_menu import set_menu
+from bot.keyboards.inline import get_inline_states_markup, get_reminders_list_inline_markup
 from bot.states import SearchReminder
 from loader import dp, _, bot
 from models import User
 from services.reminder import get_all_by_user_id, get_all_actual_by_user_id, get_all_old_by_user_id
 from .datepicker_settings import _get_datepicker_settings
 
-search_callback = CallbackData('reminder', 'search', 'filter', "", "")
+search_callback = CallbackData('reminder', 'search', 'filter')
 
 
-@dp.callback_query_handler(search_callback.filter())
+@dp.callback_query_handler(search_callback.filter(), text_startswith="reminder:search")
 @vip()
 async def action(callback_query: CallbackQuery, callback_data: dict, session: AsyncSession, user: User, state):
     bot_message = await callback_query.message.answer("⁠", reply_markup=ReplyKeyboardRemove())
@@ -30,7 +30,7 @@ async def action(callback_query: CallbackQuery, callback_data: dict, session: As
     await callback_query.answer()
 
     keyboard = callback_query.message.reply_markup.inline_keyboard
-    match = re.search('reminders:.+:(.+):(.+):.+:.*', keyboard[-1][0]['callback_data'])
+    match = re.search('reminders:.+:(.+):(.+):(.+):.+:.*', keyboard[-1][0]['callback_data'])
 
     if callback_data['filter'] == 'text':
         text = _('Отправь мне текст для поиска')
@@ -41,6 +41,7 @@ async def action(callback_query: CallbackQuery, callback_data: dict, session: As
         async with state.proxy() as data:
             data['list'] = match[1]
             data['mode'] = match[2]
+            data['repeat_filter'] = match[3]
             data['message'] = list()
             data['message'].append(bot_message.message_id)
             data['main_message'] = callback_query.message.message_id
@@ -56,6 +57,7 @@ async def action(callback_query: CallbackQuery, callback_data: dict, session: As
         async with state.proxy() as data:
             data['list'] = match[1]
             data['mode'] = match[2]
+            data['repeat_filter'] = match[3]
             data['message'] = list()
             data['message'].append(bot_message.message_id)
             data['main_message'] = callback_query.message.message_id
@@ -69,6 +71,7 @@ async def action(callback_query: CallbackQuery, callback_data: dict, session: As
         async with state.proxy() as data:
             data['list'] = match[1]
             data['mode'] = match[2]
+            data['repeat_filter'] = match[3]
             data['message'] = list()
             data['message'].append(bot_message.message_id)
             data['main_message'] = callback_query.message.message_id
@@ -91,13 +94,14 @@ async def get_reminder_text(message: Message, state: FSMContext, session, user):
         function_list = {'all': get_all_by_user_id, 'old': get_all_old_by_user_id, 'actual': get_all_actual_by_user_id}
 
         text, max_page = await get_list(function_list[data['list']], data['mode'] == 'edit', session, user.id, 0,
-                                        column, _filter)
+                                        column, _filter, data['repeat_filter'])
 
         await bot.edit_message_text(chat_id=user.id,
                                     message_id=data['main_message'],
                                     text=text,
                                     reply_markup=get_reminders_list_inline_markup(data['list'], data['mode'] == 'edit',
                                                                                   max_page, max_page,
+                                                                                  data['repeat_filter'],
                                                                                   f'{column}:{_filter}'))
 
         data['message'].append(message.message_id)
@@ -132,13 +136,14 @@ async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, 
         function_list = {'all': get_all_by_user_id, 'old': get_all_old_by_user_id, 'actual': get_all_actual_by_user_id}
 
         text, max_page = await get_list(function_list[data['list']], data['mode'] == 'edit', session, user.id, 0,
-                                        column, _filter)
+                                        column, _filter, data['repeat_filter'])
 
         await bot.edit_message_text(chat_id=user.id,
                                     message_id=data['main_message'],
                                     text=text,
                                     reply_markup=get_reminders_list_inline_markup(data['list'], data['mode'] == 'edit',
                                                                                   max_page, max_page,
+                                                                                  data['repeat_filter'],
                                                                                   f'{column}:{_filter}'))
 
         await bot.delete_message(callback_query.message.chat.id, data['message'][0])
@@ -178,14 +183,16 @@ async def get_reminder_date(message, session, user, state: FSMContext):
                          'actual': get_all_actual_by_user_id}
 
         text, max_page = await get_list(function_list[data['list']], data['mode'] == 'edit', session, user.id, 0,
-                                        column, _filter)
+                                        column, _filter, data['repeat_filter'])
 
         await bot.edit_message_text(chat_id=user.id,
                                     message_id=data['main_message'],
                                     text=text,
                                     reply_markup=get_reminders_list_inline_markup(data['list'],
                                                                                   data['mode'] == 'edit', max_page,
-                                                                                  max_page, f'{column}:{_filter}'))
+                                                                                  max_page,
+                                                                                  data['repeat_filter'],
+                                                                                  f'{column}:{_filter}'))
 
         data['message'].append(message.message_id)
 

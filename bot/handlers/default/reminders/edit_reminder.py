@@ -27,7 +27,7 @@ async def edit_reminder_menu(message: Message, state: FSMContext, session, user)
     reminder = await get_reminder(session, int(id), user.id)
 
     if reminder:
-        await message.answer(f'{"✅" if reminder.is_reminded else "❌"} {reminder}',
+        await message.answer(f'{reminder}',
                              reply_markup=get_edit_reminders_inline_markup(id))
         await message.delete()
 
@@ -39,7 +39,7 @@ async def edit_reminder_menu(message: Message, state: FSMContext, session, user)
 #     await callback_query.message.delete()
 
 
-@dp.callback_query_handler(delete_callback.filter())
+@dp.callback_query_handler(delete_callback.filter(), text_startswith="reminder:delete")
 async def del_reminder(callback_query: CallbackQuery, callback_data: dict, session, user):
     await callback_query.answer()
 
@@ -48,7 +48,7 @@ async def del_reminder(callback_query: CallbackQuery, callback_data: dict, sessi
     await callback_query.message.delete()
 
 
-@dp.callback_query_handler(edit_callback.filter())
+@dp.callback_query_handler(edit_callback.filter(), text_startswith="reminder:edit")
 @vip()
 async def edit_reminder(callback_query: CallbackQuery, callback_data: dict, state: FSMContext):
     bot_message = await callback_query.message.answer("⁠", reply_markup=ReplyKeyboardRemove())

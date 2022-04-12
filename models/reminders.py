@@ -17,11 +17,18 @@ class Reminder(db):
 
     date = Column(DateTime, default=now().add(minutes=30))
 
+    is_repeat = Column(Boolean, default=False)
+    repeat_count = Column(Integer, default=-1)
+    curr_repeat = Column(Integer, default=1)
+    repeat_until = Column(DateTime, nullable=True)
+    repeat_range = Column(String, default='day')
+    next_date = Column(DateTime, default=now().add(minutes=30))
+
     is_reminded = Column(Boolean, default=False)
     is_deleted = Column(Boolean, default=False)
 
     def __repr__(self) -> str:
-        server_date = pytz.timezone('UTC').localize(self.date)
+        server_date = pytz.timezone('UTC').localize(self.next_date)
 
         date = server_date.astimezone(pytz.timezone(self.user.time_zone))
-        return f'{self.text}: {date.strftime("%d.%m.%Y %H:%M")}'
+        return f'{"✅" if self.is_reminded else "❌"}{"🔁" if self.is_repeat else ""} {self.text}: {date.strftime("%d.%m.%Y %H:%M")}'

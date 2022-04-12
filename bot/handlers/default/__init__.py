@@ -1,5 +1,6 @@
 from .reset import dp
 from .cancel import dp
+from .done import dp
 from .menu import dp
 from .reminders import dp
 from .start import dp
