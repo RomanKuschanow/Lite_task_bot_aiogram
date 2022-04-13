@@ -5,7 +5,7 @@ from models.base import create_async_database
 from utils.misc.logging import logger
 from bot.commands import set_default_commands, set_admin_commands
 from services.user import get_user_language
-from services.reminder import get_all
+from services.reminder import get_all, edit_freely
 
 
 async def on_startup(dispatcher):
@@ -25,11 +25,11 @@ async def on_startup(dispatcher):
     reminders = await get_all(session)
 
     for reminder in reminders:
-        reminder.is_repeat = False
-        reminder.next_date = reminder.date
-        reminder.repeat_count = -1
-        reminder.curr_repeat = 1
-        reminder.repeat_range = 'day'
+        await edit_freely(session, reminder.id, reminder.user_id,
+                          is_repeat=False,
+                          repeat_count = -1,
+                          curr_repeat = 1,
+                          repeat_range = 'day')
 
     from scheduler import t
     t.start()

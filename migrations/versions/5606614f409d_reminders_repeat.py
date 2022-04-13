@@ -23,7 +23,6 @@ def upgrade():
     op.add_column('reminders', sa.Column('curr_repeat', sa.Integer(), nullable=True))
     op.add_column('reminders', sa.Column('repeat_until', sa.DateTime(), nullable=True))
     op.add_column('reminders', sa.Column('repeat_range', sa.String(), nullable=True))
-    op.add_column('reminders', sa.Column('next_date', sa.DateTime(), nullable=True))
     # ### end Alembic commands ###
 
 

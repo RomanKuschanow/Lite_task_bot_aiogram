@@ -7,7 +7,7 @@ from pendulum import datetime as date_p
 
 from data.config import BOT_TOKEN
 from models.base import create_async_database
-from services.reminder import get_all_actual, update_is_reminded, edit_date, edit_repeat_settings
+from services.reminder import get_all_actual, update_is_reminded, edit_date, edit_freely
 from services.user import get_all_user_id
 
 bot = telebot.TeleBot(BOT_TOKEN)
@@ -24,9 +24,9 @@ async def reminders():
                 if (reminder.repeat_count and reminder.repeat_count == reminder.curr_repeat):
                     await update_is_reminded(session, reminder.id, True)
                 else:
-                    date = date_p(reminder.next_date.year, reminder.next_date.month, reminder.next_date.day,
-                                  reminder.next_date.hour,
-                                  reminder.next_date.minute, tz=None)
+                    date = date_p(reminder.date.year, reminder.date.month, reminder.date.day,
+                                  reminder.date.hour,
+                                  reminder.date.minute, tz=None)
 
                     if reminder.repeat_range == 'day':
                         date = date.add(days=1)
@@ -46,7 +46,7 @@ async def reminders():
                     else:
                         await edit_date(session, reminder.id, reminder.user_id,
                                         datetime(date.year, date.month, date.day, date.hour, date.minute), False)
-                        await edit_repeat_settings(session, reminder.id, reminder.user_id,
+                        await edit_freely(session, reminder.id, reminder.user_id,
                                                    curr_repeat=reminder.curr_repeat + 1)
             else:
                 await update_is_reminded(session, reminder.id, True)

@@ -10,7 +10,7 @@ from bot.keyboards.inline import get_reminders_repeat_inline_markup, get_num_inl
     get_edit_reminders_inline_markup
 from bot.states.default import EditRepeat
 from loader import dp, bot, _
-from services.reminder import get_reminder, edit_repeating, edit_repeat_settings
+from services.reminder import get_reminder, edit_repeating, edit_freely
 from utils.misc import rate_limit
 from .datepicker_settings import _get_datepicker_settings
 
@@ -92,7 +92,7 @@ async def get_count_callback(callback_query: CallbackQuery, callback_data, state
     await callback_query.answer()
 
     async with state.proxy() as data:
-        await edit_repeat_settings(session, data['id'], user.id, repeat_count=int(callback_data['number']),
+        await edit_freely(session, data['id'], user.id, repeat_count=int(callback_data['number']),
                                    repeat_until=None)
 
         reminder = await get_reminder(session, int(data['id']))
@@ -115,7 +115,7 @@ async def get_count_message(message: Message, state, session, user):
         return
 
     async with state.proxy() as data:
-        await edit_repeat_settings(session, data['id'], user.id, repeat_count=int(num), repeat_until=None)
+        await edit_freely(session, data['id'], user.id, repeat_count=int(num), repeat_until=None)
 
         reminder = await get_reminder(session, int(data['id']))
 
@@ -143,7 +143,7 @@ async def get_until_date(callback_query: CallbackQuery, callback_data: dict, ses
     date = await datepicker.process(callback_query, callback_data)
     if date:
         async with state.proxy() as data:
-            await edit_repeat_settings(session, data['id'], user.id, repeat_count=None,
+            await edit_freely(session, data['id'], user.id, repeat_count=None,
                                        repeat_until=datetime(date.year, date.month, date.day).add(days=1))
             reminder = await get_reminder(session, int(data['id']))
 
@@ -163,7 +163,7 @@ async def get_range(callback_query: CallbackQuery, callback_data, session, user,
     await callback_query.answer()
 
     async with state.proxy() as data:
-        await edit_repeat_settings(session, data['id'], user.id, repeat_range=callback_data['name'])
+        await edit_freely(session, data['id'], user.id, repeat_range=callback_data['name'])
 
         reminder = await get_reminder(session, int(data['id']))
 

@@ -19,7 +19,7 @@ async def create_reminder(session: AsyncSession, user_id: int, text: str, date: 
 
     server_date = datetime(d.year, d.month, d.day, d.hour, d.minute)
 
-    new_reminder = Reminder(user_id=user_id, text=text, date=server_date, next_date=server_date)
+    new_reminder = Reminder(user_id=user_id, text=text, date=server_date)
 
     session.add(new_reminder)
     await save_commit(session)
@@ -53,7 +53,7 @@ async def get_all(session: AsyncSession) -> list[Reminder]:
 
 @save_execute
 async def get_all_actual(session: AsyncSession) -> list[Reminder]:
-    sql = select(Reminder).where(Reminder.next_date < datetime.now(), Reminder.is_reminded == False,
+    sql = select(Reminder).where(Reminder.date < datetime.now(), Reminder.is_reminded == False,
                                  Reminder.is_deleted == False)
     query = await session.execute(sql)
 
@@ -63,7 +63,7 @@ async def get_all_actual(session: AsyncSession) -> list[Reminder]:
 @save_execute
 async def get_all_by_user_id(session: AsyncSession, user_id: int, *args) -> list[Reminder]:
     sql = select(Reminder).where(Reminder.user_id == user_id, Reminder.is_deleted == False).order_by(
-        Reminder.next_date.asc())
+        Reminder.date.asc())
     query = await session.execute(sql)
 
     return [r for r, in query]
@@ -72,7 +72,7 @@ async def get_all_by_user_id(session: AsyncSession, user_id: int, *args) -> list
 @save_execute
 async def get_all_old_by_user_id(session: AsyncSession, user_id: int, *args) -> list[Reminder]:
     sql = select(Reminder).where(Reminder.is_reminded == True, Reminder.user_id == user_id,
-                                 Reminder.is_deleted == False).order_by(Reminder.next_date.asc())
+                                 Reminder.is_deleted == False).order_by(Reminder.date.asc())
     query = await session.execute(sql)
 
     return [r for r, in query]
@@ -81,7 +81,7 @@ async def get_all_old_by_user_id(session: AsyncSession, user_id: int, *args) -> 
 @save_execute
 async def get_all_actual_by_user_id(session: AsyncSession, user_id: int, *args) -> list[Reminder]:
     sql = select(Reminder).where(Reminder.is_reminded == False, Reminder.user_id == user_id,
-                                 Reminder.is_deleted == False).order_by(Reminder.next_date.asc())
+                                 Reminder.is_deleted == False).order_by(Reminder.date.asc())
     query = await session.execute(sql)
 
     return [r for r, in query]
@@ -116,7 +116,7 @@ async def edit_date(session: AsyncSession, id: int, user_id: int, date: datetime
     else:
         server_date = date
 
-    sql = update(Reminder).where(Reminder.id == id).values(next_date=server_date)
+    sql = update(Reminder).where(Reminder.id == id).values(date=server_date, is_reminded=date > datetime.now())
 
     await session.execute(sql)
 
@@ -128,9 +128,9 @@ async def edit_repeating(session: AsyncSession, id: int, user_id: int, is_repeat
     reminder = await get_reminder(session, id, user_id)
 
     if is_repeat:
-        date = date_p(reminder.next_date.year, reminder.next_date.month, reminder.next_date.day,
-                      reminder.next_date.hour,
-                      reminder.next_date.minute, tz=None)
+        date = date_p(reminder.date.year, reminder.date.month, reminder.date.day,
+                      reminder.date.hour,
+                      reminder.date.minute, tz=None)
 
         while date < datetime.now():
 
@@ -152,7 +152,7 @@ async def edit_repeating(session: AsyncSession, id: int, user_id: int, is_repeat
 
     sql = update(Reminder).where(Reminder.id == id, Reminder.user_id == user_id).values(is_repeat=is_repeat,
                                                                                         is_reminded=is_remindet,
-                                                                                        next_date=datetime(date.year,
+                                                                                        date=datetime(date.year,
                                                                                                            date.month,
                                                                                                            date.day,
                                                                                                            date.hour,
@@ -164,7 +164,7 @@ async def edit_repeating(session: AsyncSession, id: int, user_id: int, is_repeat
 
 
 @save_execute
-async def edit_repeat_settings(session: AsyncSession, id: int, user_id: int, **kwargs):
+async def edit_freely(session: AsyncSession, id: int, user_id: int, **kwargs):
     if "repeat_until" in kwargs:
         if kwargs['repeat_until']:
             date = kwargs['repeat_until']
