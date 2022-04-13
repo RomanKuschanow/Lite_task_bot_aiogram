@@ -5,6 +5,7 @@ from models.base import create_async_database
 from utils.misc.logging import logger
 from bot.commands import set_default_commands, set_admin_commands
 from services.user import get_user_language
+from services.reminder import get_all
 
 
 async def on_startup(dispatcher):
@@ -20,6 +21,15 @@ async def on_startup(dispatcher):
             await set_admin_commands(admin_id, await get_user_language(session, admin_id))
         except:
             continue
+
+    reminders = await get_all(session)
+
+    for reminder in reminders:
+        reminder.is_repeat = False
+        reminder.next_date = reminder.date
+        reminder.repeat_count = -1
+        reminder.curr_repeat = 1
+        reminder.repeat_range = 'day'
 
     from scheduler import t
     t.start()
