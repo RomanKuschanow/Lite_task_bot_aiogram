@@ -1,6 +1,7 @@
 from datetime import datetime
 
 import pytz
+from pendulum import datetime as date_p, now
 from sqlalchemy import select, update, delete
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -124,8 +125,38 @@ async def edit_date(session: AsyncSession, id: int, user_id: int, date: datetime
 
 @save_execute
 async def edit_repeating(session: AsyncSession, id: int, user_id: int, is_repeat: bool = True):
+    reminder = await get_reminder(session, id, user_id)
+
+    if is_repeat:
+        date = date_p(reminder.next_date.year, reminder.next_date.month, reminder.next_date.day,
+                      reminder.next_date.hour,
+                      reminder.next_date.minute, tz=None)
+
+        while date < datetime.now():
+
+            if reminder.repeat_range == 'day':
+                date = date.add(days=1)
+
+            if reminder.repeat_range == 'week':
+                date = date.add(weeks=1)
+
+            if reminder.repeat_range == 'month':
+                date = date.add(months=1)
+
+            if reminder.repeat_range == 'year':
+                date = date.add(years=1)
+    else:
+        date = reminder.date
+
+    is_remindet = False if is_repeat else (True if reminder.date < datetime.now() else False)
+
     sql = update(Reminder).where(Reminder.id == id, Reminder.user_id == user_id).values(is_repeat=is_repeat,
-                                                                                        is_reminded=False)
+                                                                                        is_reminded=is_remindet,
+                                                                                        next_date=datetime(date.year,
+                                                                                                           date.month,
+                                                                                                           date.day,
+                                                                                                           date.hour,
+                                                                                                           date.minute))
 
     await session.execute(sql)
 
@@ -134,6 +165,17 @@ async def edit_repeating(session: AsyncSession, id: int, user_id: int, is_repeat
 
 @save_execute
 async def edit_repeat_settings(session: AsyncSession, id: int, user_id: int, **kwargs):
+    if "repeat_until" in kwargs:
+        if kwargs['repeat_until']:
+            date = kwargs['repeat_until']
+            naive = datetime(date.year, date.month, date.day, date.hour, date.minute)
+
+            localize_date = pytz.timezone(await get_user_time_zone(session, user_id)).localize(naive)
+
+            d = localize_date.astimezone(pytz.UTC)
+
+            kwargs['repeat_until'] = datetime(d.year, d.month, d.day, d.hour, d.minute)
+
     sql = update(Reminder).where(Reminder.id == id, Reminder.user_id == user_id).values(kwargs)
 
     await session.execute(sql)

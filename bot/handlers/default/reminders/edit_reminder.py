@@ -15,6 +15,7 @@ from loader import dp, _, bot
 from services.reminder import get_reminder, edit_text, edit_date, delete_reminder
 from .datepicker_settings import _get_datepicker_settings
 from bot.keyboards.default.set_menu import set_menu
+from .reminder_repeat import get_text
 
 edit_callback = CallbackData('reminder', 'edit', 'param', 'id')
 delete_callback = CallbackData('reminder', 'delete', 'id')
@@ -27,8 +28,7 @@ async def edit_reminder_menu(message: Message, state: FSMContext, session, user)
     reminder = await get_reminder(session, int(id), user.id)
 
     if reminder:
-        await message.answer(f'{reminder}',
-                             reply_markup=get_edit_reminders_inline_markup(id))
+        await message.answer(get_text(reminder), reply_markup=get_edit_reminders_inline_markup(id))
         await message.delete()
 
 

@@ -1,7 +1,7 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
-def get_language_inline_markup():
+def get_language_inline_markup() -> InlineKeyboardMarkup:
     markup = InlineKeyboardMarkup()
 
     markup.add(InlineKeyboardButton('🇺🇸 English', callback_data='lang_en'))

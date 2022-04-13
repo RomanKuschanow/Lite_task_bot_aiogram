@@ -1,4 +1,5 @@
 from pendulum import now
+from datetime import datetime
 from sqlalchemy import Column, Integer, BigInteger, DateTime, String, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 
@@ -28,7 +29,7 @@ class Reminder(db):
     is_deleted = Column(Boolean, default=False)
 
     def __repr__(self) -> str:
-        server_date = pytz.timezone('UTC').localize(self.next_date)
+        server_date = pytz.timezone("UTC").localize(self.next_date if self.is_repeat else self.date)
 
         date = server_date.astimezone(pytz.timezone(self.user.time_zone))
         return f'{"✅" if self.is_reminded else "❌"}{"🔁" if self.is_repeat else ""} {self.text}: {date.strftime("%d.%m.%Y %H:%M")}'
