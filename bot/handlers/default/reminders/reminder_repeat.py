@@ -37,7 +37,7 @@ async def repeat_enable(callback_query: CallbackQuery, callback_data, session, u
     await callback_query.answer()
 
     if callback_data['action'] in ["on", "off"]:
-        await edit_repeating(session, callback_data['id'], user.id, callback_data['action'] == 'on')
+        await edit_repeating(session, int(callback_data['id']), user.id, callback_data['action'] == 'on')
 
     if callback_data['action'] == "count":
         await callback_query.message.edit_text(_("Отправьте число или выберите из предложенных ниже"),
@@ -59,7 +59,7 @@ async def repeat_enable(callback_query: CallbackQuery, callback_data, session, u
         await callback_query.message.edit_text(
             _("Выбери дату, до которой будет повторяться напоминание (включительно)"), reply_markup=markup)
         async with state.proxy() as data:
-            data['id'] = callback_data['id']
+            data['id'] = int(callback_data['id'])
             data['is_child'] = bool(callback_data['is_child'])
 
         await EditRepeat.until.set()
