@@ -29,7 +29,7 @@ async def repaet_question(callback_query: CallbackQuery, callback_data, session,
     reminder = await get_reminder(session, int(callback_data['id']))
 
     await callback_query.message.edit_text(get_text(reminder),
-                                               reply_markup=get_reminders_repeat_inline_markup(reminder, callback_data['is_child']))
+                                               reply_markup=get_reminders_repeat_inline_markup(reminder, bool(callback_data['is_child'])))
 
 
 @dp.callback_query_handler(repeat_callback.filter(), text_startswith="reminder:repeat")
