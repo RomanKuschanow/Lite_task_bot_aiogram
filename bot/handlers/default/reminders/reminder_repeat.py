@@ -4,7 +4,6 @@ from aiogram.types.reply_keyboard import ReplyKeyboardRemove
 from aiogram.utils.callback_data import CallbackData
 from aiogram_datepicker import Datepicker
 from pendulum import datetime
-from distutils.util import strtobool
 
 from bot.filters import vip
 from bot.keyboards.inline import get_reminders_repeat_inline_markup, get_num_inline_markup, get_range_inline_markup, \
@@ -30,7 +29,7 @@ async def repaet_question(callback_query: CallbackQuery, callback_data, session,
     reminder = await get_reminder(session, int(callback_data['id']))
 
     await callback_query.message.edit_text(get_text(reminder),
-                                               reply_markup=get_reminders_repeat_inline_markup(reminder, strtobool(callback_data['is_child'])))
+                                               reply_markup=get_reminders_repeat_inline_markup(reminder, bool(int(callback_data['is_child']))))
 
 
 @dp.callback_query_handler(repeat_callback.filter(), text_startswith="reminder:repeat")
@@ -47,7 +46,7 @@ async def repeat_enable(callback_query: CallbackQuery, callback_data, session, u
 
         async with state.proxy() as data:
             data['id'] = callback_data['id']
-            data['is_child'] = strtobool(callback_data['is_child'])
+            data['is_child'] = bool(int(callback_data['is_child']))
             data['message'] = list()
             data['main'] = callback_query.message.message_id
 
@@ -61,7 +60,7 @@ async def repeat_enable(callback_query: CallbackQuery, callback_data, session, u
             _("Выбери дату, до которой будет повторяться напоминание (включительно)"), reply_markup=markup)
         async with state.proxy() as data:
             data['id'] = int(callback_data['id'])
-            data['is_child'] = strtobool(callback_data['is_child'])
+            data['is_child'] = bool(int(callback_data['is_child']))
 
         await EditRepeat.until.set()
 
@@ -75,14 +74,14 @@ async def repeat_enable(callback_query: CallbackQuery, callback_data, session, u
 
         async with state.proxy() as data:
             data['id'] = callback_data['id']
-            data['is_child'] = strtobool(callback_data['is_child'])
+            data['is_child'] = bool(int(callback_data['is_child']))
 
         return
 
     reminder = await get_reminder(session, int(callback_data['id']))
 
     await callback_query.message.edit_text(get_text(reminder),
-                                               reply_markup=get_reminders_repeat_inline_markup(reminder, callback_data['is_child']))
+                                               reply_markup=get_reminders_repeat_inline_markup(reminder, bool(int(callback_data['is_child']))))
 
 
 num_callback = CallbackData("num", "number")
@@ -99,7 +98,7 @@ async def get_count_callback(callback_query: CallbackQuery, callback_data, state
         reminder = await get_reminder(session, int(data['id']))
 
     await callback_query.message.edit_text(get_text(reminder),
-                                           reply_markup=get_reminders_repeat_inline_markup(reminder, strtobool(data['is_child'])))
+                                           reply_markup=get_reminders_repeat_inline_markup(reminder, data['is_child']))
 
     await state.finish()
 
