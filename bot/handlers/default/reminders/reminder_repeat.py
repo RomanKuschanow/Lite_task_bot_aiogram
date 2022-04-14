@@ -73,7 +73,7 @@ async def repeat_enable(callback_query: CallbackQuery, callback_data, session, u
         await EditRepeat.range.set()
 
         async with state.proxy() as data:
-            data['id'] = callback_data['id']
+            data['id'] = int(callback_data['id'])
             data['is_child'] = bool(int(callback_data['is_child']))
 
         return
