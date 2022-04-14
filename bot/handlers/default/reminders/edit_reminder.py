@@ -66,7 +66,7 @@ async def edit_reminder(callback_query: CallbackQuery, callback_data: dict, stat
     elif callback_data['param'] == 'date':
         text = _('Выбери дату')
 
-        datepicker = Datepicker(_get_datepicker_settings(True))
+        datepicker = Datepicker(_get_datepicker_settings(user.time_zone, True))
         markup = datepicker.start_calendar()
 
         bot_message = await callback_query.message.answer(text, reply_markup=markup)
@@ -122,7 +122,7 @@ async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, 
 
     text = _('Отправь точное время')
 
-    datepicker = Datepicker(_get_datepicker_settings())
+    datepicker = Datepicker(_get_datepicker_settings(user.time_zone))
     if callback_data['set-day'] == 'set-day':
         async with state.proxy() as data:
             data['date'] = f'{callback_data["day"]}.{callback_data["month"]}.{callback_data["year"]}'
@@ -202,7 +202,7 @@ async def back(callback_query: CallbackQuery, state: FSMContext):
 
         data['fail'] = 0
         await EditReminder.date.set()
-        datepicker = Datepicker(_get_datepicker_settings(True))
+        datepicker = Datepicker(_get_datepicker_settings(user.time_zone, True))
         markup = datepicker.start_calendar()
         text = _('Выбери дату')
 

@@ -55,7 +55,7 @@ async def repeat_enable(callback_query: CallbackQuery, callback_data, session, u
         return
 
     if callback_data['action'] == "until":
-        datepicker = Datepicker(_get_datepicker_settings(False, True))
+        datepicker = Datepicker(_get_datepicker_settings(user.time_zone, False, True))
         markup = datepicker.start_calendar()
 
         await callback_query.message.edit_text(
@@ -141,7 +141,7 @@ async def get_count_message(message: Message, state, session, user):
 async def get_until_date(callback_query: CallbackQuery, callback_data: dict, session, user, state):
     await callback_query.answer()
 
-    datepicker = Datepicker(_get_datepicker_settings())
+    datepicker = Datepicker(_get_datepicker_settings(user.time_zone))
     date = await datepicker.process(callback_query, callback_data)
     if date:
         async with state.proxy() as data:

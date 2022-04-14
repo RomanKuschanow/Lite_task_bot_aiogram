@@ -47,7 +47,7 @@ async def action(callback_query: CallbackQuery, callback_data: dict, session: As
             data['main_message'] = callback_query.message.message_id
 
     if callback_data['filter'] == 'date':
-        datepicker = Datepicker(_get_datepicker_settings(True))
+        datepicker = Datepicker(_get_datepicker_settings(user.time_zone, True))
         markup = datepicker.start_calendar()
         text = _('Выбери дату')
 
@@ -121,7 +121,7 @@ async def get_reminder_text(message: Message, state: FSMContext, session, user):
 async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, session, user, state: FSMContext):
     await callback_query.answer()
 
-    datepicker = Datepicker(_get_datepicker_settings())
+    datepicker = Datepicker(_get_datepicker_settings(user.time_zone))
     date = await datepicker.process(callback_query, callback_data)
     if date:
         async with state.proxy() as data:

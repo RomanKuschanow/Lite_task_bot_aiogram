@@ -64,7 +64,7 @@ async def get_reminder_text(message: Message, state: FSMContext, call_from_back=
 
     await NewReminder.date.set()
 
-    datepicker = Datepicker(_get_datepicker_settings())
+    datepicker = Datepicker(_get_datepicker_settings(user.time_zone))
     markup = datepicker.start_calendar()
 
     bot_message = await message.answer(text, reply_markup=markup)
@@ -80,7 +80,7 @@ async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, 
 
     text = _('Отправь точное время')
 
-    datepicker = Datepicker(_get_datepicker_settings())
+    datepicker = Datepicker(_get_datepicker_settings(user.time_zone))
     date = await datepicker.process(callback_query, callback_data)
     if date:
         async with state.proxy() as data:

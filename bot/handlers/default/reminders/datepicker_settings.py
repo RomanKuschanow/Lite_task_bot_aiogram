@@ -1,4 +1,5 @@
 from datetime import datetime, date
+import pytz
 
 from aiogram.types import CallbackQuery
 from aiogram.types import InlineKeyboardButton
@@ -7,8 +8,9 @@ from aiogram_datepicker import DatepickerSettings, DatepickerCustomAction
 from loader import _
 
 
-def _get_datepicker_settings(hidden_back: bool = False, hidden_cancel: bool = False):
+def _get_datepicker_settings(tz: str, hidden_back: bool = False, hidden_cancel: bool = False):
     state_panel = []
+    server_date = pytz.timezone("UTC").localize(datetime.now())
 
     if not hidden_back:
         state_panel.append('back')
@@ -62,7 +64,7 @@ def _get_datepicker_settings(hidden_back: bool = False, hidden_cancel: bool = Fa
 
     return DatepickerSettings(
         initial_view='day',  # available views -> day, month, year
-        initial_date=datetime.now().date(),  # default date
+        initial_date=server_date.astimezone(pytz.timezone(tz)).date(),  # default date
         views={
             'day': {
                 'show_weekdays': True,
