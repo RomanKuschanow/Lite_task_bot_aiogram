@@ -36,8 +36,10 @@ async def repaet_question(callback_query: CallbackQuery, callback_data, session,
 async def repeat_enable(callback_query: CallbackQuery, callback_data, session, user, state):
     await callback_query.answer()
 
+    id = int(callback_data['id'])
+
     if callback_data['action'] in ["on", "off"]:
-        await edit_repeating(session, int(callback_data['id']), user.id, callback_data['action'] == 'on')
+        await edit_repeating(session, id, user.id, callback_data['action'] == 'on')
 
     if callback_data['action'] == "count":
         await callback_query.message.edit_text(_("Отправьте число или выберите из предложенных ниже"),
@@ -45,7 +47,7 @@ async def repeat_enable(callback_query: CallbackQuery, callback_data, session, u
         await EditRepeat.count.set()
 
         async with state.proxy() as data:
-            data['id'] = callback_data['id']
+            data['id'] = id
             data['is_child'] = bool(int(callback_data['is_child']))
             data['message'] = list()
             data['main'] = callback_query.message.message_id
@@ -59,7 +61,7 @@ async def repeat_enable(callback_query: CallbackQuery, callback_data, session, u
         await callback_query.message.edit_text(
             _("Выбери дату, до которой будет повторяться напоминание (включительно)"), reply_markup=markup)
         async with state.proxy() as data:
-            data['id'] = int(callback_data['id'])
+            data['id'] = id
             data['is_child'] = bool(int(callback_data['is_child']))
 
         await EditRepeat.until.set()
@@ -73,12 +75,12 @@ async def repeat_enable(callback_query: CallbackQuery, callback_data, session, u
         await EditRepeat.range.set()
 
         async with state.proxy() as data:
-            data['id'] = int(callback_data['id'])
+            data['id'] = id
             data['is_child'] = bool(int(callback_data['is_child']))
 
         return
 
-    reminder = await get_reminder(session, int(callback_data['id']))
+    reminder = await get_reminder(session, id)
 
     await callback_query.message.edit_text(get_text(reminder),
                                                reply_markup=get_reminders_repeat_inline_markup(reminder, bool(int(callback_data['is_child']))))
