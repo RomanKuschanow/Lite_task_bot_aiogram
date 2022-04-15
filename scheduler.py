@@ -28,6 +28,9 @@ async def reminders():
                                   reminder.next_date.hour,
                                   reminder.next_date.minute, tz=None)
 
+                    if reminder.repeat_range == 'min':
+                        date = date.add(minutes=1)
+
                     if reminder.repeat_range == 'day':
                         date = date.add(days=1)
 

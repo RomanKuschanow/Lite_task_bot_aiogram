@@ -134,6 +134,9 @@ async def edit_repeating(session: AsyncSession, id: int, user_id: int, is_repeat
 
         while date < datetime.now():
 
+            if reminder.repeat_range == 'min':
+                date = date.add(minutes=1)
+
             if reminder.repeat_range == 'day':
                 date = date.add(days=1)
 

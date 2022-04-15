@@ -70,7 +70,7 @@ async def repeat_enable(callback_query: CallbackQuery, callback_data, session, u
 
     if callback_data['action'] == "range":
         await callback_query.message.edit_text(_("Виберите промежуток для повторения напоминания"),
-                                               reply_markup=get_range_inline_markup(False))
+                                               reply_markup=get_range_inline_markup(False, is_admin=user.is_admin))
 
         await EditRepeat.range.set()
 
