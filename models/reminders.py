@@ -23,6 +23,7 @@ class Reminder(db):
     curr_repeat = Column(Integer, default=1)
     repeat_until = Column(DateTime, nullable=True)
     repeat_range = Column(String, default='day')
+    next_date = Column(DateTime, default=now().add(minutes=30))
 
     is_reminded = Column(Boolean, default=False)
     is_deleted = Column(Boolean, default=False)

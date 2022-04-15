@@ -40,7 +40,7 @@ async def new_reminder(message: Message, state: FSMContext, session, user, call_
 
 
 @dp.message_handler(state=NewReminder.text, content_types=ContentTypes.ANY, menu=False)
-async def get_reminder_text(message: Message, state: FSMContext, call_from_back=False):
+async def get_reminder_text(message: Message, state: FSMContext, user, call_from_back=False):
     if message.content_type != 'text':
         text = _('Ты прислал мне {type}, а нужно прислать текст').format(type=message.content_type)
         bot_message = await message.answer(text, reply_markup=get_inline_states_markup(True))

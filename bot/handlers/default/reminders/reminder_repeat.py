@@ -94,7 +94,7 @@ async def get_count_callback(callback_query: CallbackQuery, callback_data, state
     await callback_query.answer()
 
     async with state.proxy() as data:
-        await edit_freely(session, data['id'], user.id, repeat_count=int(callback_data['number']),
+        await edit_freely(session, data['id'], user.id, repeat_count=int(callback_data['number']), curr_repeat=1,
                                    repeat_until=None)
 
         reminder = await get_reminder(session, int(data['id']))
@@ -117,7 +117,7 @@ async def get_count_message(message: Message, state, session, user):
         return
 
     async with state.proxy() as data:
-        await edit_freely(session, data['id'], user.id, repeat_count=int(num), repeat_until=None)
+        await edit_freely(session, data['id'], user.id, repeat_count=int(num), curr_repeat=1, repeat_until=None)
 
         reminder = await get_reminder(session, int(data['id']))
 
@@ -217,7 +217,7 @@ def get_text(reminder) -> str:
                 count=reminder.repeat_count if reminder.repeat_count > 0 else _("Всегда"))
 
             if reminder.repeat_count > 0:
-                _("Осталось: {left}\n").format(left=reminder.repeat_count - reminder.curr_repeat)
+                text += _("Осталось: {left}\n").format(left=reminder.repeat_count - reminder.curr_repeat + 1)
 
         elif reminder.repeat_until:
             server_date = pytz.timezone("UTC").localize(reminder.repeat_until)

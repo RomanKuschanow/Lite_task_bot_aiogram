@@ -24,9 +24,9 @@ async def reminders():
                 if (reminder.repeat_count and reminder.repeat_count == reminder.curr_repeat):
                     await update_is_reminded(session, reminder.id, True)
                 else:
-                    date = date_p(reminder.date.year, reminder.date.month, reminder.date.day,
-                                  reminder.date.hour,
-                                  reminder.date.minute, tz=None)
+                    date = date_p(reminder.next_date.year, reminder.next_date.month, reminder.next_date.day,
+                                  reminder.next_date.hour,
+                                  reminder.next_date.minute, tz=None)
 
                     if reminder.repeat_range == 'day':
                         date = date.add(days=1)
