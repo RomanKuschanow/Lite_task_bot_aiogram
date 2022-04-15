@@ -168,6 +168,8 @@ async def edit_repeating(session: AsyncSession, id: int, user_id: int, is_repeat
 
 @save_execute
 async def edit_freely(session: AsyncSession, id: int, user_id: int, **kwargs):
+    await edit_repeating(session, id, user_id)
+
     if "repeat_until" in kwargs:
         if kwargs['repeat_until']:
             date = kwargs['repeat_until']
