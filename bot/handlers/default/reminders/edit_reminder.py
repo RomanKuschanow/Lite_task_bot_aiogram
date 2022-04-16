@@ -50,7 +50,7 @@ async def del_reminder(callback_query: CallbackQuery, callback_data: dict, sessi
 
 @dp.callback_query_handler(edit_callback.filter(), text_startswith="reminder:edit")
 @vip()
-async def edit_reminder(callback_query: CallbackQuery, callback_data: dict, state: FSMContext):
+async def edit_reminder(callback_query: CallbackQuery, callback_data: dict, state: FSMContext, user):
     bot_message = await callback_query.message.answer("⁠", reply_markup=ReplyKeyboardRemove())
     await bot.delete_message(callback_query.message.chat.id, bot_message.message_id)
 
@@ -174,7 +174,7 @@ async def get_reminder_date(message, session, user, state: FSMContext):
             return
 
         reminder = await get_reminder(session, data['id'], user.id)
-        await bot.edit_message_text(text=f'{"✅" if reminder.is_reminded else "❌"} {reminder}',
+        await bot.edit_message_text(text=get_text(reminder),
                                     reply_markup=get_edit_reminders_inline_markup(data['id']), chat_id=message.chat.id,
                                     message_id=data['main_message'])
 
@@ -192,7 +192,7 @@ async def get_reminder_date(message, session, user, state: FSMContext):
 
 
 @dp.callback_query_handler(text='back', state=EditReminder.time)
-async def back(callback_query: CallbackQuery, state: FSMContext):
+async def back(callback_query: CallbackQuery, state: FSMContext, user):
     await callback_query.answer()
 
     async with state.proxy() as data:

@@ -24,13 +24,13 @@ async def on_startup(dispatcher):
 
     reminders = await get_all(session)
 
-    for reminder in reminders:
-        await edit_freely(session, reminder.id, reminder.user_id,
-                          is_repeat = False,
-                          repeat_count = -1,
-                          curr_repeat = 1,
-                          repeat_range = 'day',
-                          next_date = reminder.date)
+    # for reminder in reminders:
+    #     await edit_freely(session, reminder.id, reminder.user_id,
+    #                       is_repeat = False,
+    #                       repeat_count = -1,
+    #                       curr_repeat = 1,
+    #                       repeat_range = 'day',
+    #                       next_date = reminder.date)
 
     from scheduler import t
     t.start()

@@ -28,6 +28,7 @@ class Reminder(db):
     is_reminded = Column(Boolean, default=False)
     is_deleted = Column(Boolean, default=False)
 
+
     def __repr__(self) -> str:
         server_date = pytz.timezone("UTC").localize(self.next_date if self.is_repeat else self.date)
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bot VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-04-05 00:19+0300\n"
+"POT-Creation-Date: 2022-04-16 10:17+0000\n"
 "PO-Revision-Date: 2022-03-26 19:00+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -116,8 +116,8 @@ msgstr "Admin added, id: {id}"
 msgid "Статус изменен, id: {id}"
 msgstr "Status changed, id: {id}"
 
-#: bot/handlers/admin/menu.py:14 bot/handlers/default/menu.py:14
-#: bot/handlers/default/menu.py:57
+#: bot/handlers/admin/menu.py:20 bot/handlers/default/menu.py:20
+#: bot/handlers/default/menu.py:72
 msgid "Выбери действие из меню 👇"
 msgstr "Choose an action from the menu 👇"
 
@@ -127,12 +127,12 @@ msgstr "Enter text"
 
 #: bot/handlers/admin/send_all.py:36 bot/handlers/admin/send_private.py:35
 #: bot/handlers/admin/send_private.py:71
-#: bot/handlers/default/reminders/edit_reminder.py:86
-#: bot/handlers/default/reminders/edit_reminder.py:143
+#: bot/handlers/default/reminders/edit_reminder.py:87
+#: bot/handlers/default/reminders/edit_reminder.py:144
 #: bot/handlers/default/reminders/new_reminder.py:45
 #: bot/handlers/default/reminders/new_reminder.py:103
-#: bot/handlers/default/reminders/search_reminders.py:80
-#: bot/handlers/default/reminders/search_reminders.py:152
+#: bot/handlers/default/reminders/search_reminders.py:83
+#: bot/handlers/default/reminders/search_reminders.py:157
 msgid "Ты прислал мне {type}, а нужно прислать текст"
 msgstr "You sent me {type}, but I need to send the text"
 
@@ -153,6 +153,7 @@ msgid "Напиши сумму в долларах (минимум 1), кото�
 msgstr "Write the amount in dollars (minimum 1) you want to donate"
 
 #: bot/handlers/default/donate.py:35
+#: bot/handlers/default/reminders/reminder_repeat.py:115
 msgid "Введите целое число больше 0, например: 5"
 msgstr "Enter an integer greater than 0, for example: 5"
 
@@ -173,6 +174,10 @@ msgstr ""
 "Number: {id}\n"
 "Donate amount: {amount}$\n"
 "\n"
+
+#: bot/handlers/default/done.py:11
+msgid "Действие завершено"
+msgstr "Action completed"
 
 #: bot/handlers/default/feedback.py:20
 msgid "Напиши сообщение которое увидят разработчики"
@@ -241,11 +246,14 @@ msgid ""
 "‼ Если ты еще не донатил, тебе не доступны или ограничены некоторые "
 "функции:\n"
 "❌ Фильтры\n"
+"❌ Повторение напоминаний\n"
 "❌ Редактирование (в меню редактирования доступна только кнопка удаления)\n"
 "❌ Одновременно можно создать только 5 активных напоминаний"
 msgstr ""
-"‼ If you haven't donated yet, some of the features:\n"
+"‼ If you haven't donated yet, some of the "
+"features:\n"
 "❌ Filters\n"
+"❌ Repeat Reminders\n"
 "❌ Editing (only the delete button is available in the editing menu)\n"
 "❌ You can only create 5 active reminders at a time"
 
@@ -261,7 +269,7 @@ msgstr ""
 msgid "Выберите свой язык"
 msgstr "Choose your language"
 
-#: bot/handlers/default/menu.py:20
+#: bot/handlers/default/menu.py:30
 msgid "Клавиатура убрана. Вызвать ее можно командой /menu"
 msgstr "The keyboard has been removed. You can call it with the /menu command"
 
@@ -298,59 +306,61 @@ msgstr "Now select your timezone"
 msgid "Ваш часовой пояс установлен на {region}/{city}"
 msgstr "Your timezone is set to {region}/{city}"
 
-#: bot/handlers/default/reminders/datepicker_settings.py:13
+#: bot/handlers/default/reminders/datepicker_settings.py:22
 msgid "Today"
 msgstr "Today"
 
-#: bot/handlers/default/reminders/datepicker_settings.py:34
-#: bot/keyboards/inline/reminders/edit_reminder.py:11
+#: bot/handlers/default/reminders/datepicker_settings.py:43
+#: bot/keyboards/inline/num_select.py:17 bot/keyboards/inline/range.py:21
 #: bot/keyboards/inline/states.py:9 bot/keyboards/inline/time_zone.py:21
 msgid "❌ Отмена"
 msgstr "❌ Cancel"
 
-#: bot/handlers/default/reminders/datepicker_settings.py:46
+#: bot/handlers/default/reminders/datepicker_settings.py:55
+#: bot/keyboards/inline/num_select.py:18 bot/keyboards/inline/range.py:22
+#: bot/keyboards/inline/reminders/reminder_repeat.py:32
 #: bot/keyboards/inline/states.py:10 bot/keyboards/inline/time_zone.py:22
 msgid "⬅ Назад"
 msgstr "⬅ Back"
 
-#: bot/handlers/default/reminders/datepicker_settings.py:94
+#: bot/handlers/default/reminders/datepicker_settings.py:103
 msgid "Выбрать"
 msgstr "Select"
 
-#: bot/handlers/default/reminders/edit_reminder.py:46
+#: bot/handlers/default/reminders/edit_reminder.py:47
 msgid "Напоминание удалено"
 msgstr "Reminder removed"
 
-#: bot/handlers/default/reminders/edit_reminder.py:59
+#: bot/handlers/default/reminders/edit_reminder.py:60
 #: bot/handlers/default/reminders/new_reminder.py:28
 msgid "Отправь мне текст напоминания"
 msgstr "Send me a reminder text"
 
-#: bot/handlers/default/reminders/edit_reminder.py:66
-#: bot/handlers/default/reminders/edit_reminder.py:206
-#: bot/handlers/default/reminders/search_reminders.py:51
+#: bot/handlers/default/reminders/edit_reminder.py:67
+#: bot/handlers/default/reminders/edit_reminder.py:207
+#: bot/handlers/default/reminders/search_reminders.py:52
 msgid "Выбери дату"
 msgstr "Select a date"
 
-#: bot/handlers/default/reminders/edit_reminder.py:110
-#: bot/handlers/default/reminders/edit_reminder.py:188
+#: bot/handlers/default/reminders/edit_reminder.py:111
+#: bot/handlers/default/reminders/edit_reminder.py:189
 msgid "Напоминание отредактировано"
 msgstr "Reminder edited"
 
-#: bot/handlers/default/reminders/edit_reminder.py:122
+#: bot/handlers/default/reminders/edit_reminder.py:123
 #: bot/handlers/default/reminders/new_reminder.py:81
-#: bot/handlers/default/reminders/search_reminders.py:64
+#: bot/handlers/default/reminders/search_reminders.py:66
 msgid "Отправь точное время"
 msgstr "Submit the correct time"
 
-#: bot/handlers/default/reminders/edit_reminder.py:152
+#: bot/handlers/default/reminders/edit_reminder.py:153
 #: bot/handlers/default/reminders/new_reminder.py:112
-#: bot/handlers/default/reminders/search_reminders.py:161
+#: bot/handlers/default/reminders/search_reminders.py:166
 msgid "Формат не соответствует"
 msgstr "Format does not match"
 
-#: bot/handlers/default/reminders/edit_reminder.py:167
-#: bot/handlers/default/reminders/new_reminder.py:128
+#: bot/handlers/default/reminders/edit_reminder.py:168
+#: bot/handlers/default/reminders/new_reminder.py:129
 msgid "Ты ввел несуществующее время"
 msgstr "You entered a non-existent time"
 
@@ -358,13 +368,73 @@ msgstr "You entered a non-existent time"
 msgid "Теперь выбери дату"
 msgstr "Now choose a date"
 
-#: bot/handlers/default/reminders/new_reminder.py:135
+#: bot/handlers/default/reminders/new_reminder.py:136
 msgid "Напоминание \"{text}\" установлено на {date} {hours}:{minutes}"
 msgstr "Reminder \"{text}\" set to {date} {hours}:{minutes}"
 
-#: bot/handlers/default/reminders/new_reminder.py:182
+#: bot/handlers/default/reminders/new_reminder.py:143
+msgid "Задать повторение для напоминания"
+msgstr "Set a repeat for a reminder"
+
+#: bot/handlers/default/reminders/new_reminder.py:185
 msgid "Напоминание \"{reminder_text}\" установлено на {date}"
 msgstr "Reminder \"{reminder_text}\" set to {date}"
+
+#: bot/handlers/default/reminders/reminder_repeat.py:46
+msgid "Отправьте число или выберите из предложенных ниже"
+msgstr "Submit a number or choose from the options below"
+
+#: bot/handlers/default/reminders/reminder_repeat.py:63
+msgid "Выбери дату, до которой будет повторяться напоминание (не включительно)"
+msgstr "Select the date until which the reminder will be repeated (not included)"
+
+#: bot/handlers/default/reminders/reminder_repeat.py:73
+msgid "Выберите промежуток для повторения напоминания"
+msgstr "Select the interval for repeating the reminder"
+
+#: bot/handlers/default/reminders/reminder_repeat.py:151
+msgid "Выбери дату которая больше начальной"
+msgstr "Choose a date greater than the start date"
+
+#: bot/handlers/default/reminders/reminder_repeat.py:220
+msgid ""
+"{reminder}\n"
+"Повторение: {repeat}\n"
+msgstr ""
+"{reminder}\n"
+"Repeat: {repeat}\n"
+
+#: bot/handlers/default/reminders/reminder_repeat.py:221
+msgid "Да"
+msgstr "Yes"
+
+#: bot/handlers/default/reminders/reminder_repeat.py:221
+msgid "Нет"
+msgstr "No"
+
+#: bot/handlers/default/reminders/reminder_repeat.py:224
+msgid "Изначальная дата: {date}\n"
+msgstr "Initial date: {date}\n"
+
+#: bot/handlers/default/reminders/reminder_repeat.py:227
+msgid "Количество повторений: {count}\n"
+msgstr "Number of repetitions: {count}\n"
+
+#: bot/handlers/default/reminders/reminder_repeat.py:228
+msgid "Всегда"
+msgstr "Always"
+
+#: bot/handlers/default/reminders/reminder_repeat.py:231
+msgid "Осталось: {left}\n"
+msgstr "Remaining: {left}\n"
+
+#: bot/handlers/default/reminders/reminder_repeat.py:240
+msgid "Повторять до: {date}\n"
+msgstr "Repeat until: {date}\n"
+
+#: bot/handlers/default/reminders/reminder_repeat.py:242
+msgid "Частота повторений: {range}"
+msgstr "Rep Rate: {range}"
 
 #: bot/handlers/default/reminders/reminders_list.py:25
 msgid "У вас еще нет ни одного напоминания"
@@ -374,11 +444,11 @@ msgstr "You don't have any reminders yet"
 msgid "У вас нет напоминаний в этой категории"
 msgstr "You have no reminders in this category"
 
-#: bot/handlers/default/reminders/reminders_list.py:77
+#: bot/handlers/default/reminders/reminders_list.py:74
 msgid "Выберите фильтр"
 msgstr "Select a filter"
 
-#: bot/handlers/default/reminders/reminders_list.py:116
+#: bot/handlers/default/reminders/reminders_list.py:120
 msgid "У вас еще нет ни одного напоминания c этим фильтром"
 msgstr "You don't have any reminders with this filter yet"
 
@@ -386,8 +456,8 @@ msgstr "You don't have any reminders with this filter yet"
 msgid "Отправь мне текст для поиска"
 msgstr "Send me search text"
 
-#: bot/handlers/default/reminders/search_reminders.py:111
-#: bot/handlers/default/reminders/search_reminders.py:198
+#: bot/handlers/default/reminders/search_reminders.py:115
+#: bot/handlers/default/reminders/search_reminders.py:205
 msgid "Напоминания отфильтрованы"
 msgstr "Reminders filtered out"
 
@@ -435,6 +505,26 @@ msgstr "🛠 Admin keyboard"
 msgid "Оплатить 💸"
 msgstr "Pay 💸"
 
+#: bot/keyboards/inline/range.py:12
+msgid "⏰ Минута"
+msgstr "⏰ Minute"
+
+#: bot/keyboards/inline/range.py:14
+msgid "📆 День"
+msgstr "📆 Day"
+
+#: bot/keyboards/inline/range.py:15
+msgid "🗓 Неделя"
+msgstr "🗓 Week"
+
+#: bot/keyboards/inline/range.py:16
+msgid "🌙 Месяц"
+msgstr "🌙 Month"
+
+#: bot/keyboards/inline/range.py:17
+msgid "💫 Год"
+msgstr "💫 Year"
+
 #: bot/keyboards/inline/reminders/edit_reminder.py:9
 msgid "📝 Изменить название"
 msgstr "📝 Change title"
@@ -443,39 +533,82 @@ msgstr "📝 Change title"
 msgid "🗓 Изменить дату"
 msgstr "🗓 Change date"
 
+#: bot/keyboards/inline/reminders/edit_reminder.py:11
+#: bot/keyboards/inline/reminders/reminder_repeat.py:9
+msgid "⚙ Настроить повторение"
+msgstr "⚙ Customize repeat"
+
 #: bot/keyboards/inline/reminders/edit_reminder.py:12
+#: bot/keyboards/inline/reminders/reminder_repeat.py:34
+msgid "❎ Готово"
+msgstr "❎ Done"
+
+#: bot/keyboards/inline/reminders/edit_reminder.py:13
 msgid "🗑 Удалить напоминание"
 msgstr "🗑 Delete reminder"
 
-#: bot/keyboards/inline/reminders/reminders_list.py:14
+#: bot/keyboards/inline/reminders/reminder_repeat.py:18
+msgid "🚫 Отключить повторение"
+msgstr "🚫 Disable repeat"
+
+#: bot/keyboards/inline/reminders/reminder_repeat.py:20
+msgid "🔢 Количество"
+msgstr "🔢 Quantity"
+
+#: bot/keyboards/inline/reminders/reminder_repeat.py:22
+msgid "⏳ Повторять до"
+msgstr "⏳ Repeat until"
+
+#: bot/keyboards/inline/reminders/reminder_repeat.py:26
+msgid "🔂 Частота"
+msgstr "🔂 Frequency"
+
+#: bot/keyboards/inline/reminders/reminder_repeat.py:28
+msgid "✅ Включить повторение"
+msgstr "✅ Enable repeat"
+
+#: bot/keyboards/inline/reminders/reminders_list.py:15
+#: bot/keyboards/inline/reminders/reminders_list.py:48
 msgid "Все"
 msgstr "All"
 
-#: bot/keyboards/inline/reminders/reminders_list.py:15
+#: bot/keyboards/inline/reminders/reminders_list.py:17
 msgid "Старые"
 msgstr "Old"
 
-#: bot/keyboards/inline/reminders/reminders_list.py:16
+#: bot/keyboards/inline/reminders/reminders_list.py:19
 msgid "Предстоящие"
 msgstr "Upcoming"
 
-#: bot/keyboards/inline/reminders/reminders_list.py:35
+#: bot/keyboards/inline/reminders/reminders_list.py:38
 msgid "🔄 Обновить"
 msgstr "🔄 Refresh"
 
-#: bot/keyboards/inline/reminders/reminders_list.py:40
+#: bot/keyboards/inline/reminders/reminders_list.py:43
 msgid "🔎 Фильтры"
 msgstr "🔎 Filters"
 
-#: bot/keyboards/inline/reminders/reminders_list.py:40
+#: bot/keyboards/inline/reminders/reminders_list.py:43
 msgid "❌ Сбросить фильтр"
 msgstr "❌ Reset filter"
 
-#: bot/keyboards/inline/reminders/reminders_list.py:44
+#: bot/keyboards/inline/reminders/reminders_list.py:47
+msgid "🔁 {tile}"
+msgstr "🔁 {tile}"
+
+#: bot/keyboards/inline/reminders/reminders_list.py:47
+msgid "Только многоразовые"
+msgstr "Only reusable"
+
+#: bot/keyboards/inline/reminders/reminders_list.py:48
+msgid "Только одноразовые"
+msgstr "Only disposable"
+
+#: bot/keyboards/inline/reminders/reminders_list.py:52
 msgid "✏ Редактировать"
 msgstr "✏ Edit"
 
-#: bot/keyboards/inline/reminders/reminders_list.py:44
+#: bot/keyboards/inline/reminders/reminders_list.py:52
 msgid "👀 Просмотр"
 msgstr "👀 View"
 
@@ -515,32 +648,32 @@ msgstr "I banned you, so far only for three hours. Each time there will be more"
 msgid "Бан на {hours}"
 msgstr "Ban for {hours}"
 
-#: bot/middlewares/user.py:26 bot/middlewares/user.py:43
-#: bot/middlewares/user.py:58
+#: bot/middlewares/user.py:28 bot/middlewares/user.py:46
+#: bot/middlewares/user.py:62
 msgid "Чел, ты в <s>муте</s> бане еще на {date}"
 msgstr "Man, you're banned for {date}"
 
-#: services/user.py:80
+#: services/user.py:84
 msgid "Поздравляю! 🎉🎉🎉 Ты получил VIP-статус"
 msgstr "Congratulations! 🎉🎉🎉 You got VIP status"
 
-#: services/user.py:82
+#: services/user.py:86
 msgid "У тебя забрали VIP-статус 😢"
 msgstr "Your VIP status has been taken away 😢"
 
-#: services/user.py:94
+#: services/user.py:98
 msgid "Поздравляю! 🎉🎉🎉 Теперь ты админ"
 msgstr "Congratulations! 🎉🎉🎉 You are now an admin"
 
-#: services/user.py:96
+#: services/user.py:100
 msgid "Ты больше не админ 😢"
 msgstr "You are no longer an admin 😢"
 
-#: services/user.py:151
+#: services/user.py:155
 msgid "Пользователь {id} забанен"
 msgstr "User {id} banned"
 
-#: services/user.py:169
+#: services/user.py:173
 msgid "Пользователь {id} забанен навсегда"
 msgstr "User {id} banned permanently"
 

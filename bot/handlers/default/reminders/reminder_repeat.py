@@ -26,10 +26,11 @@ async def repaet_question(callback_query: CallbackQuery, callback_data, session,
 
     await callback_query.answer()
 
-    reminder = await get_reminder(session, int(callback_data['id']))
+    reminder = await get_reminder(session, int(callback_data['id']), user.id)
 
     await callback_query.message.edit_text(get_text(reminder),
-                                               reply_markup=get_reminders_repeat_inline_markup(reminder, bool(int(callback_data['is_child']))))
+                                           reply_markup=get_reminders_repeat_inline_markup(reminder, bool(
+                                               int(callback_data['is_child']))))
 
 
 @dp.callback_query_handler(repeat_callback.filter(), text_startswith="reminder:repeat")
@@ -59,7 +60,7 @@ async def repeat_enable(callback_query: CallbackQuery, callback_data, session, u
         markup = datepicker.start_calendar()
 
         await callback_query.message.edit_text(
-            _("Выбери дату, до которой будет повторяться напоминание (включительно)"), reply_markup=markup)
+            _("Выбери дату, до которой будет повторяться напоминание (не включительно)"), reply_markup=markup)
         async with state.proxy() as data:
             data['id'] = id
             data['is_child'] = bool(int(callback_data['is_child']))
@@ -69,7 +70,7 @@ async def repeat_enable(callback_query: CallbackQuery, callback_data, session, u
         return
 
     if callback_data['action'] == "range":
-        await callback_query.message.edit_text(_("Виберите промежуток для повторения напоминания"),
+        await callback_query.message.edit_text(_("Выберите промежуток для повторения напоминания"),
                                                reply_markup=get_range_inline_markup(False, is_admin=user.is_admin))
 
         await EditRepeat.range.set()
@@ -80,10 +81,11 @@ async def repeat_enable(callback_query: CallbackQuery, callback_data, session, u
 
         return
 
-    reminder = await get_reminder(session, id)
+    reminder = await get_reminder(session, id, user.id)
 
     await callback_query.message.edit_text(get_text(reminder),
-                                               reply_markup=get_reminders_repeat_inline_markup(reminder, bool(int(callback_data['is_child']))))
+                                           reply_markup=get_reminders_repeat_inline_markup(reminder, bool(
+                                               int(callback_data['is_child']))))
 
 
 num_callback = CallbackData("num", "number")
@@ -94,10 +96,10 @@ async def get_count_callback(callback_query: CallbackQuery, callback_data, state
     await callback_query.answer()
 
     async with state.proxy() as data:
-        await edit_freely(session, data['id'], user.id, repeat_count=int(callback_data['number']), curr_repeat=1,
-                                   repeat_until=None)
+        await edit_freely(session, data['id'], user.id, repeat_count=int(callback_data['number']),
+                          repeat_until=None)
 
-        reminder = await get_reminder(session, int(data['id']))
+        reminder = await get_reminder(session, int(data['id']), user.id)
 
     await callback_query.message.edit_text(get_text(reminder),
                                            reply_markup=get_reminders_repeat_inline_markup(reminder, data['is_child']))
@@ -117,9 +119,9 @@ async def get_count_message(message: Message, state, session, user):
         return
 
     async with state.proxy() as data:
-        await edit_freely(session, data['id'], user.id, repeat_count=int(num), curr_repeat=1, repeat_until=None)
+        await edit_freely(session, data['id'], user.id, repeat_count=int(num), repeat_until=None)
 
-        reminder = await get_reminder(session, int(data['id']))
+        reminder = await get_reminder(session, int(data['id']), user.id)
 
     await bot.edit_message_text(get_text(reminder), message.chat.id, data['main'],
                                 reply_markup=get_reminders_repeat_inline_markup(reminder, data['is_child']))
@@ -139,19 +141,24 @@ async def get_count_message(message: Message, state, session, user):
 @dp.callback_query_handler(Datepicker.datepicker_callback.filter(), state=EditRepeat.until)
 @rate_limit(3)
 async def get_until_date(callback_query: CallbackQuery, callback_data: dict, session, user, state):
-    await callback_query.answer()
-
     datepicker = Datepicker(_get_datepicker_settings(user.time_zone))
     date = await datepicker.process(callback_query, callback_data)
+    date = datetime(date.year, date.month, date.day, 0, 0, tz=None)
     if date:
         async with state.proxy() as data:
+            reminder = await get_reminder(session, int(data['id']), user.id)
+            if date < reminder.date:
+                await callback_query.answer(_("Выбери дату которая больше начальной"))
+                return
+
             await edit_freely(session, data['id'], user.id, repeat_count=None,
-                                       repeat_until=datetime(date.year, date.month, date.day).add(days=1))
-            reminder = await get_reminder(session, int(data['id']))
+                              repeat_until=datetime(date.year, date.month, date.day))
 
             await callback_query.message.edit_text(get_text(reminder),
-                                                   reply_markup=get_reminders_repeat_inline_markup(reminder, data['is_child']))
+                                                   reply_markup=get_reminders_repeat_inline_markup(reminder,
+                                                                                                   data['is_child']))
     else:
+        await callback_query.answer()
         return
 
     await state.finish()
@@ -180,10 +187,11 @@ async def back(callback_query: CallbackQuery, session, user, state):
     await callback_query.answer()
 
     async with state.proxy() as data:
-        reminder = await get_reminder(session, int(data['id']))
+        reminder = await get_reminder(session, int(data['id']), user.id)
 
         await callback_query.message.edit_text(get_text(reminder),
-                                               reply_markup=get_reminders_repeat_inline_markup(reminder, data['is_child']))
+                                               reply_markup=get_reminders_repeat_inline_markup(reminder,
+                                                                                               data['is_child']))
 
         if 'message' in data:
             for mes in data['message']:
@@ -199,12 +207,13 @@ back_to_edit_callback = CallbackData("back_to_edit", "id")
 
 
 @dp.callback_query_handler(back_to_edit_callback.filter(), text_startswith='back_to_edit')
-async def back_to_edit(callback_query: CallbackQuery, callback_data, session):
+async def back_to_edit(callback_query: CallbackQuery, callback_data, session, user):
     await callback_query.answer()
 
-    reminder = await get_reminder(session, int(callback_data['id']))
+    reminder = await get_reminder(session, int(callback_data['id']), user.id)
 
-    await callback_query.message.edit_text(get_text(reminder), reply_markup=get_edit_reminders_inline_markup(int(callback_data['id'])))
+    await callback_query.message.edit_text(get_text(reminder),
+                                           reply_markup=get_edit_reminders_inline_markup(int(callback_data['id'])))
 
 
 def get_text(reminder) -> str:
@@ -212,6 +221,8 @@ def get_text(reminder) -> str:
              "Повторение: {repeat}\n").format(reminder=reminder, repeat=_("Да") if reminder.is_repeat else _("Нет"))
 
     if reminder.is_repeat:
+        text += _("Изначальная дата: {date}\n").format(date=reminder.date.strftime("%d.%m.%Y %H:%M"))
+
         if reminder.repeat_count:
             text += _("Количество повторений: {count}\n").format(
                 count=reminder.repeat_count if reminder.repeat_count > 0 else _("Всегда"))
@@ -224,7 +235,7 @@ def get_text(reminder) -> str:
 
             date = server_date.astimezone(pytz.timezone(reminder.user.time_zone))
 
-            date = datetime(date.year, date.month, date.day).subtract(days=1)
+            date = datetime(date.year, date.month, date.day)
 
             text += _("Повторять до: {date}\n").format(date=date.strftime("%d.%m.%Y"))
 
