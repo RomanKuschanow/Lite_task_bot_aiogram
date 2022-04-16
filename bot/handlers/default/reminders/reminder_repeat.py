@@ -237,7 +237,7 @@ def get_text(reminder) -> str:
         elif reminder.repeat_until:
             server_date = pytz.timezone("UTC").localize(reminder.repeat_until)
 
-            date = server_until_date.astimezone(pytz.timezone(reminder.user.time_zone))
+            date = server_date.astimezone(pytz.timezone(reminder.user.time_zone))
 
             date = datetime(date.year, date.month, date.day)
 
