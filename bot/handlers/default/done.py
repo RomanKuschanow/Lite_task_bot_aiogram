@@ -19,4 +19,7 @@ async def bot_start(callback_query: CallbackQuery, state, user):
                     continue
 
     await callback_query.message.answer(text, reply_markup=set_menu(user))
-    await callback_query.message.delete()
+    try:
+        await callback_query.message.delete()
+    except:
+        pass
