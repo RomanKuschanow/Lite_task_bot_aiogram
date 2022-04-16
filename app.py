@@ -25,7 +25,7 @@ async def on_startup(dispatcher):
     reminders = await get_all(session)
 
     for reminder in reminders:
-        await edit_freely(session, reminder.id, reminder.user_id,
+        await edit_freely(session, reminder.id, reminder.user_id, False,
                           is_repeat = False,
                           repeat_count = -1,
                           curr_repeat = 1,
