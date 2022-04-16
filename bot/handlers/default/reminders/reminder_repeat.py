@@ -223,7 +223,7 @@ def get_text(reminder) -> str:
     if reminder.is_repeat:
         server_date = pytz.timezone("UTC").localize(reminder.date)
 
-        date = server_until_date.astimezone(pytz.timezone(reminder.user.time_zone))
+        date = server_date.astimezone(pytz.timezone(reminder.user.time_zone))
 
         text += _("Изначальная дата: {date}\n").format(date=date.strftime("%d.%m.%Y %H:%M"))
 
