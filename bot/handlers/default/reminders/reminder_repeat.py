@@ -221,7 +221,11 @@ def get_text(reminder) -> str:
              "Повторение: {repeat}\n").format(reminder=reminder, repeat=_("Да") if reminder.is_repeat else _("Нет"))
 
     if reminder.is_repeat:
-        text += _("Изначальная дата: {date}\n").format(date=reminder.date.strftime("%d.%m.%Y %H:%M"))
+        server_date = pytz.timezone("UTC").localize(reminder.date)
+
+        date = server_until_date.astimezone(pytz.timezone(reminder.user.time_zone))
+
+        text += _("Изначальная дата: {date}\n").format(date=date.strftime("%d.%m.%Y %H:%M"))
 
         if reminder.repeat_count:
             text += _("Количество повторений: {count}\n").format(
@@ -233,7 +237,7 @@ def get_text(reminder) -> str:
         elif reminder.repeat_until:
             server_date = pytz.timezone("UTC").localize(reminder.repeat_until)
 
-            date = server_date.astimezone(pytz.timezone(reminder.user.time_zone))
+            date = server_until_date.astimezone(pytz.timezone(reminder.user.time_zone))
 
             date = datetime(date.year, date.month, date.day)
 
