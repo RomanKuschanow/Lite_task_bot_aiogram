@@ -89,7 +89,7 @@ function RepeatSettings({repeat, range, type, inf, count, untilDate, minDate, ..
                     value={count.value}
                     onChange={(e) => count.onChange(e.target.value)}
                     onBlur={(e) => count.onBlur(e)}
-                    error={count.isDirty && (count.isEmpty || count.isNum)}
+                    error={count.isDirty && (count.isEmpty || count.isNotNum)}
                     disabled={!repeat.value || inf.value}
                 />
             </div>

@@ -15,14 +15,15 @@ const useValidation = (value, validations) => {
         for (const validation in validations) {
             switch (validation) {
                 case 'isEmpty':
-                    value ? setEmptyError(false) : setEmptyError(true)
+                    value ? setEmptyError(false) : setEmptyError(true);
                     break;
                 case 'isInvalidDate':
-                    value != "Invalid Date" ? setInvalidDateError(false) : setInvalidDateError(true);
+                    value !== "Invalid Date" ? setInvalidDateError(false) : setInvalidDateError(true);
                     break;
                 case 'isNotNum':
                     const reNum = /^\d*$/;
-                    reNum.test(String(value)) ? setIsNotNumError(false) : setIsNotNumError(true)
+                    reNum.test(String(value)) ? setIsNotNumError(false) : setIsNotNumError(true);
+                    break;
             }
         }
     }, [value])
