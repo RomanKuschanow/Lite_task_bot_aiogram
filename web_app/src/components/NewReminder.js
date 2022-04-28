@@ -6,8 +6,10 @@ import {FormControl} from "@mui/material";
 
 
 const useValidation = (value, validations) => {
-    const [isEmpty, setEmptyError] = useState(true)
-    const [isValidDate, setValidDateError] = useState(false)
+    const [isEmpty, setEmptyError] = useState(false)
+    const [isInvalidDate, setInvalidDateError] = useState(false)
+    const [isNotNum, setIsNotNumError] = useState(false)
+    const [inputValid, setInputValid] = useState(false)
 
     useEffect(() => {
         for (const validation in validations) {
@@ -15,17 +17,28 @@ const useValidation = (value, validations) => {
                 case 'isEmpty':
                     value ? setEmptyError(false) : setEmptyError(true)
                     break;
-                case 'isValidDate':
-                    const re = /^(\d{4}).(\d{2}).(\d{2}) (\d{2}):(\d{2})$/;
-                    re.test(String(value)) ? setValidDateError(false) : setValidDateError(true);
+                case 'isInvalidDate':
+                    value != "Invalid Date" ? setInvalidDateError(false) : setInvalidDateError(true);
                     break;
+                case 'isNotNum':
+                    const reNum = /^\d*$/;
+                    reNum.test(String(value)) ? setIsNotNumError(false) : setIsNotNumError(true)
             }
         }
     }, [value])
 
+    useEffect(() => {
+        if (isEmpty || isInvalidDate || isNotNum)
+            setInputValid(false)
+        else
+            setInputValid(true)
+    }, [isEmpty, isInvalidDate, isNotNum])
+
     return {
         isEmpty,
-        isValidDate
+        isInvalidDate,
+        isNotNum,
+        inputValid
     }
 }
 
@@ -36,7 +49,13 @@ const useInput = (initialValue, validations) => {
     const valid = useValidation(value, validations)
 
     const onChange = (e) => {
-        setValue(e.target.value)
+        setValue(e)
+    }
+
+    const onChangeButton = (e) => {
+        if (e) {
+            setValue(e)
+        }
     }
 
     const onBlur = (e) => {
@@ -46,6 +65,7 @@ const useInput = (initialValue, validations) => {
     return {
         value,
         onChange,
+        onChangeButton,
         onBlur,
         isDirty,
         ...valid
@@ -53,13 +73,13 @@ const useInput = (initialValue, validations) => {
 }
 
 function NewReminder() {
-    const date = useInput(new Date(), {'isEmpty': true, 'isValidDate': true});
+    const date = useInput(new Date(), {'isInvalidDate': true});
     let minDate = new Date().setDate(date.value.getDate() + 1)
     const text = useInput("", {'isEmpty': true})
     const repeat = useInput(false)
     const range = useInput('day');
     const type = useInput('count');
-    const count = useInput('', {'isEmpty': true})
+    const count = useInput('', {'isEmpty': true, 'isNotNum': true})
     const untilDate = useInput(minDate, {'isEmpty': true, 'isValidDate': true});
     const inf = useInput(false)
 
@@ -74,7 +94,9 @@ function NewReminder() {
                     {...repeatSettings}
                 />
             </div>
-            <SButton style={{marginTop: "10px"}} variant="contained">Create Reminder</SButton>
+            <SButton
+                disabled={!text.inputValid || !date.inputValid || (repeat.value ? !(type.value === "count" ? inf.value || count.inputValid : untilDate.inputValid) : false)}
+                style={{marginTop: "10px"}} variant="contained">Create Reminder</SButton>
         </FormControl>
     );
 };

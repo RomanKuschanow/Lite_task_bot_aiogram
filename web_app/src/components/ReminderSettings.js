@@ -14,7 +14,7 @@ function ReminderSettings({text, date, ...props}) {
                     multiline
                     maxRows={5}
                     value={text.value}
-                    onChange={(e) => text.onChange(e)}
+                    onChange={(e) => text.onChange(e.target.value)}
                     onBlur={(e) => text.onBlur(e)}
                     error={text.isDirty && text.isEmpty}
                 />
@@ -26,7 +26,7 @@ function ReminderSettings({text, date, ...props}) {
                                             value={date.value}
                                             ampm={false}
                                             inputVariant="outlined"
-                                            onChange={(value) => date.onChange({target: {value}})}
+                                            onChange={(Date) => date.onChange(Date)}
                                             format="yyyy.MM.dd HH:mm"
                                             showTodayButton
                     />

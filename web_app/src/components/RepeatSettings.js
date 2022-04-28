@@ -33,7 +33,7 @@ function RepeatSettings({repeat, range, type, inf, count, untilDate, minDate, ..
         <div className="repeat">
             <div className="repeat_part" style={{marginBottom: "10px"}}>
                 <FormControlLabel
-                    onChange={(e) => repeat.onChange(e)}
+                    onChange={(e) => repeat.onChange(e.target.checked)}
                     value={repeat.value}
                     style={{marginLeft: "0", maxHeight: "56px"}}
                     control={<Switcher/>}
@@ -43,7 +43,7 @@ function RepeatSettings({repeat, range, type, inf, count, untilDate, minDate, ..
                 <TextBox
                     style={{width: "100px", marginRight: "10px"}}
                     select
-                    onChange={(e) => range.onChange(e)}
+                    onChange={(e) => range.onChange(e.target.value)}
                     value={range.value}
                     label="Repeat Range"
                     disabled={!repeat.value}
@@ -58,7 +58,7 @@ function RepeatSettings({repeat, range, type, inf, count, untilDate, minDate, ..
                     exclusive
                     disabled={!repeat.value}
                     value={type.value}
-                    onChange={(e) => type.onChange(e)}
+                    onChange={(e, value) => type.onChangeButton(value)}
                 >
                     <TButton value="count">
                         <Filter1Icon/>
@@ -70,7 +70,7 @@ function RepeatSettings({repeat, range, type, inf, count, untilDate, minDate, ..
             </div>
             <div className={type.value === "count" ? "repeat_part" : ""} hidden>
                 <FormControlLabel
-                    onChange={(e) => inf.onChange(e)}
+                    onChange={(e) => inf.onChange(e.target.checked)}
                     value={inf.value}
                     style={{marginLeft: "0", maxHeight: "56px"}}
                     control={<Switcher/>}
@@ -87,8 +87,9 @@ function RepeatSettings({repeat, range, type, inf, count, untilDate, minDate, ..
                     style={{width: "100%"}}
                     label="Repeat Count"
                     value={count.value}
-                    type="number"
-                    onChange={(e) => count.onChange(e)}
+                    onChange={(e) => count.onChange(e.target.value)}
+                    onBlur={(e) => count.onBlur(e)}
+                    error={count.isDirty && (count.isEmpty || count.isNum)}
                     disabled={!repeat.value || inf.value}
                 />
             </div>
