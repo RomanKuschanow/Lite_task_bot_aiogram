@@ -37,7 +37,7 @@ function RepeatSettings({repeat, range, type, inf, count, untilDate, minDate, ..
                     value={repeat.value}
                     style={{marginLeft: "0", maxHeight: "56px"}}
                     control={<Switcher/>}
-                    label={<Typography style={{lineHeight: "0.7"}}>Repeat</Typography>}
+                    label={<Typography style={{lineHeight: "0.7", color: "var(--tg-theme-text-color)"}}>Repeat</Typography>}
                     labelPlacement="top"
                 />
                 <TextBox
@@ -76,6 +76,7 @@ function RepeatSettings({repeat, range, type, inf, count, untilDate, minDate, ..
                     control={<Switcher/>}
                     label={<Typography style={repeat.value ? {
                         lineHeight: "0.7",
+                        color: "var(--tg-theme-text-color)"
                     } : {
                         lineHeight: "0.7",
                         color: "rgba(0, 0, 0, 0.38)"

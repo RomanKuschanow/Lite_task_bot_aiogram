@@ -3,11 +3,11 @@ import {styled, Switch} from "@mui/material";
 
 const Switcher = styled(Switch)({
     '& .MuiSwitch-switchBase.Mui-checked': {
-        color: '#3f51b4',
+        color: 'var(--tg-theme-button-color)',
     },
 
     '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-        backgroundColor: '#3f51b4',
+        backgroundColor: 'var(--tg-theme-button-color)',
     }
 });
 

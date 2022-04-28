@@ -2,12 +2,12 @@ import {styled, TextField} from "@mui/material";
 
 const TextBox = styled(TextField)({
     '& label.Mui-focused': {
-        color: '#3f51b4',
+        color: 'var(--tg-theme-button-color)',
     },
 
     '& .MuiOutlinedInput-root': {
         '&.Mui-focused fieldset': {
-            borderColor: '#3f51b4',
+            borderColor: 'var(--tg-theme-button-color)',
         },
     },
 });

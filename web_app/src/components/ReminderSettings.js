@@ -19,7 +19,7 @@ function ReminderSettings({text, date, ...props}) {
                     error={text.isDirty && text.isEmpty}
                 />
             </div>
-            <div align="center" style={{paddingTop: "10px"}} >
+            <div align="center" style={{paddingTop: "10px"}}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDateTimePicker style={{width: "100%"}}
                                             label="Date and Time"

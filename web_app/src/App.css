@@ -1,5 +1,5 @@
 body {
-    background-color: white;
+    background-color: var(--tg-theme-bg-color);
 }
 
 .repeat {
@@ -20,6 +20,6 @@ body {
 }
 
 .MuiList-root {
-    background-color: white;
+    background-color: var(--tg-theme-bg-color);
 }
 
