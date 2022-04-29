@@ -2,7 +2,8 @@ import React, {useEffect, useState} from 'react';
 import ReminderSettings from "./ReminderSettings";
 import RepeatSettings from "./RepeatSettings";
 import SButton from "./UI/SButton";
-import {FormControl} from "@mui/material";
+import {FormControl, ThemeProvider} from "@mui/material";
+import {theme} from "./UI/Theme";
 
 
 const useValidation = (value, validations) => {
@@ -82,23 +83,39 @@ function NewReminder() {
     const type = useInput('count');
     const count = useInput('', {'isEmpty': true, 'isNotNum': true})
     const untilDate = useInput(minDate, {'isEmpty': true, 'isValidDate': true});
-    const inf = useInput(false)
+    const inf = useInput(true)
 
     const repeatSettings = {repeat, range, type, count, untilDate, inf, minDate}
 
+    useEffect(() => {
+        window.Telegram.WebApp.expand()
+        window.Telegram.WebApp.MainButton
+            .setText('ТЫК')
+            .show()
+            .onClick(() => {
+                console.log('ТЫК')
+            });
+    }, [])
+
+    if(!text.inputValid || !date.inputValid || (repeat.value ? !(type.value === "count" ? inf.value || count.inputValid : untilDate.inputValid) : false))
+        window.Telegram.WebApp.MainButton.disable();
+    else
+        window.Telegram.WebApp.MainButton.enable();
 
     return (
-        <FormControl style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
-            <ReminderSettings text={text} date={date}/>
-            <div style={{marginTop: "10px"}}>
-                <RepeatSettings
-                    {...repeatSettings}
-                />
-            </div>
-            <SButton
-                disabled={!text.inputValid || !date.inputValid || (repeat.value ? !(type.value === "count" ? inf.value || count.inputValid : untilDate.inputValid) : false)}
-                style={{marginTop: "10px"}} variant="contained">Create Reminder</SButton>
-        </FormControl>
+        <ThemeProvider theme={theme}>
+            <FormControl style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
+                <ReminderSettings text={text} date={date}/>
+                <div style={{marginTop: "10px"}}>
+                    <RepeatSettings
+                        {...repeatSettings}
+                    />
+                </div>
+                <SButton
+                    disabled={!text.inputValid || !date.inputValid || (repeat.value ? !(type.value === "count" ? inf.value || count.inputValid : untilDate.inputValid) : false)}
+                    style={{marginTop: "10px"}} variant="contained">Create Reminder</SButton>
+            </FormControl>
+        </ThemeProvider>
     );
 };
 

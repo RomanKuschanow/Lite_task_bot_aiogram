@@ -73,13 +73,13 @@ function RepeatSettings({repeat, range, type, inf, count, untilDate, minDate, ..
                     onChange={(e) => inf.onChange(e.target.checked)}
                     value={inf.value}
                     style={{marginLeft: "0", maxHeight: "56px"}}
-                    control={<Switcher/>}
+                    control={<Switcher defaultChecked/>}
                     label={<Typography style={repeat.value ? {
                         lineHeight: "0.7",
                         color: "var(--tg-theme-text-color)"
                     } : {
                         lineHeight: "0.7",
-                        color: "rgba(0, 0, 0, 0.38)"
+                        color: "var(--tg-theme-text-color)"
                     }}>Infinity</Typography>}
                     labelPlacement="top"
                     disabled={!repeat.value}

@@ -6,7 +6,7 @@ body {
     padding: 10px;
     border-width: 1px;
     border-style: solid;
-    border-color: rgba(0, 0, 0, 0.23);
+    border-color: var(--tg-theme-hint-color);
     border-radius: 4.5px;
     display: flex;
     flex-direction: column;
@@ -19,7 +19,37 @@ body {
     justify-content: center;
 }
 
-.MuiList-root {
-    background-color: var(--tg-theme-bg-color);
+.MuiList-root, .MuiPaper-root {
+    background-color: var(--tg-theme-bg-color)!important;
 }
+
+.MuiPickersToolbar-toolbar, .MuiPickerDTTabs-tabs, .MuiPickersDay-daySelected, .MuiPickersClockPointer-pointer, .MuiPickersClockPointer-noPoint, .MuiPickersClock-pin, .MuiPickersCalendarHeader-iconButton{
+    background-color: var(--tg-theme-button-color)!important;
+}
+
+.MuiOutlinedInput-root.Mui-focused, .MuiOutlinedInput-notchedOutline, .MuiToggleButton-root {
+    border-color: var(--tg-theme-hint-color)!important;
+}
+
+.MuiTypography-colorPrimary, .MuiButton-textPrimary, .MuiFormLabel-root.Mui-focused, .MuiSelect-icon{
+    color: var(--tg-theme-button-color)!important;
+}
+
+.MuiInputBase-root, .MuiFormLabel-root, .MuiPaper-root, span.MuiIconButton-label, .MuiPickersCalendarHeader-dayLabel, .MuiTypography-colorPrimary, .MuiButton-textPrimary, .MuiFormLabel-root.Mui-focused, .MuiSelect-icon.Mui-disabled{
+    color: var(--tg-theme-text-color)!important;
+}
+
+.MuiPickersClockPointer-thumb {
+    border-color: var(--tg-theme-button-color)!important;
+}
+
+.MuiPickersClockNumber-clockNumber {
+    color: var(--tg-theme-button-text-color)!important;
+}
+
+.MuiSelect-select.Mui-disabled {
+    -webkit-text-fill-color: var(--tg-theme-text-color)!important;
+}
+
+
 
