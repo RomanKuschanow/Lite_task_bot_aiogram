@@ -33,6 +33,7 @@ async def remove_menu(message: Message, user, settings, session):
 
 @dp.message_handler(text="➕ Новое напоминание", state="*")
 @dp.message_handler(text="➕ New reminder", state="*")
+@dp.message_handler(text="➕ Нове нагадування", state="*")
 async def _new_reminder(message: Message, state, session, user):
     async with state.proxy() as data:
         if 'message' in data:
@@ -48,6 +49,7 @@ async def _new_reminder(message: Message, state, session, user):
 
 @dp.message_handler(text="📝 Список напоминаний", state="*")
 @dp.message_handler(text="📝 Reminder List", state="*")
+@dp.message_handler(text="📝 Список нагадувань", state="*")
 async def _reminders_list(message: Message, session, user, state):
     async with state.proxy() as data:
         if 'message' in data:
@@ -63,6 +65,7 @@ async def _reminders_list(message: Message, session, user, state):
 
 @dp.message_handler(text="🛠 Админ-клавиатура", state="*")
 @dp.message_handler(text="🛠 Admin keyboard", state="*")
+@dp.message_handler(text="🛠 Адмін-клавіатура", state="*")
 async def _reminders_list(message: Message, state, user, settings, session):
     settings.kb_enabled = True
     settings.last_kb = "admin"
@@ -98,6 +101,7 @@ async def _donate(message: Message, session, user, state):
 
 @dp.message_handler(text="❔ Помощь по командам", state="*")
 @dp.message_handler(text="❔ Help by commands", state="*")
+@dp.message_handler(text="❔ Допомога по командам", state="*")
 async def _help(message: Message, state, user):
     async with state.proxy() as data:
         if 'message' in data:

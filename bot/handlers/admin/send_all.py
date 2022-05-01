@@ -54,7 +54,7 @@ async def get_text(message: Message, state, user):
                 except:
                     continue
 
-            await message.answer(_("Сообщение отправлено"), reply_markup=set_menu(user))
+            await message.answer(_("Сообщение доставлено"), reply_markup=set_menu(user))
 
     await state.finish()
 

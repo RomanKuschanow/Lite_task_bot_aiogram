@@ -10,11 +10,11 @@ def get_admin_commands(lang) -> list[BotCommand]:
     commands = get_default_commands(lang)
 
     commands.extend([
-        BotCommand('/add_admin', _('Сделать пользователя администратором', locale=lang)),
-        BotCommand('/change_user_status', _('Выдать пользователю VIP-статус', locale=lang)),
-        BotCommand('/send_all', _('Отправить сообщение всем пользователям', locale=lang)),
-        BotCommand('/send_private', _('Отправить личное сообщение пользователю', locale=lang)),
-        BotCommand('/admin_menu', _('Вызвать админ-меню', locale=lang))
+        BotCommand('/add_admin', _('сделать пользователя администратором', locale=lang)),
+        BotCommand('/change_user_status', _('выдать пользователю VIP-статус', locale=lang)),
+        BotCommand('/send_all', _('отправить сообщение всем пользователям', locale=lang)),
+        BotCommand('/send_private', _('отправить личное сообщение пользователю', locale=lang)),
+        BotCommand('/admin_menu', _('вызвать админ-меню', locale=lang))
     ])
 
     return commands

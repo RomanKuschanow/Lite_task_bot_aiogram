@@ -12,8 +12,8 @@ def get_default_commands(lang) -> list[BotCommand]:
         BotCommand('/reminders_list', _('список всех напоминаний пользователя', locale=lang)),
         BotCommand('/donate', _('помочь развитию бота', locale=lang)),
         BotCommand('/feedback', _('оставить отзыв или пожелания', locale=lang)),
-        BotCommand('/menu', _('Отобразить меню', locale=lang)),
-        BotCommand('/remove_menu', _('Скрыть меню', locale=lang)),
+        BotCommand('/menu', _('отобразить меню', locale=lang)),
+        BotCommand('/remove_menu', _('скрыть меню', locale=lang)),
         BotCommand('/lang', _('сменить язык', locale=lang)),
         BotCommand('/tz', _('выбрать часовой пояс', locale=lang)),
         BotCommand('/reset', _('сброс текущего действия', locale=lang))

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bot VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-04-16 10:17+0000\n"
+"POT-Creation-Date: 2022-05-01 12:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,23 +22,23 @@ msgid "Оплата прошла успешно ✅"
 msgstr ""
 
 #: bot/commands/admin.py:13
-msgid "Сделать пользователя администратором"
+msgid "сделать пользователя администратором"
 msgstr ""
 
 #: bot/commands/admin.py:14
-msgid "Выдать пользователю VIP-статус"
+msgid "выдать пользователю VIP-статус"
 msgstr ""
 
 #: bot/commands/admin.py:15
-msgid "Отправить сообщение всем пользователям"
+msgid "отправить сообщение всем пользователям"
 msgstr ""
 
 #: bot/commands/admin.py:16
-msgid "Отправить личное сообщение пользователю"
+msgid "отправить личное сообщение пользователю"
 msgstr ""
 
 #: bot/commands/admin.py:17
-msgid "Вызвать админ-меню"
+msgid "вызвать админ-меню"
 msgstr ""
 
 #: bot/commands/default.py:9
@@ -66,11 +66,11 @@ msgid "оставить отзыв или пожелания"
 msgstr ""
 
 #: bot/commands/default.py:15
-msgid "Отобразить меню"
+msgid "отобразить меню"
 msgstr ""
 
 #: bot/commands/default.py:16
-msgid "Скрыть меню"
+msgid "скрыть меню"
 msgstr ""
 
 #: bot/commands/default.py:17
@@ -88,7 +88,7 @@ msgstr ""
 #: bot/filters/vip.py:25
 msgid ""
 "К сожалению разработчикам тоже нужно что-то кушать, по этому некоторые "
-"функции доступны только после доната. Это можно сделать введя доманду "
+"функции доступны только после доната. Это можно сделать введя команду "
 "/donate"
 msgstr ""
 
@@ -113,7 +113,7 @@ msgid "Статус изменен, id: {id}"
 msgstr ""
 
 #: bot/handlers/admin/menu.py:20 bot/handlers/default/menu.py:20
-#: bot/handlers/default/menu.py:72
+#: bot/handlers/default/menu.py:75
 msgid "Выбери действие из меню 👇"
 msgstr ""
 
@@ -132,11 +132,7 @@ msgstr ""
 msgid "Ты прислал мне {type}, а нужно прислать текст"
 msgstr ""
 
-#: bot/handlers/admin/send_all.py:57
-msgid "Сообщение отправлено"
-msgstr ""
-
-#: bot/handlers/admin/send_private.py:89
+#: bot/handlers/admin/send_all.py:57 bot/handlers/admin/send_private.py:89
 msgid "Сообщение доставлено"
 msgstr ""
 
@@ -219,13 +215,24 @@ msgid ""
 "❌ Одновременно можно создать только 5 активных напоминаний"
 msgstr ""
 
-#: bot/handlers/default/language.py:25
+#: bot/handlers/default/language.py:27
+msgid ""
+"Привет, я Task Bot. Ты можешь составить список задач, а я в назначенное "
+"время напомню тебе о них.\n"
+"Пока что функционал у меня ограничен простыми напоминаниями, но в "
+"грядущих обновлениях мои возможности сильно возрастут.\n"
+"Теперь ты можешь написать /help, чтобы узнать чем я могу тебе помочь.\n"
+"Так же рекомендую выбрать часовой пояс, если он не соответствует "
+"киевскому: /tz"
+msgstr ""
+
+#: bot/handlers/default/language.py:34
 msgid ""
 "Язык изменен\n"
 "Напиши /help чтобы узнать как я могу тебе помочь"
 msgstr ""
 
-#: bot/handlers/default/language.py:32
+#: bot/handlers/default/language.py:44 bot/handlers/default/start.py:14
 msgid "Выберите свой язык"
 msgstr ""
 
@@ -235,17 +242,6 @@ msgstr ""
 
 #: bot/handlers/default/reset.py:17
 msgid "Действие прервано"
-msgstr ""
-
-#: bot/handlers/default/start.py:10
-msgid ""
-"Привет, я Task Bot. Ты можешь составить список задач, а я в назначенное "
-"время напомню тебе о них.\n"
-"Пока что функционал у меня ограничен простыми напоминаниями, но в "
-"грядущих обновлениях мои возможности сильно возрастут.\n"
-"Теперь ты можешь выбрать свой язык, нажав на одну из кнопок ниже.\n"
-"Так же рекомендую выбрать часовой пояс, если он не соответствует "
-"киевскому: /tz"
 msgstr ""
 
 #: bot/handlers/default/time_zone.py:17 bot/handlers/default/time_zone.py:55
@@ -261,7 +257,7 @@ msgid "Ваш часовой пояс установлен на {region}/{city}"
 msgstr ""
 
 #: bot/handlers/default/reminders/datepicker_settings.py:22
-msgid "Today"
+msgid "Сегодня"
 msgstr ""
 
 #: bot/handlers/default/reminders/datepicker_settings.py:43
@@ -364,27 +360,27 @@ msgstr ""
 msgid "Нет"
 msgstr ""
 
-#: bot/handlers/default/reminders/reminder_repeat.py:224
+#: bot/handlers/default/reminders/reminder_repeat.py:228
 msgid "Изначальная дата: {date}\n"
 msgstr ""
 
-#: bot/handlers/default/reminders/reminder_repeat.py:227
+#: bot/handlers/default/reminders/reminder_repeat.py:231
 msgid "Количество повторений: {count}\n"
 msgstr ""
 
-#: bot/handlers/default/reminders/reminder_repeat.py:228
+#: bot/handlers/default/reminders/reminder_repeat.py:232
 msgid "Всегда"
 msgstr ""
 
-#: bot/handlers/default/reminders/reminder_repeat.py:231
+#: bot/handlers/default/reminders/reminder_repeat.py:235
 msgid "Осталось: {left}\n"
 msgstr ""
 
-#: bot/handlers/default/reminders/reminder_repeat.py:240
+#: bot/handlers/default/reminders/reminder_repeat.py:244
 msgid "Повторять до: {date}\n"
 msgstr ""
 
-#: bot/handlers/default/reminders/reminder_repeat.py:242
+#: bot/handlers/default/reminders/reminder_repeat.py:246
 msgid "Частота повторений: {range}"
 msgstr ""
 

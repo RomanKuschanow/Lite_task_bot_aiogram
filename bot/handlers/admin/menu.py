@@ -23,6 +23,7 @@ async def admin_menu(message: Message, user, settings, session):
 
 @dp.message_handler(text="➕ Добавить Админа", state="*", is_admin=True)
 @dp.message_handler(text="➕ Add Admin", state="*", is_admin=True)
+@dp.message_handler(text="➕ Додати Адміна", state="*", is_admin=True)
 async def new_admin(message: Message, state, session, user):
     async with state.proxy() as data:
         if 'message' in data:
@@ -38,6 +39,7 @@ async def new_admin(message: Message, state, session, user):
 
 @dp.message_handler(text="🎁 Выдать VIP", state="*", is_admin=True)
 @dp.message_handler(text="🎁 Add VIP", state="*", is_admin=True)
+@dp.message_handler(text="🎁 Надати VIP", state="*", is_admin=True)
 async def add_vip(message: Message, session, user, state):
     async with state.proxy() as data:
         if 'message' in data:
@@ -53,6 +55,7 @@ async def add_vip(message: Message, session, user, state):
 
 @dp.message_handler(text="🔖 Рассылка", state="*", is_admin=True)
 @dp.message_handler(text="🔖 Mailing", state="*", is_admin=True)
+@dp.message_handler(text="🔖 Розсилка", state="*", is_admin=True)
 async def mailing(message: Message, state):
     async with state.proxy() as data:
         if 'message' in data:
@@ -68,6 +71,7 @@ async def mailing(message: Message, state):
 
 @dp.message_handler(text="📫 Личка", state="*", is_admin=True)
 @dp.message_handler(text="📫 Personal", state="*", is_admin=True)
+@dp.message_handler(text="📫 Особисте повідомлення", state="*", is_admin=True)
 async def personal(message: Message, session, user, state):
     async with state.proxy() as data:
         if 'message' in data:

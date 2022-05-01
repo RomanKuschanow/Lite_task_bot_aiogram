@@ -19,7 +19,7 @@ def _get_datepicker_settings(tz: str, hidden_back: bool = False, hidden_cancel: 
 
     class TodayAction(DatepickerCustomAction):
         action: str = 'today'
-        label: str = _('Today')
+        label: str = _('Сегодня')
 
         available_views = ('day',)
 
