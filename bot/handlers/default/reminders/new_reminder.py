@@ -118,7 +118,7 @@ async def get_reminder_date(message, session, user, state: FSMContext):
         return
 
     text = ""
-    match = re.search(r'^(\d{2})[\ |\:]?(\d{2})$', message.text)
+    match = re.search(r'^(\d{1,2})[\ |\:]?(\d{2})$', message.text)
 
     async with state.proxy() as data:
         try:
