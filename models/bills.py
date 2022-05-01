@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, Integer, String, Float
+from sqlalchemy import Column, DateTime, Integer, BigInteger, String, Float
 
 from .base import db
 
@@ -14,7 +14,7 @@ class Bill(db):
     status = Column(String)
     amount = Column(Float)
 
-    user_id = Column(Integer)
+    user_id = Column(BigInteger)
 
     created_at = Column(DateTime, default=lambda: datetime.now())
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)

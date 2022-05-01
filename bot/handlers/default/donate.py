@@ -38,7 +38,7 @@ async def donate_invoice(message: Message, user: User, session, state):
             data['message'].append(bot_message.message_id)
         return
 
-    bill = await create_bill(session, amount, message.from_user.id)
+    bill = await create_bill(session, amount, messчage.from_user.id)
     logger.info(f'{user} create {bill}')
 
     link = generate_invoice_link(bill, user)
