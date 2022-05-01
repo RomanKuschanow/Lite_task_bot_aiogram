@@ -36,7 +36,10 @@ async def sender(text):
     while i > 0:
 
         for user in users[-30 * i:][-30:]:
-            bot.send_message(user, text)
+            try:
+                bot.send_message(user, text)
+            except:
+                continue
 
         i -= 1
 

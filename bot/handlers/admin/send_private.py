@@ -77,7 +77,10 @@ async def get_text(message: Message, state, user):
         return
 
     async with state.proxy() as data:
-        await bot.send_message(data['id'], message.text)
+        try:
+            await bot.send_message(data['id'], message.text)
+        except:
+            await message.answer(_("Пользователь {id} недоступен").format(id=data['id']))
 
         if 'message' in data:
             for mes in data['message']:

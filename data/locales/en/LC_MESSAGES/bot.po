@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bot VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-01 12:44+0000\n"
+"POT-Creation-Date: 2022-05-01 15:07+0000\n"
 "PO-Revision-Date: 2022-03-26 19:00+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -136,9 +136,13 @@ msgstr "Enter text"
 msgid "Ты прислал мне {type}, а нужно прислать текст"
 msgstr "You sent me {type}, but I need to send the text"
 
-#: bot/handlers/admin/send_all.py:57 bot/handlers/admin/send_private.py:89
+#: bot/handlers/admin/send_all.py:57 bot/handlers/admin/send_private.py:92
 msgid "Сообщение доставлено"
 msgstr "Message delivered"
+
+#: bot/handlers/admin/send_private.py:83
+msgid "Пользователь {id} недоступен"
+msgstr "User {id} is not available"
 
 #: bot/handlers/default/cancel.py:11
 msgid "Действие отменено"

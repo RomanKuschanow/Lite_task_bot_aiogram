@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bot VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-01 12:44+0000\n"
+"POT-Creation-Date: 2022-05-01 15:07+0000\n"
 "PO-Revision-Date: 2022-05-01 08:56+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -136,9 +136,13 @@ msgstr "Введи текст"
 msgid "Ты прислал мне {type}, а нужно прислать текст"
 msgstr "Ти надіслав мені {type}, а потрібно текст"
 
-#: bot/handlers/admin/send_all.py:57 bot/handlers/admin/send_private.py:89
+#: bot/handlers/admin/send_all.py:57 bot/handlers/admin/send_private.py:92
 msgid "Сообщение доставлено"
 msgstr "Повідомлення доставлено"
+
+#: bot/handlers/admin/send_private.py:83
+msgid "Пользователь {id} недоступен"
+msgstr "Користувач {id} недоступний"
 
 #: bot/handlers/default/cancel.py:11
 msgid "Действие отменено"
@@ -267,8 +271,8 @@ msgstr ""
 "Поки що функціонал у мене обмежений простими нагадуваннями, але в "
 "наступних оновленнях мої можливості зростуть.\n"
 "Тепер ти можеш написати /help, щоб дізнатися, чим я можу тобі допомогти.\n"
-"Також рекомендую вибрати часовий пояс, якщо він не відповідає київському: "
-"/tz"
+"Також рекомендую вибрати часовий пояс, якщо він не відповідає київському:"
+" /tz"
 
 #: bot/handlers/default/language.py:34
 msgid ""
