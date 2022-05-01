@@ -173,7 +173,7 @@ async def back(callback_query: CallbackQuery, state: FSMContext, session, user):
 
             data['fail'] = 0
         await NewReminder.date.set()
-        await get_reminder_text(callback_query.message, state, True)
+        await get_reminder_text(callback_query.message, state, user, True)
 
 
 @dp.message_handler(regexp='!(.+): (\d{2}\.\d{2}\.\d{4}\ \d{2}\:\d{2})')
