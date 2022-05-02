@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import ReminderSettings from "./ReminderSettings";
 import RepeatSettings from "./RepeatSettings";
 import SButton from "./UI/SButton";
-import {FormControl, ThemeProvider} from "@mui/material";
+import {FormControl, Popover, ThemeProvider} from "@mui/material";
 import {theme} from "./UI/Theme";
 
 
@@ -54,6 +54,10 @@ const useInput = (initialValue, validations) => {
         setValue(e)
     }
 
+    const onChangeNum = (e) => {
+        setValue(e.replace(/\D/g,''))
+    }
+
     const onChangeButton = (e) => {
         if (e) {
             setValue(e)
@@ -68,6 +72,7 @@ const useInput = (initialValue, validations) => {
         value,
         onChange,
         onChangeButton,
+        onChangeNum,
         onBlur,
         isDirty,
         ...valid
@@ -84,20 +89,23 @@ function NewReminder() {
     const count = useInput('', {'isEmpty': true, 'isNotNum': true})
     const untilDate = useInput(minDate, {'isEmpty': true, 'isValidDate': true});
     const inf = useInput(true)
+    const isVip = useInput(true)
 
-    const repeatSettings = {repeat, range, type, count, untilDate, inf, minDate}
+    let disable = !text.inputValid || !date.inputValid || (repeat.value ? !(type.value === "count" ? inf.value || count.inputValid : untilDate.inputValid) : false);
+
+    const repeatSettings = {repeat, range, type, count, untilDate, inf, minDate, isVip}
 
     useEffect(() => {
         window.Telegram.WebApp.expand()
         window.Telegram.WebApp.MainButton
-            .setText('ТЫК')
+            .setText('Create Reminder')
             .show()
             .onClick(() => {
-                console.log('ТЫК')
+                console.log('Create Reminder')
             });
     }, [])
 
-    if(!text.inputValid || !date.inputValid || (repeat.value ? !(type.value === "count" ? inf.value || count.inputValid : untilDate.inputValid) : false))
+    if(disable)
         window.Telegram.WebApp.MainButton.disable();
     else
         window.Telegram.WebApp.MainButton.enable();
@@ -106,13 +114,19 @@ function NewReminder() {
         <ThemeProvider theme={theme}>
             <FormControl style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
                 <ReminderSettings text={text} date={date}/>
-                <div style={{marginTop: "10px"}}>
+                <div style={{marginTop: "10px", display: "flex",  position: "relative", alignItems: "center"}}
+                >
+                    <p className="text" hidden={isVip.value}>
+                        Unfortunately, developers also need something to eat, so repeating is available only after donation. This can be done by entering the command /donate
+                    </p>
+
                     <RepeatSettings
                         {...repeatSettings}
                     />
                 </div>
                 <SButton
-                    disabled={!text.inputValid || !date.inputValid || (repeat.value ? !(type.value === "count" ? inf.value || count.inputValid : untilDate.inputValid) : false)}
+                    disabled={disable}
+                    className={disable ? "disabled" : ""}
                     style={{marginTop: "10px"}} variant="contained">Create Reminder</SButton>
             </FormControl>
         </ThemeProvider>

@@ -2,7 +2,8 @@ import React from 'react';
 import Switcher from "./UI/Switcher";
 import Filter1Icon from '@mui/icons-material/Filter1';
 import AvTimerIcon from '@mui/icons-material/AvTimer';
-import {FormControlLabel, MenuItem, ToggleButtonGroup, Typography} from "@mui/material";
+import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
+import {FormControlLabel, IconButton, InputAdornment, MenuItem, ToggleButtonGroup, Typography} from "@mui/material";
 import TextBox from "./UI/TextBox";
 import TButton from "./UI/TButton";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
@@ -27,19 +28,24 @@ const ranges = [
     },
 ];
 
-function RepeatSettings({repeat, range, type, inf, count, untilDate, minDate, ...props}) {
+function RepeatSettings({repeat, range, type, inf, count, untilDate, minDate, isVip, ...props}) {
+
+    const handleClickInf = () => {
+        inf.onChange(!inf.value)
+    };
 
     return (
-        <div className="repeat">
+        <div className={!isVip.value ? "notVip repeat" : "repeat"}>
             <div className="repeat_part" style={{marginBottom: "10px"}}>
                 <FormControlLabel
                     onChange={(e) => repeat.onChange(e.target.checked)}
                     value={repeat.value}
                     style={{marginLeft: "0", maxHeight: "56px"}}
-                    control={<Switcher/>}
-                    label={<Typography style={{lineHeight: "0.7", color: "var(--tg-theme-text-color)"}}>Repeat</Typography>}
-                    labelPlacement="top"
-                />
+                    control={<Switcher defaultChecked={!isVip.value}/>}
+                    disabled={!isVip.value}
+                    label={<Typography
+                        style={{lineHeight: "0.7", color: "var(--tg-theme-text-color)"}}>Repeat</Typography>}
+                    labelPlacement="top"/>
                 <TextBox
                     style={{width: "100px", marginRight: "10px"}}
                     select
@@ -47,6 +53,7 @@ function RepeatSettings({repeat, range, type, inf, count, untilDate, minDate, ..
                     value={range.value}
                     label="Repeat Range"
                     disabled={!repeat.value}
+                    className={!repeat.value && isVip.value ? "disabled" : ""}
                 >
                     {ranges.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
@@ -57,6 +64,7 @@ function RepeatSettings({repeat, range, type, inf, count, untilDate, minDate, ..
                 <ToggleButtonGroup
                     exclusive
                     disabled={!repeat.value}
+                    className={!repeat.value && isVip.value ? "disabled" : ""}
                     value={type.value}
                     onChange={(e, value) => type.onChangeButton(value)}
                 >
@@ -69,29 +77,27 @@ function RepeatSettings({repeat, range, type, inf, count, untilDate, minDate, ..
                 </ToggleButtonGroup>
             </div>
             <div className={type.value === "count" ? "repeat_part" : ""} hidden>
-                <FormControlLabel
-                    onChange={(e) => inf.onChange(e.target.checked)}
-                    value={inf.value}
-                    style={{marginLeft: "0", maxHeight: "56px"}}
-                    control={<Switcher defaultChecked/>}
-                    label={<Typography style={repeat.value ? {
-                        lineHeight: "0.7",
-                        color: "var(--tg-theme-text-color)"
-                    } : {
-                        lineHeight: "0.7",
-                        color: "var(--tg-theme-text-color)"
-                    }}>Infinity</Typography>}
-                    labelPlacement="top"
-                    disabled={!repeat.value}
-                />
                 <TextBox
                     style={{width: "100%"}}
                     label="Repeat Count"
-                    value={count.value}
-                    onChange={(e) => count.onChange(e.target.value)}
+                    value={inf.value ? "Infinity" : count.value}
+                    onChange={(e) => count.onChangeNum(e.target.value)}
                     onBlur={(e) => count.onBlur(e)}
                     error={count.isDirty && (count.isEmpty || count.isNotNum)}
-                    disabled={!repeat.value || inf.value}
+                    disabled={!repeat.value}
+                    className={!repeat.value && isVip.value ? "disabled" : ""}
+                    InputProps={{
+                        readOnly: inf.value,
+                        endAdornment:
+                            <InputAdornment position="end">
+                                <IconButton className={inf.value ? "inf" : ""}
+                                            onClick={handleClickInf}
+                                            disabled={!repeat.value}>
+                                    <AllInclusiveIcon/>
+                                </IconButton>
+                            </InputAdornment>,
+                    }}
+                    helperText={count.isEmpty && !inf.value && repeat.value ? "Field cannot be empty" : ""}
                 />
             </div>
             <div className={type.value === "until" ? "repeat_part" : ""} hidden>
@@ -106,6 +112,7 @@ function RepeatSettings({repeat, range, type, inf, count, untilDate, minDate, ..
                                         format="yyyy.MM.dd"
                                         showTodayButton
                                         disabled={!repeat.value}
+                                        className={!repeat.value && isVip.value ? "disabled" : ""}
                     />
                 </MuiPickersUtilsProvider>
             </div>

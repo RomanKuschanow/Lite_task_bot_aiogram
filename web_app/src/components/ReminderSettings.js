@@ -16,7 +16,7 @@ function ReminderSettings({text, date, ...props}) {
                     value={text.value}
                     onChange={(e) => text.onChange(e.target.value)}
                     onBlur={(e) => text.onBlur(e)}
-                    error={text.isDirty && text.isEmpty}
+                    helperText={text.isDirty && text.isEmpty ? "Field cannot be empty" : ""}
                 />
             </div>
             <div align="center" style={{paddingTop: "10px"}}>

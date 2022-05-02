@@ -3,6 +3,8 @@ body {
 }
 
 .repeat {
+    width: 100%;
+    height: 100%;
     padding: 10px;
     border-width: 1px;
     border-style: solid;
@@ -19,23 +21,43 @@ body {
     justify-content: center;
 }
 
-.MuiList-root, .MuiPaper-root {
+.MuiList-root,
+.MuiPaper-root,
+.MuiPickersCalendarHeader-iconButton {
     background-color: var(--tg-theme-bg-color)!important;
 }
 
-.MuiPickersToolbar-toolbar, .MuiPickerDTTabs-tabs, .MuiPickersDay-daySelected, .MuiPickersClockPointer-pointer, .MuiPickersClockPointer-noPoint, .MuiPickersClock-pin, .MuiPickersCalendarHeader-iconButton{
+.MuiPickersToolbar-toolbar,
+.MuiPickerDTTabs-tabs,
+.MuiPickersDay-daySelected,
+.MuiPickersClockPointer-pointer,
+.MuiPickersClockPointer-noPoint,
+.MuiPickersClock-pin {
     background-color: var(--tg-theme-button-color)!important;
 }
 
-.MuiOutlinedInput-root.Mui-focused, .MuiOutlinedInput-notchedOutline, .MuiToggleButton-root {
+.MuiOutlinedInput-root.Mui-focused,
+.MuiOutlinedInput-notchedOutline,
+.MuiToggleButton-root {
     border-color: var(--tg-theme-hint-color)!important;
 }
 
-.MuiTypography-colorPrimary, .MuiButton-textPrimary, .MuiFormLabel-root.Mui-focused, .MuiSelect-icon{
+.MuiTypography-colorPrimary,
+.MuiButton-textPrimary,
+.MuiFormLabel-root.Mui-focused,
+.MuiSelect-icon{
     color: var(--tg-theme-button-color)!important;
 }
 
-.MuiInputBase-root, .MuiFormLabel-root, .MuiPaper-root, span.MuiIconButton-label, .MuiPickersCalendarHeader-dayLabel, .MuiTypography-colorPrimary, .MuiButton-textPrimary, .MuiFormLabel-root.Mui-focused, .MuiSelect-icon.Mui-disabled{
+.MuiInputBase-root,
+.MuiFormLabel-root,
+.MuiPaper-root,
+.MuiInputAdornment-root.span.MuiIconButton-label,
+.MuiPickersCalendarHeader-dayLabel,
+.MuiTypography-colorPrimary,
+.MuiButton-textPrimary,
+.MuiFormLabel-root.Mui-focused,
+.MuiSelect-icon.Mui-disabled{
     color: var(--tg-theme-text-color)!important;
 }
 
@@ -43,12 +65,44 @@ body {
     border-color: var(--tg-theme-button-color)!important;
 }
 
-.MuiPickersClockNumber-clockNumber {
+.MuiPickersClockNumber-clockNumber,
+.MuiIconButton-root,
+.MuiButton-root.Mui-disabled {
     color: var(--tg-theme-button-text-color)!important;
 }
 
-.MuiSelect-select.Mui-disabled {
+.inf {
+    color: var(--tg-theme-button-color)!important;
+}
+
+.MuiSelect-select.Mui-disabled,
+.MuiOutlinedInput-input.Mui-disabled {
     -webkit-text-fill-color: var(--tg-theme-text-color)!important;
+}
+
+.MuiPickersDay-dayDisabled {
+    color: var(--tg-theme-hint-color)!important;
+}
+
+.disabled {
+    opacity: 20%;
+}
+
+.notVip {
+    filter: blur(2px) brightness(70%);
+}
+
+.text {
+    color: var(--tg-theme-text-color);
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    text-align: center;
+    position: absolute;
+    margin: 40px;
+    z-index: 1;
+}
+
+.MuiFormHelperText-root {
+    color: #f44336!important;
 }
 
 
