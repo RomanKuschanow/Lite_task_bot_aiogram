@@ -47,7 +47,9 @@ async def _wayforpay(request: Request):
 @routes.post('/api/NewReminder')
 async def _api_new_reminder(request: Request):
     headers = {
-        'Access-Control-Allow-Origin': '*'
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
     }
     data = await request.json()
     if '_auth' not in data or not check_webapp_signature(config.BOT_TOKEN, data['_auth']):
