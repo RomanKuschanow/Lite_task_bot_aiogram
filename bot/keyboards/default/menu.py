@@ -8,8 +8,9 @@ def get_menu_keyboard_markup(is_admin: bool = False) -> ReplyKeyboardMarkup:
 
     markup.row(_("➕ Новое напоминание"), _("📝 Список напоминаний"))
     markup.row(_("💵 Донат"), _("❔ Помощь по командам"))
+    markup.row(_("🔗 Реферальная ссылка"))
     if is_admin:
-        markup.row(_("🛠 Админ-клавиатура"))
+        markup.insert(_("🛠 Админ-клавиатура"))
 
     return markup
 

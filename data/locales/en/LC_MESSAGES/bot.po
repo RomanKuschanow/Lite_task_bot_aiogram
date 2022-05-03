@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bot VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-03 21:05+0300\n"
+"POT-Creation-Date: 2022-05-03 21:35+0300\n"
 "PO-Revision-Date: 2022-03-26 19:00+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -91,15 +91,14 @@ msgid "сброс текущего действия"
 msgstr "reset current action"
 
 #: bot/filters/vip.py:25
-#, fuzzy
 msgid ""
 "К сожалению разработчикам тоже нужно что-то кушать, по этому некоторые "
 "функции доступны только после доната. Это можно сделать введя команду "
 "/donate, а так же воспользовавшись реферальной ссылкой /referral"
 msgstr ""
-"Unfortunately, developers also need something to eat, so some "
-"functions are available only after donation. This can be done by entering the command "
-"/donate, as well as using the referral link /referral"
+"Unfortunately, developers also need something to eat, so some functions "
+"are available only after donation. This can be done by entering the "
+"command /donate, as well as using the referral link /referral"
 
 #: bot/handlers/admin/add_admin.py:16
 #: bot/handlers/admin/change_user_status.py:16
@@ -121,8 +120,8 @@ msgstr "Admin added, id: {id}"
 msgid "Статус изменен, id: {id}"
 msgstr "Status changed, id: {id}"
 
-#: bot/handlers/admin/menu.py:20 bot/handlers/default/menu.py:20
-#: bot/handlers/default/menu.py:75
+#: bot/handlers/admin/menu.py:20 bot/handlers/default/menu.py:21
+#: bot/handlers/default/menu.py:76
 msgid "Выбери действие из меню 👇"
 msgstr "Choose an action from the menu 👇"
 
@@ -216,9 +215,9 @@ msgstr ""
 "/help - Display this list\n"
 "/new_reminder - Create a new reminder. You must enter a name, select date"
 " and exact time of reminder\n"
-"/reminders_list - Displays a list of all reminders. Using the "
-"keyboard under the message, you can filter them for a more convenient "
-"search, and also change name and/or time\n"
+"/reminders_list - Displays a list of all reminders. Using the keyboard "
+"under the message, you can filter them for a more convenient search, and "
+"also change name and/or time\n"
 "/donate - Donate to developers (minimum $1)\n"
 "/referral - Invite 10 friends and get vip status for free\n"
 "/feedback - Feedback from developers\n"
@@ -292,25 +291,33 @@ msgstr ""
 msgid "Выберите свой язык"
 msgstr "Choose your language"
 
-#: bot/handlers/default/menu.py:30
+#: bot/handlers/default/menu.py:31
 msgid "Клавиатура убрана. Вызвать ее можно командой /menu"
 msgstr "The keyboard has been removed. You can call it with the /menu command"
 
 #: bot/handlers/default/referral.py:15
-msgid "Вот твоя реферальная ссылка: {link}\n"
+msgid ""
+"Вот твоя реферальная ссылка: {link}\n"
+"\n"
 msgstr "Here is your referral link: {link}\n"
+"\n"
 
 #: bot/handlers/default/referral.py:18
-msgid "Пригласи 10 пользователей и получишь vip-статус.\n"
+msgid ""
+"Пригласи 10 пользователей и получишь vip-статус.\n"
+"\n"
 msgstr "Invite 10 users and you'll get vip status.\n"
+"\n"
 
 #: bot/handlers/default/referral.py:20
 msgid ""
 "У тебя уже есть vip-статус, но разработчики будут очень благодарны если "
 "ты продолжишь привлекать новых пользователей\n"
+"\n"
 msgstr ""
-"You already have a VIP status, but the developers will be very grateful if "
-"you will continue to attract new users\n"
+"You already have a VIP status, but the developers will be very grateful "
+"if you will continue to attract new users\n"
+"\n"
 
 #: bot/handlers/default/referral.py:22
 msgid "Ты пригласил: {referral_count}"
@@ -531,7 +538,11 @@ msgstr "💵 Donat"
 msgid "❔ Помощь по командам"
 msgstr "❔ Help by commands"
 
-#: bot/keyboards/default/menu.py:12
+#: bot/keyboards/default/menu.py:11
+msgid "🔗 Реферальная ссылка"
+msgstr "🔗 Referral link"
+
+#: bot/keyboards/default/menu.py:13
 msgid "🛠 Админ-клавиатура"
 msgstr "🛠 Admin keyboard"
 

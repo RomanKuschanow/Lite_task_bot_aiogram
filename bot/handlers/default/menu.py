@@ -5,6 +5,7 @@ from bot.handlers.default.donate import donate
 from bot.handlers.default.help import help
 from bot.handlers.default.reminders.new_reminder import new_reminder
 from bot.handlers.default.reminders.reminders_list import reminders_list
+from bot.handlers.default.referral import get_referral_link
 from bot.keyboards.default.set_menu import set_menu
 from services.settings import update_settings
 from loader import dp, bot, _
@@ -113,3 +114,19 @@ async def _help(message: Message, state, user):
 
     await state.finish()
     await help(message, user)
+
+
+@dp.message_handler(text="🔗 Реферальная ссылка", state="*")
+@dp.message_handler(text="🔗 Referral link", state="*")
+@dp.message_handler(text="🔗 Реферальне посилання", state="*")
+async def referral(message: Message, state, session, user):
+    async with state.proxy() as data:
+        if 'message' in data:
+            for mes in data['message']:
+                try:
+                    await bot.delete_message(message.chat.id, mes)
+                except:
+                    continue
+
+    await state.finish()
+    await get_referral_link(message, session, user)

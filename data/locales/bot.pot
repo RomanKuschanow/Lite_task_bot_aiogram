@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bot VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-03 21:05+0300\n"
+"POT-Creation-Date: 2022-05-03 21:35+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -116,8 +116,8 @@ msgstr ""
 msgid "Статус изменен, id: {id}"
 msgstr ""
 
-#: bot/handlers/admin/menu.py:20 bot/handlers/default/menu.py:20
-#: bot/handlers/default/menu.py:75
+#: bot/handlers/admin/menu.py:20 bot/handlers/default/menu.py:21
+#: bot/handlers/default/menu.py:76
 msgid "Выбери действие из меню 👇"
 msgstr ""
 
@@ -245,22 +245,27 @@ msgstr ""
 msgid "Выберите свой язык"
 msgstr ""
 
-#: bot/handlers/default/menu.py:30
+#: bot/handlers/default/menu.py:31
 msgid "Клавиатура убрана. Вызвать ее можно командой /menu"
 msgstr ""
 
 #: bot/handlers/default/referral.py:15
-msgid "Вот твоя реферальная ссылка: {link}\n"
+msgid ""
+"Вот твоя реферальная ссылка: {link}\n"
+"\n"
 msgstr ""
 
 #: bot/handlers/default/referral.py:18
-msgid "Пригласи 10 пользователей и получишь vip-статус.\n"
+msgid ""
+"Пригласи 10 пользователей и получишь vip-статус.\n"
+"\n"
 msgstr ""
 
 #: bot/handlers/default/referral.py:20
 msgid ""
 "У тебя уже есть vip-статус, но разработчики будут очень благодарны если "
 "ты продолжишь привлекать новых пользователей\n"
+"\n"
 msgstr ""
 
 #: bot/handlers/default/referral.py:22
@@ -480,7 +485,11 @@ msgstr ""
 msgid "❔ Помощь по командам"
 msgstr ""
 
-#: bot/keyboards/default/menu.py:12
+#: bot/keyboards/default/menu.py:11
+msgid "🔗 Реферальная ссылка"
+msgstr ""
+
+#: bot/keyboards/default/menu.py:13
 msgid "🛠 Админ-клавиатура"
 msgstr ""
 

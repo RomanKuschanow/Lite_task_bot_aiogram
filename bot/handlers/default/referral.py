@@ -12,12 +12,12 @@ from loader import dp, _
 async def get_referral_link(message: Message, session, user):
     referral_count = len(await get_referral(session, user.id))
 
-    text = _("Вот твоя реферальная ссылка: {link}\n").format(link=f'http://t.me/{BOT_NAME}?start=referral_id_{user.id}')
+    text = _("Вот твоя реферальная ссылка: {link}\n\n").format(link=f'http://t.me/{BOT_NAME}?start=referral_id_{user.id}')
 
-    if referal_count < 10 and not user.is_vip and not user.is_admin:
-        text += _("Пригласи 10 пользователей и получишь vip-статус.\n")
+    if referral_count < 10 and not user.is_vip and not user.is_admin:
+        text += _("Пригласи 10 пользователей и получишь vip-статус.\n\n")
     else:
-        text += _("У тебя уже есть vip-статус, но разработчики будут очень благодарны если ты продолжишь привлекать новых пользователей\n")
+        text += _("У тебя уже есть vip-статус, но разработчики будут очень благодарны если ты продолжишь привлекать новых пользователей\n\n")
 
     text += _("Ты пригласил: {referral_count}").format(referral_count=referral_count)
 
