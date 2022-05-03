@@ -3,10 +3,11 @@ import logging
 from aiohttp import web
 from aiohttp.web_request import Request
 
-from loader import bot, _
+from loader import bot, _, config
 from models.base import create_async_database
 from services.bill import get_bill_by_label, check_bill
 from services.user import get_user, update_status
+from utils.web_app import check_webapp_signature, parse_webapp_init_data
 
 routes = web.RouteTableDef()
 logging.basicConfig(level=logging.INFO)
@@ -37,6 +38,22 @@ async def _wayforpay(request: Request):
             await update_status(session, bill.user_id, True)
 
     await session.close()
+
+    return web.json_response({'ok': True})
+
+
+@routes.post('/api/NewReminder')
+async def _api_new_reminder(request: Request):
+    data = await request.json()
+    if '_auth' not in data or not check_webapp_signature(config.BOT_TOKEN, data['_auth']):
+        return web.json_response({'ok': False, 'message': 'invalid signature'}, status=401)
+
+    telegram_data = parse_webapp_init_data(data['_auth'])
+    # session = await create_async_database()
+
+    logging.info(telegram_data)
+
+    await bot.send_message(telegram_data.id, 'Here is data:\n<pre>{data}</pre>')
 
     return web.json_response({'ok': True})
 

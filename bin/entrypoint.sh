@@ -1,7 +1,7 @@
 #!/bin/sh
 
 
-nohup python wayforpay.py &
+nohup python api.py &
 
 if [ -z "$WEBHOOK_PATH" ]
 then
