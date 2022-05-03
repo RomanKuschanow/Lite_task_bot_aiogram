@@ -11,3 +11,4 @@ pendulum
 pyTelegramBotAPI
 pytz
 alembic
+aiohttp_middlewares

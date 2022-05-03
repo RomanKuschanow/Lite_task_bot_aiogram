@@ -10,6 +10,8 @@ from services.bill import get_bill_by_label, check_bill
 from services.user import get_user, update_status
 from utils import generate_inline_id
 from utils.web_app import check_webapp_signature, parse_webapp_init_data
+from aiohttp_middlewares import cors_middleware
+
 
 routes = web.RouteTableDef()
 logging.basicConfig(level=logging.INFO)
@@ -46,14 +48,9 @@ async def _wayforpay(request: Request):
 
 @routes.post('/api/NewReminder')
 async def _api_new_reminder(request: Request):
-    headers = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
-    }
     data = await request.json()
     if '_auth' not in data or not check_webapp_signature(config.BOT_TOKEN, data['_auth']):
-        return web.json_response({'ok': False, 'message': 'invalid signature'}, status=401, headers=headers)
+        return web.json_response({'ok': False, 'message': 'invalid signature'}, status=401)
 
     telegram_data = parse_webapp_init_data(data['_auth'])
     # session = await create_async_database()
@@ -70,9 +67,9 @@ async def _api_new_reminder(request: Request):
     except:
         pass
 
-    return web.json_response({'ok': True}, headers=headers)
+    return web.json_response({'ok': True})
 
 
-app = web.Application()
+app = web.Application(middlewares=[cors_middleware(allow_all=True)])
 app.add_routes(routes)
 web.run_app(app, host=WEBAPP_HOST, port=WEBAPP_PORT)
