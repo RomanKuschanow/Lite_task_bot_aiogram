@@ -11,6 +11,7 @@ def get_default_commands(lang) -> list[BotCommand]:
         BotCommand('/new_reminder', _('новое напоминание', locale=lang)),
         BotCommand('/reminders_list', _('список всех напоминаний пользователя', locale=lang)),
         BotCommand('/donate', _('помочь развитию бота', locale=lang)),
+        BotCommand('/referral', _('пригласить друзей', locale=lang)),
         BotCommand('/feedback', _('оставить отзыв или пожелания', locale=lang)),
         BotCommand('/menu', _('отобразить меню', locale=lang)),
         BotCommand('/remove_menu', _('скрыть меню', locale=lang)),
@@ -22,7 +23,7 @@ def get_default_commands(lang) -> list[BotCommand]:
     return commands
 
 
-async def set_default_commands(is_admin: bool = False):
+async def set_default_commands():
     commands_ru = get_default_commands('ru')
     commands_en = get_default_commands('en')
 
@@ -30,7 +31,7 @@ async def set_default_commands(is_admin: bool = False):
     await bot.set_my_commands(commands_en, scope=BotCommandScopeDefault(), language_code='en')
 
 
-async def set_user_commands(id: int, lang: str, is_admin: bool = False):
+async def set_user_commands(id: int, lang: str):
     commands = get_default_commands(lang)
 
     await bot.set_my_commands(commands, scope=BotCommandScopeChat(id))

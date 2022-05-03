@@ -9,7 +9,6 @@ from aiogram.types.reply_keyboard import ReplyKeyboardRemove
 
 from bot.filters import vip
 from bot.keyboards.inline import get_edit_reminders_inline_markup, get_inline_states_markup
-from bot.keyboards.default.set_menu import set_menu
 from bot.states.default.edit_reminder import EditReminder
 from loader import dp, _, bot
 from services.reminder import get_reminder, edit_text, edit_date, delete_reminder

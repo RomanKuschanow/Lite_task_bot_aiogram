@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bot VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-01 15:07+0000\n"
+"POT-Creation-Date: 2022-05-03 21:05+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: api.py:35
+#: api.py:40
 msgid "Оплата прошла успешно ✅"
 msgstr ""
 
@@ -62,26 +62,30 @@ msgid "помочь развитию бота"
 msgstr ""
 
 #: bot/commands/default.py:14
-msgid "оставить отзыв или пожелания"
+msgid "пригласить друзей"
 msgstr ""
 
 #: bot/commands/default.py:15
-msgid "отобразить меню"
+msgid "оставить отзыв или пожелания"
 msgstr ""
 
 #: bot/commands/default.py:16
-msgid "скрыть меню"
+msgid "отобразить меню"
 msgstr ""
 
 #: bot/commands/default.py:17
-msgid "сменить язык"
+msgid "скрыть меню"
 msgstr ""
 
 #: bot/commands/default.py:18
-msgid "выбрать часовой пояс"
+msgid "сменить язык"
 msgstr ""
 
 #: bot/commands/default.py:19
+msgid "выбрать часовой пояс"
+msgstr ""
+
+#: bot/commands/default.py:20
 msgid "сброс текущего действия"
 msgstr ""
 
@@ -89,7 +93,7 @@ msgstr ""
 msgid ""
 "К сожалению разработчикам тоже нужно что-то кушать, по этому некоторые "
 "функции доступны только после доната. Это можно сделать введя команду "
-"/donate"
+"/donate, а так же воспользовавшись реферальной ссылкой /referral"
 msgstr ""
 
 #: bot/handlers/admin/add_admin.py:16
@@ -123,8 +127,8 @@ msgstr ""
 
 #: bot/handlers/admin/send_all.py:36 bot/handlers/admin/send_private.py:35
 #: bot/handlers/admin/send_private.py:71
-#: bot/handlers/default/reminders/edit_reminder.py:87
-#: bot/handlers/default/reminders/edit_reminder.py:144
+#: bot/handlers/default/reminders/edit_reminder.py:86
+#: bot/handlers/default/reminders/edit_reminder.py:143
 #: bot/handlers/default/reminders/new_reminder.py:45
 #: bot/handlers/default/reminders/new_reminder.py:103
 #: bot/handlers/default/reminders/search_reminders.py:83
@@ -188,6 +192,7 @@ msgid ""
 " под сообщением можно будет отфильтровать их для более удобного поиска, а"
 " так же изменить название и/или время\n"
 "/donate — Пожертвовать разработчикам (минимум 1 доллар)\n"
+"/referral — Пригласи 10 друзей и получи vip-статус бесплатно\n"
 "/feedback — Обратная связь с разработчиками\n"
 "/menu — Отобразит меню\n"
 "/remove_menu — Скроет меню\n"
@@ -198,7 +203,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: bot/handlers/default/help.py:23
+#: bot/handlers/default/help.py:24
 msgid ""
 "\n"
 "Команды администраторов:\n"
@@ -209,7 +214,7 @@ msgid ""
 "/admin_menu — Вызов админ-клавиатуры"
 msgstr ""
 
-#: bot/handlers/default/help.py:30
+#: bot/handlers/default/help.py:31
 msgid ""
 "‼ Если ты еще не донатил, тебе не доступны или ограничены некоторые "
 "функции:\n"
@@ -242,6 +247,32 @@ msgstr ""
 
 #: bot/handlers/default/menu.py:30
 msgid "Клавиатура убрана. Вызвать ее можно командой /menu"
+msgstr ""
+
+#: bot/handlers/default/referral.py:15
+msgid "Вот твоя реферальная ссылка: {link}\n"
+msgstr ""
+
+#: bot/handlers/default/referral.py:18
+msgid "Пригласи 10 пользователей и получишь vip-статус.\n"
+msgstr ""
+
+#: bot/handlers/default/referral.py:20
+msgid ""
+"У тебя уже есть vip-статус, но разработчики будут очень благодарны если "
+"ты продолжишь привлекать новых пользователей\n"
+msgstr ""
+
+#: bot/handlers/default/referral.py:22
+msgid "Ты пригласил: {referral_count}"
+msgstr ""
+
+#: bot/handlers/default/referral.py:38
+msgid "Ты не можешь использовать свою ссылку"
+msgstr ""
+
+#: bot/handlers/default/referral.py:41
+msgid "Ты не можешь зарегистрироваться дважды"
 msgstr ""
 
 #: bot/handlers/default/reset.py:17
@@ -281,39 +312,39 @@ msgstr ""
 msgid "Выбрать"
 msgstr ""
 
-#: bot/handlers/default/reminders/edit_reminder.py:47
+#: bot/handlers/default/reminders/edit_reminder.py:46
 msgid "Напоминание удалено"
 msgstr ""
 
-#: bot/handlers/default/reminders/edit_reminder.py:60
+#: bot/handlers/default/reminders/edit_reminder.py:59
 #: bot/handlers/default/reminders/new_reminder.py:28
 msgid "Отправь мне текст напоминания"
 msgstr ""
 
-#: bot/handlers/default/reminders/edit_reminder.py:67
-#: bot/handlers/default/reminders/edit_reminder.py:207
+#: bot/handlers/default/reminders/edit_reminder.py:66
+#: bot/handlers/default/reminders/edit_reminder.py:206
 #: bot/handlers/default/reminders/search_reminders.py:52
 msgid "Выбери дату"
 msgstr ""
 
-#: bot/handlers/default/reminders/edit_reminder.py:111
-#: bot/handlers/default/reminders/edit_reminder.py:189
+#: bot/handlers/default/reminders/edit_reminder.py:110
+#: bot/handlers/default/reminders/edit_reminder.py:188
 msgid "Напоминание отредактировано"
 msgstr ""
 
-#: bot/handlers/default/reminders/edit_reminder.py:123
+#: bot/handlers/default/reminders/edit_reminder.py:122
 #: bot/handlers/default/reminders/new_reminder.py:81
 #: bot/handlers/default/reminders/search_reminders.py:66
 msgid "Отправь точное время"
 msgstr ""
 
-#: bot/handlers/default/reminders/edit_reminder.py:153
+#: bot/handlers/default/reminders/edit_reminder.py:152
 #: bot/handlers/default/reminders/new_reminder.py:112
 #: bot/handlers/default/reminders/search_reminders.py:166
 msgid "Формат не соответствует"
 msgstr ""
 
-#: bot/handlers/default/reminders/edit_reminder.py:168
+#: bot/handlers/default/reminders/edit_reminder.py:167
 #: bot/handlers/default/reminders/new_reminder.py:129
 msgid "Ты ввел несуществующее время"
 msgstr ""
@@ -605,27 +636,27 @@ msgstr ""
 msgid "Чел, ты в <s>муте</s> бане еще на {date}"
 msgstr ""
 
-#: services/user.py:84
+#: services/user.py:104
 msgid "Поздравляю! 🎉🎉🎉 Ты получил VIP-статус"
 msgstr ""
 
-#: services/user.py:86
+#: services/user.py:106
 msgid "У тебя забрали VIP-статус 😢"
 msgstr ""
 
-#: services/user.py:98
+#: services/user.py:118
 msgid "Поздравляю! 🎉🎉🎉 Теперь ты админ"
 msgstr ""
 
-#: services/user.py:100
+#: services/user.py:120
 msgid "Ты больше не админ 😢"
 msgstr ""
 
-#: services/user.py:155
+#: services/user.py:175
 msgid "Пользователь {id} забанен"
 msgstr ""
 
-#: services/user.py:173
+#: services/user.py:193
 msgid "Пользователь {id} забанен навсегда"
 msgstr ""
 

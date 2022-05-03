@@ -7,7 +7,7 @@ from loader import dp, _
 
 
 @dp.message_handler(CommandStart())
-async def bot_start(message: Message, user):
+async def bot_start(message: Message):
 
     await Start.lang.set()
 

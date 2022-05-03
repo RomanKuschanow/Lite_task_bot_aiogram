@@ -6,7 +6,7 @@ from bot.keyboards.default.set_menu import set_menu
 
 
 @dp.callback_query_handler(text='done', state='*')
-async def bot_start(callback_query: CallbackQuery, state, user):
+async def done(callback_query: CallbackQuery, state, user):
     await callback_query.answer()
     text = _('Действие завершено')
 

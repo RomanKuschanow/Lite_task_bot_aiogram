@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bot VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-01 15:07+0000\n"
+"POT-Creation-Date: 2022-05-03 21:05+0300\n"
 "PO-Revision-Date: 2022-05-01 08:56+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: api.py:35
+#: api.py:40
 msgid "Оплата прошла успешно ✅"
 msgstr "Платіж здійснено успішно ✅"
 
@@ -64,26 +64,30 @@ msgid "помочь развитию бота"
 msgstr "допомогти розробникам"
 
 #: bot/commands/default.py:14
+msgid "пригласить друзей"
+msgstr "запросити друзів"
+
+#: bot/commands/default.py:15
 msgid "оставить отзыв или пожелания"
 msgstr "залишити відгук або побажання"
 
-#: bot/commands/default.py:15
+#: bot/commands/default.py:16
 msgid "отобразить меню"
 msgstr "відобразити меню"
 
-#: bot/commands/default.py:16
+#: bot/commands/default.py:17
 msgid "скрыть меню"
 msgstr "заховати меню"
 
-#: bot/commands/default.py:17
+#: bot/commands/default.py:18
 msgid "сменить язык"
 msgstr "змінити мову"
 
-#: bot/commands/default.py:18
+#: bot/commands/default.py:19
 msgid "выбрать часовой пояс"
 msgstr "вибрати часовий пояс"
 
-#: bot/commands/default.py:19
+#: bot/commands/default.py:20
 msgid "сброс текущего действия"
 msgstr "скасування поточної дії "
 
@@ -91,10 +95,11 @@ msgstr "скасування поточної дії "
 msgid ""
 "К сожалению разработчикам тоже нужно что-то кушать, по этому некоторые "
 "функции доступны только после доната. Это можно сделать введя команду "
-"/donate"
+"/donate, а так же воспользовавшись реферальной ссылкой /referral"
 msgstr ""
-"На жаль розробникам теж потрібно щось їсти, тому деякі функції доступні "
-"лише після донату. Це можна зробити, ввівши команду /donate"
+"На жаль розробникам теж потрібно щось їсти, тому деякі "
+"функції доступні лише після донату. Це можна зробити, ввівши команду "
+"/donate, а також скориставшись реферальним посиланням /referral"
 
 #: bot/handlers/admin/add_admin.py:16
 #: bot/handlers/admin/change_user_status.py:16
@@ -127,8 +132,8 @@ msgstr "Введи текст"
 
 #: bot/handlers/admin/send_all.py:36 bot/handlers/admin/send_private.py:35
 #: bot/handlers/admin/send_private.py:71
-#: bot/handlers/default/reminders/edit_reminder.py:87
-#: bot/handlers/default/reminders/edit_reminder.py:144
+#: bot/handlers/default/reminders/edit_reminder.py:86
+#: bot/handlers/default/reminders/edit_reminder.py:143
 #: bot/handlers/default/reminders/new_reminder.py:45
 #: bot/handlers/default/reminders/new_reminder.py:103
 #: bot/handlers/default/reminders/search_reminders.py:83
@@ -197,6 +202,7 @@ msgid ""
 " под сообщением можно будет отфильтровать их для более удобного поиска, а"
 " так же изменить название и/или время\n"
 "/donate — Пожертвовать разработчикам (минимум 1 доллар)\n"
+"/referral — Пригласи 10 друзей и получи vip-статус бесплатно\n"
 "/feedback — Обратная связь с разработчиками\n"
 "/menu — Отобразит меню\n"
 "/remove_menu — Скроет меню\n"
@@ -214,6 +220,7 @@ msgstr ""
 "клавіатури під повідомленням можна буде фільтрувати їх для зручнішого "
 "пошуку, а також змінити назву та/або час\n"
 "/donate — Пожертвувати розробникам (мінімум 1 долар)\n"
+"/referral — Запроси 10 друзів та отримай vip-статус безкоштовно\n"
 "/feedback — Зворотній зв'язок із розробниками\n"
 "/menu — Відобразити меню\n"
 "/remove_menu — Сховати меню\n"
@@ -223,7 +230,7 @@ msgstr ""
 "нагадування бот став поводитися некоректно\n"
 "\n"
 
-#: bot/handlers/default/help.py:23
+#: bot/handlers/default/help.py:24
 msgid ""
 "\n"
 "Команды администраторов:\n"
@@ -241,7 +248,7 @@ msgstr ""
 "/send_private — Надіслати повідомлення користувачу за його id\n"
 "/admin_menu — Відобразити адмін-клавіатури"
 
-#: bot/handlers/default/help.py:30
+#: bot/handlers/default/help.py:31
 msgid ""
 "‼ Если ты еще не донатил, тебе не доступны или ограничены некоторые "
 "функции:\n"
@@ -290,6 +297,34 @@ msgstr "Виберіть свою мову"
 msgid "Клавиатура убрана. Вызвать ее можно командой /menu"
 msgstr "Клавіатура прихована. Викликати її можна командою /menu"
 
+#: bot/handlers/default/referral.py:15
+msgid "Вот твоя реферальная ссылка: {link}\n"
+msgstr "Ось твоє реферальне посилання: {link}\n"
+
+#: bot/handlers/default/referral.py:18
+msgid "Пригласи 10 пользователей и получишь vip-статус.\n"
+msgstr "Запроси 10 користувачів та отримаєш vip-статус.\n"
+
+#: bot/handlers/default/referral.py:20
+msgid ""
+"У тебя уже есть vip-статус, но разработчики будут очень благодарны если "
+"ты продолжишь привлекать новых пользователей\n"
+msgstr ""
+"У тебе вже є vip-статус, але розробники будуть дуже вдячні якщо"
+"ти продовжиш залучати нових користувачів\n"
+
+#: bot/handlers/default/referral.py:22
+msgid "Ты пригласил: {referral_count}"
+msgstr "Ти запросив: {referral_count}"
+
+#: bot/handlers/default/referral.py:38
+msgid "Ты не можешь использовать свою ссылку"
+msgstr "Ти не можеш використати своє ж посилання"
+
+#: bot/handlers/default/referral.py:41
+msgid "Ты не можешь зарегистрироваться дважды"
+msgstr "Ти не можеш зареєструватися двічі"
+
 #: bot/handlers/default/reset.py:17
 msgid "Действие прервано"
 msgstr "Дія перервана"
@@ -327,39 +362,39 @@ msgstr "⬅ Назад"
 msgid "Выбрать"
 msgstr "Вибрати"
 
-#: bot/handlers/default/reminders/edit_reminder.py:47
+#: bot/handlers/default/reminders/edit_reminder.py:46
 msgid "Напоминание удалено"
 msgstr "Нагадування видалено"
 
-#: bot/handlers/default/reminders/edit_reminder.py:60
+#: bot/handlers/default/reminders/edit_reminder.py:59
 #: bot/handlers/default/reminders/new_reminder.py:28
 msgid "Отправь мне текст напоминания"
 msgstr "Надішли мені текст нагадування"
 
-#: bot/handlers/default/reminders/edit_reminder.py:67
-#: bot/handlers/default/reminders/edit_reminder.py:207
+#: bot/handlers/default/reminders/edit_reminder.py:66
+#: bot/handlers/default/reminders/edit_reminder.py:206
 #: bot/handlers/default/reminders/search_reminders.py:52
 msgid "Выбери дату"
 msgstr "Вибери дату"
 
-#: bot/handlers/default/reminders/edit_reminder.py:111
-#: bot/handlers/default/reminders/edit_reminder.py:189
+#: bot/handlers/default/reminders/edit_reminder.py:110
+#: bot/handlers/default/reminders/edit_reminder.py:188
 msgid "Напоминание отредактировано"
 msgstr "Нагадування відредаговано"
 
-#: bot/handlers/default/reminders/edit_reminder.py:123
+#: bot/handlers/default/reminders/edit_reminder.py:122
 #: bot/handlers/default/reminders/new_reminder.py:81
 #: bot/handlers/default/reminders/search_reminders.py:66
 msgid "Отправь точное время"
 msgstr "Відправ точний час"
 
-#: bot/handlers/default/reminders/edit_reminder.py:153
+#: bot/handlers/default/reminders/edit_reminder.py:152
 #: bot/handlers/default/reminders/new_reminder.py:112
 #: bot/handlers/default/reminders/search_reminders.py:166
 msgid "Формат не соответствует"
 msgstr "Недійсний формат"
 
-#: bot/handlers/default/reminders/edit_reminder.py:168
+#: bot/handlers/default/reminders/edit_reminder.py:167
 #: bot/handlers/default/reminders/new_reminder.py:129
 msgid "Ты ввел несуществующее время"
 msgstr "Ти ввів неіснуючий час"
@@ -653,27 +688,27 @@ msgstr "Бан на {hours}"
 msgid "Чел, ты в <s>муте</s> бане еще на {date}"
 msgstr "Ти досі у бані, ще на {date"
 
-#: services/user.py:84
+#: services/user.py:104
 msgid "Поздравляю! 🎉🎉🎉 Ты получил VIP-статус"
 msgstr "Вітаю! 🎉🎉🎉 Ти отримав VIP-статус"
 
-#: services/user.py:86
+#: services/user.py:106
 msgid "У тебя забрали VIP-статус 😢"
 msgstr "У тебе забрали VIP-статус 😢"
 
-#: services/user.py:98
+#: services/user.py:118
 msgid "Поздравляю! 🎉🎉🎉 Теперь ты админ"
 msgstr "Вітаю! 🎉🎉🎉 Тепер ти адмін"
 
-#: services/user.py:100
+#: services/user.py:120
 msgid "Ты больше не админ 😢"
 msgstr "Ти більше не адмін 😢"
 
-#: services/user.py:155
+#: services/user.py:175
 msgid "Пользователь {id} забанен"
 msgstr "Користувача {id} забанено"
 
-#: services/user.py:173
+#: services/user.py:193
 msgid "Пользователь {id} забанен навсегда"
 msgstr "Користувача {id} забанено назавжди"
 

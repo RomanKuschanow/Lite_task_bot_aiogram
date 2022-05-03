@@ -25,6 +25,7 @@ class User(db):
     settings = relationship('Settings', back_populates='user', uselist=False)
 
     created_at = Column(DateTime, default=lambda: datetime.now(tz=None))
+    referal_id = Column(BigInteger)
 
     banned_until = Column(DateTime, nullable=True)
     ban_count = Column(Integer, default=0)

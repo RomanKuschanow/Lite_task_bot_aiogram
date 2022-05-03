@@ -41,6 +41,26 @@ async def get_user(session: AsyncSession, id: int) -> User:
 
 
 @save_execute
+async def set_referral(session: AsyncSession, user_id, referal_id):
+    sql = update(User).where(User.id == user_id).values(referal_id=referal_id)
+
+    await session.execute(sql)
+
+    await save_commit(session)
+
+    if len(await get_referral(session, referal_id)) > 9:
+        await update_status(session, referal_id)
+
+
+@save_execute
+async def get_referral(session: AsyncSession, id: int) -> list[User]:
+    sql = select(User).where(User.referal_id == id)
+    query = await session.execute(sql)
+
+    return [u for u, in query]
+
+
+@save_execute
 async def get_user_language(session: AsyncSession, id: int) -> str:
     sql = select(User).where(User.id == id)
     query = await session.execute(sql)

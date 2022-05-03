@@ -40,7 +40,7 @@ async def change_language(callback_query: CallbackQuery, regexp: Regexp, session
 
 
 @dp.message_handler(commands='lang')
-async def bot_start(message: Message):
+async def lang(message: Message):
     text = _('Выберите свой язык')
 
     await message.answer(text, reply_markup=get_language_inline_markup())
