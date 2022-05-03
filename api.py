@@ -1,5 +1,6 @@
 import logging
 
+from aiogram.types import InlineQueryResultArticle, InputTextMessageContent
 from aiohttp import web
 from aiohttp.web_request import Request
 
@@ -7,6 +8,7 @@ from loader import bot, _, config
 from models.base import create_async_database
 from services.bill import get_bill_by_label, check_bill
 from services.user import get_user, update_status
+from utils import generate_inline_id
 from utils.web_app import check_webapp_signature, parse_webapp_init_data
 
 routes = web.RouteTableDef()
@@ -52,8 +54,16 @@ async def _api_new_reminder(request: Request):
     # session = await create_async_database()
 
     logging.info(telegram_data)
+    logging.info(telegram_data['user']['id'])
 
-    await bot.send_message(telegram_data.id, 'Here is data:\n<pre>{data}</pre>')
+    await bot.send_message(telegram_data['user']['id'], 'Here is data:\n<pre>{data}</pre>')
+    try:
+        inline_query = telegram_data["query_id"]
+        item = InlineQueryResultArticle(id=generate_inline_id(inline_query), title='Test',
+                                        input_message_content=InputTextMessageContent('Some answer'))
+        await bot.answer_web_app_query(inline_query, item)
+    except:
+        pass
 
     return web.json_response({'ok': True})
 
