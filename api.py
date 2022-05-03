@@ -58,7 +58,8 @@ async def _api_new_reminder(request: Request):
     logging.info(telegram_data)
     logging.info(telegram_data['user']['id'])
 
-    await bot.send_message(telegram_data['user']['id'], f'Here is data:\n<pre>{data}</pre>')
+    await bot.send_message(telegram_data['user']['id'], f'WebAppInitData:\n<pre>{telegram_data}</pre>\n\n'
+                                                        f'Data:\n<pre>{data["data"]}</pre>')
     try:
         inline_query = telegram_data['query_id']
         item = InlineQueryResultArticle(id=generate_inline_id(inline_query), title='Test',

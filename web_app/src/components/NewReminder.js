@@ -96,10 +96,6 @@ function NewReminder() {
     const repeatSettings = {repeat, range, type, count, untilDate, inf, minDate, isVip}
 
     const createReminder = () => {
-        const reminder = {
-            text, date, repeat, range, type
-        }
-
         window.Telegram.WebApp.MainButton.showProgress();
 
         fetch('https://245b-46-101-25-59.eu.ngrok.io/api/NewReminder', {
@@ -107,7 +103,7 @@ function NewReminder() {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 '_auth': window.Telegram.WebApp.initData,
-                'data': reminder
+                'data': window.newReminderData
             }),
             redirect: 'follow'
         })
@@ -124,7 +120,7 @@ function NewReminder() {
         window.Telegram.WebApp.MainButton
             .setText('Create Reminder')
             .show()
-            .onClick(createReminder);
+            .onClick(createReminder)
     }, [])
 
     if (disable)
@@ -132,6 +128,16 @@ function NewReminder() {
     else
         window.Telegram.WebApp.MainButton.enable();
 
+    window.newReminderData = {
+        text: text.value,
+        date: date.value,
+        repeat: repeat.value,
+        range: range.value,
+        type: type.value,
+        count: count.value,
+        untilDate: untilDate.value,
+        inf: inf.value
+    }
     return (
         <ThemeProvider theme={theme}>
             <FormControl style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
@@ -150,7 +156,7 @@ function NewReminder() {
                 <SButton
                     disabled={disable}
                     className={disable ? "disabled" : ""}
-                    style={{marginTop: "10px"}} variant="contained">Create Reminder</SButton>
+                    style={{marginTop: "10px"}} variant="contained" onClick={createReminder}>Create Reminder</SButton>
             </FormControl>
         </ThemeProvider>
     );
