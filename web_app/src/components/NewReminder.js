@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import ReminderSettings from "./ReminderSettings";
 import RepeatSettings from "./RepeatSettings";
 import SButton from "./UI/SButton";
-import {FormControl, Popover, ThemeProvider} from "@mui/material";
+import {FormControl, ThemeProvider} from "@mui/material";
 import {theme} from "./UI/Theme";
 
 
@@ -55,7 +55,7 @@ const useInput = (initialValue, validations) => {
     }
 
     const onChangeNum = (e) => {
-        setValue(e.replace(/\D/g,''))
+        setValue(e.replace(/\D/g, ''))
     }
 
     const onChangeButton = (e) => {
@@ -102,10 +102,32 @@ function NewReminder() {
             .show()
             .onClick(() => {
                 console.log('Create Reminder')
+
+                const reminder = {
+                    text, date, repeat, range, type
+                }
+
+                window.Telegram.WebApp.MainButton.showProgress();
+
+                fetch('https://245b-46-101-25-59.eu.ngrok.io/api/NewReminder', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        '_auth': window.Telegram.WebApp.initData,
+                        'data': reminder
+                    }),
+                    redirect: 'follow'
+                })
+                    .then(response => response.json())
+                    .then(result => console.log(result))
+                    .catch(error => console.log('error', error))
+                    .finally(() => {
+                        window.Telegram.WebApp.MainButton.hideProgress()
+                    });
             });
     }, [])
 
-    if(disable)
+    if (disable)
         window.Telegram.WebApp.MainButton.disable();
     else
         window.Telegram.WebApp.MainButton.enable();
@@ -114,10 +136,11 @@ function NewReminder() {
         <ThemeProvider theme={theme}>
             <FormControl style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
                 <ReminderSettings text={text} date={date}/>
-                <div style={{marginTop: "10px", display: "flex",  position: "relative", alignItems: "center"}}
+                <div style={{marginTop: "10px", display: "flex", position: "relative", alignItems: "center"}}
                 >
                     <p className="text" hidden={isVip.value}>
-                        Unfortunately, developers also need something to eat, so repeating is available only after donation. This can be done by entering the command /donate
+                        Unfortunately, developers also need something to eat, so repeating is available only after
+                        donation. This can be done by entering the command /donate
                     </p>
 
                     <RepeatSettings
@@ -131,6 +154,6 @@ function NewReminder() {
             </FormControl>
         </ThemeProvider>
     );
-};
+}
 
 export default NewReminder;

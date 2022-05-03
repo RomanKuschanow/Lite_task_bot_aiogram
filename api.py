@@ -46,9 +46,12 @@ async def _wayforpay(request: Request):
 
 @routes.post('/api/NewReminder')
 async def _api_new_reminder(request: Request):
+    headers = {
+        'Access-Control-Allow-Origin': '*'
+    }
     data = await request.json()
     if '_auth' not in data or not check_webapp_signature(config.BOT_TOKEN, data['_auth']):
-        return web.json_response({'ok': False, 'message': 'invalid signature'}, status=401)
+        return web.json_response({'ok': False, 'message': 'invalid signature'}, status=401, headers=headers)
 
     telegram_data = parse_webapp_init_data(data['_auth'])
     # session = await create_async_database()
@@ -56,16 +59,16 @@ async def _api_new_reminder(request: Request):
     logging.info(telegram_data)
     logging.info(telegram_data['user']['id'])
 
-    await bot.send_message(telegram_data['user']['id'], 'Here is data:\n<pre>{data}</pre>')
+    await bot.send_message(telegram_data['user']['id'], f'Here is data:\n<pre>{data}</pre>')
     try:
-        inline_query = telegram_data["query_id"]
+        inline_query = telegram_data['query_id']
         item = InlineQueryResultArticle(id=generate_inline_id(inline_query), title='Test',
                                         input_message_content=InputTextMessageContent('Some answer'))
         await bot.answer_web_app_query(inline_query, item)
     except:
         pass
 
-    return web.json_response({'ok': True})
+    return web.json_response({'ok': True}, headers=headers)
 
 
 app = web.Application()
