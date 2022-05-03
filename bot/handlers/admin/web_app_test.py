@@ -1,7 +1,8 @@
 import time
 
 from aiogram.dispatcher.filters import RegexpCommandsFilter
-from aiogram.types import Message, ContentTypes, ReplyKeyboardMarkup, KeyboardButton, WebAppInfo, MenuButtonWebApp
+from aiogram.types import Message, ContentTypes, WebAppInfo, MenuButtonWebApp, InlineKeyboardMarkup, \
+    InlineKeyboardButton
 
 from loader import dp, bot
 from models import User
@@ -13,9 +14,9 @@ async def _web_app_init(message: Message, user: User, regexp_command):
         else 'https://lite-task-bot-aiogram.vercel.app/NewReminder'
     web_app_uri += '?time=' + str(time.time())
 
-    markup = ReplyKeyboardMarkup(resize_keyboard=True)
+    markup = InlineKeyboardMarkup()
     markup.add(
-        KeyboardButton('Menu', web_app=WebAppInfo(url=web_app_uri + '&keyboard_button=1'))
+        InlineKeyboardButton(text='Menu', web_app=WebAppInfo(url=web_app_uri))
     )
 
     await message.answer('Web app test', reply_markup=markup)
