@@ -64,7 +64,7 @@ msgstr "help the development of the bot"
 
 #: bot/commands/default.py:14
 msgid "пригласить друзей"
-msgstr ""
+msgstr "invite friends"
 
 #: bot/commands/default.py:15
 msgid "оставить отзыв или пожелания"
