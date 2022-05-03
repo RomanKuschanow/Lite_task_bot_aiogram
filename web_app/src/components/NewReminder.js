@@ -95,36 +95,36 @@ function NewReminder() {
 
     const repeatSettings = {repeat, range, type, count, untilDate, inf, minDate, isVip}
 
+    const createReminder = () => {
+        const reminder = {
+            text, date, repeat, range, type
+        }
+
+        window.Telegram.WebApp.MainButton.showProgress();
+
+        fetch('https://245b-46-101-25-59.eu.ngrok.io/api/NewReminder', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                '_auth': window.Telegram.WebApp.initData,
+                'data': reminder
+            }),
+            redirect: 'follow'
+        })
+            .then(response => response.json())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error))
+            .finally(() => {
+                window.Telegram.WebApp.MainButton.hideProgress()
+            });
+    }
+
     useEffect(() => {
         window.Telegram.WebApp.expand()
         window.Telegram.WebApp.MainButton
             .setText('Create Reminder')
             .show()
-            .onClick(() => {
-                console.log('Create Reminder')
-
-                const reminder = {
-                    text, date, repeat, range, type
-                }
-
-                window.Telegram.WebApp.MainButton.showProgress();
-
-                fetch('https://245b-46-101-25-59.eu.ngrok.io/api/NewReminder', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        '_auth': window.Telegram.WebApp.initData,
-                        'data': reminder
-                    }),
-                    redirect: 'follow'
-                })
-                    .then(response => response.json())
-                    .then(result => console.log(result))
-                    .catch(error => console.log('error', error))
-                    .finally(() => {
-                        window.Telegram.WebApp.MainButton.hideProgress()
-                    });
-            });
+            .onClick(createReminder);
     }, [])
 
     if (disable)
