@@ -58,7 +58,7 @@ async def _api_get_status(request: Request):
 
     user = await get_user(session, int(telegram_data['user']['id']))
 
-    return web.json_response({'ok': True, 'isVip': user.is_vip})
+    return web.json_response({'ok': True, 'isVip': user.is_vip or user.is_admin})
 
 
 @routes.post('/api/NewReminder')
