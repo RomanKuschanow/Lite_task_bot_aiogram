@@ -89,7 +89,7 @@ function NewReminder() {
     const count = useInput('', {'isEmpty': true, 'isNotNum': true})
     const untilDate = useInput(minDate, {'isEmpty': true, 'isValidDate': true});
     const inf = useInput(true)
-    const isVip = false
+    let isVip = false
 
     let disable = !text.inputValid || !date.inputValid || (repeat.value ? !(type.value === "count" ? inf.value || count.inputValid : untilDate.inputValid) : false);
 
@@ -106,7 +106,7 @@ function NewReminder() {
         })
             .then(response => response.json())
             // .then(result => console.log(result))
-            .then(result => isVip.onChange(result.isVip))
+            .then(result => isVip = result.isVip)
             .catch(error => console.log('error', error))
     }
 
@@ -131,12 +131,12 @@ function NewReminder() {
     }
 
     useEffect(() => {
+        getStatus()
         window.Telegram.WebApp.expand()
         window.Telegram.WebApp.MainButton
             .setText('Create Reminder')
             .show()
             .onClick(createReminder)
-        getStatus()
     }, [])
 
     if (disable)
