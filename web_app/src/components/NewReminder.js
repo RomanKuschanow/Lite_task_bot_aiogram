@@ -131,7 +131,7 @@ function NewReminder() {
     }
 
     useEffect(() => {
-        // getStatus()
+        getStatus()
         window.Telegram.WebApp.expand()
         window.Telegram.WebApp.MainButton
             .setText('Create Reminder')
