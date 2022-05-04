@@ -105,7 +105,7 @@ function NewReminder() {
             redirect: 'follow'
         })
             .then(response => response.json())
-            .then(result => console.log(result))
+            // .then(result => console.log(result))
             .then(result => isVip.onChange(result.isVip))
             .catch(error => console.log('error', error))
     }
