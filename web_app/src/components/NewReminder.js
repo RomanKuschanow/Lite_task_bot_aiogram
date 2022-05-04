@@ -89,11 +89,25 @@ function NewReminder() {
     const count = useInput('', {'isEmpty': true, 'isNotNum': true})
     const untilDate = useInput(minDate, {'isEmpty': true, 'isValidDate': true});
     const inf = useInput(true)
-    const isVip = useInput(true)
+    const isVip = useInput(false)
 
     let disable = !text.inputValid || !date.inputValid || (repeat.value ? !(type.value === "count" ? inf.value || count.inputValid : untilDate.inputValid) : false);
 
     const repeatSettings = {repeat, range, type, count, untilDate, inf, minDate, isVip}
+
+    const getStatus = () => {
+        fetch('https://245b-46-101-25-59.eu.ngrok.io/api/getStatus', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                '_auth': window.Telegram.WebApp.initData,
+            }),
+            redirect: 'follow'
+        })
+            .then(response => response.json())
+            .then(result => isVip.onChange(result))
+            .catch(error => console.log('error', error))
+    }
 
     const createReminder = () => {
         window.Telegram.WebApp.MainButton.showProgress();
@@ -116,6 +130,7 @@ function NewReminder() {
     }
 
     useEffect(() => {
+        getStatus()
         window.Telegram.WebApp.expand()
         window.Telegram.WebApp.MainButton
             .setText('Create Reminder')

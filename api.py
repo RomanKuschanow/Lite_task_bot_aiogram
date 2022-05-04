@@ -46,6 +46,21 @@ async def _wayforpay(request: Request):
     return web.json_response({'ok': True})
 
 
+@routes.post('/api/getStatus')
+async def _api_get_status(request: Request):
+    data = await request.json()
+
+    if '_auth' not in data or not check_webapp_signature(config.BOT_TOKEN, data['_auth']):
+        return web.json_response({'ok': False, 'message': 'invalid signature'}, status=401)
+
+    telegram_data = parse_webapp_init_data(data['_auth'])
+    session = await create_async_database()
+
+    user = await get_user(session, int(telegram_data['user']['id']))
+
+    return web.json_response({'ok': True, 'isVip': user.is_vip})
+
+
 @routes.post('/api/NewReminder')
 async def _api_new_reminder(request: Request):
     data = await request.json()
@@ -53,7 +68,6 @@ async def _api_new_reminder(request: Request):
         return web.json_response({'ok': False, 'message': 'invalid signature'}, status=401)
 
     telegram_data = parse_webapp_init_data(data['_auth'])
-    # session = await create_async_database()
 
     logging.info(telegram_data)
     logging.info(telegram_data['user']['id'])
