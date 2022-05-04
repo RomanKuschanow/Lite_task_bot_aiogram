@@ -41,7 +41,7 @@ function RepeatSettings({repeat, range, type, inf, count, untilDate, minDate, is
                     onChange={(e) => repeat.onChange(e.target.checked)}
                     value={repeat.value}
                     style={{marginLeft: "0", maxHeight: "56px"}}
-                    control={<Switcher checked={!isVip}/>}
+                    control={<Switcher/>}
                     disabled={!isVip}
                     label={<Typography
                         style={{lineHeight: "0.7", color: "var(--tg-theme-text-color)"}}>Repeat</Typography>}
