@@ -89,7 +89,7 @@ function NewReminder() {
     const count = useInput('', {'isEmpty': true, 'isNotNum': true})
     const untilDate = useInput(minDate, {'isEmpty': true, 'isValidDate': true});
     const inf = useInput(true)
-    const isVip = useInput(false)
+    const isVip = false
 
     let disable = !text.inputValid || !date.inputValid || (repeat.value ? !(type.value === "count" ? inf.value || count.inputValid : untilDate.inputValid) : false);
 
@@ -131,12 +131,12 @@ function NewReminder() {
     }
 
     useEffect(() => {
-        getStatus()
         window.Telegram.WebApp.expand()
         window.Telegram.WebApp.MainButton
             .setText('Create Reminder')
             .show()
             .onClick(createReminder)
+        getStatus()
     }, [])
 
     if (disable)
@@ -160,7 +160,7 @@ function NewReminder() {
                 <ReminderSettings text={text} date={date}/>
                 <div style={{marginTop: "10px", display: "flex", position: "relative", alignItems: "center"}}
                 >
-                    <p className="text" hidden={isVip.value}>
+                    <p className="text" hidden={isVip}>
                         Unfortunately, developers also need something to eat, so repeating is available only after
                         donation. This can be done by entering the command /donate
                     </p>
