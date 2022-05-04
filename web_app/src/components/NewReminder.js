@@ -89,7 +89,7 @@ function NewReminder() {
     const count = useInput('', {'isEmpty': true, 'isNotNum': true})
     const untilDate = useInput(minDate, {'isEmpty': true, 'isValidDate': true});
     const inf = useInput(true)
-    let isVip = false
+    const [isVip, changeVip] = useState(false)
 
     let disable = !text.inputValid || !date.inputValid || (repeat.value ? !(type.value === "count" ? inf.value || count.inputValid : untilDate.inputValid) : false);
 
@@ -106,7 +106,7 @@ function NewReminder() {
         })
             .then(response => response.json())
             // .then(result => console.log(result))
-            .then(result => isVip = result.isVip)
+            .then(result => changeVip(result.isVip))
             .catch(error => console.log('error', error))
     }
 
