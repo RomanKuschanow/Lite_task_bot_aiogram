@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bot VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-03 21:35+0300\n"
+"POT-Creation-Date: 2022-05-06 16:05+0300\n"
 "PO-Revision-Date: 2022-03-26 19:00+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -22,25 +22,33 @@ msgstr ""
 msgid "Оплата прошла успешно ✅"
 msgstr "Payment was successful ✅"
 
-#: bot/commands/admin.py:13
+#: bot/commands/admin.py:12
 msgid "сделать пользователя администратором"
 msgstr "make the user an administrator"
 
-#: bot/commands/admin.py:14
+#: bot/commands/admin.py:13
 msgid "выдать пользователю VIP-статус"
 msgstr "give the user a VIP status"
 
-#: bot/commands/admin.py:15
+#: bot/commands/admin.py:14
 msgid "отправить сообщение всем пользователям"
 msgstr "send message to all users"
 
-#: bot/commands/admin.py:16
+#: bot/commands/admin.py:15
 msgid "отправить личное сообщение пользователю"
 msgstr "send a private message to a user"
 
-#: bot/commands/admin.py:17
+#: bot/commands/admin.py:16
 msgid "вызвать админ-меню"
 msgstr "call admin menu"
+
+#: bot/commands/admin.py:17
+msgid "получить количество пользователей"
+msgstr "get users count"
+
+#: bot/commands/admin.py:18
+msgid "экспорт таблиц из базы"
+msgstr "export database tables"
 
 #: bot/commands/default.py:9
 msgid "запуск бота"
@@ -120,7 +128,15 @@ msgstr "Admin added, id: {id}"
 msgid "Статус изменен, id: {id}"
 msgstr "Status changed, id: {id}"
 
-#: bot/handlers/admin/menu.py:20 bot/handlers/default/menu.py:21
+#: bot/handlers/admin/export_table.py:13
+msgid "Выбери таблицу для экспорта"
+msgstr ""
+
+#: bot/handlers/admin/export_table.py:33
+msgid "Всего пользователей: {count}"
+msgstr "Total users: {count}"
+
+#: bot/handlers/admin/menu.py:22 bot/handlers/default/menu.py:21
 #: bot/handlers/default/menu.py:76
 msgid "Выбери действие из меню 👇"
 msgstr "Choose an action from the menu 👇"
@@ -147,6 +163,14 @@ msgstr "Message delivered"
 #: bot/handlers/admin/send_private.py:83
 msgid "Пользователь {id} недоступен"
 msgstr "User {id} is not available"
+
+#: bot/handlers/admin/users_count.py:21
+msgid ""
+"Всего пользователей: {count}\n"
+"Активных пользователей: {active_count}"
+msgstr ""
+"Total users: {count}\n"
+"Active users: {active_count}"
 
 #: bot/handlers/default/cancel.py:11
 msgid "Действие отменено"
@@ -237,7 +261,9 @@ msgid ""
 "/change_user_status — Выдать VIP-статус по id пользователя\n"
 "/send_all — Отправить сообщение всем пользователям\n"
 "/send_private — Отправить сообщение пользователю по его id\n"
-"/admin_menu — Вызов админ-клавиатуры"
+"/admin_menu — Вызов админ-клавиатуры\n"
+"/users_count — Получить количество пользователей в базе\n"
+"/export_table — Экспорт таблиц из базы"
 msgstr ""
 "\n"
 "Admin Commands:\n"
@@ -245,9 +271,11 @@ msgstr ""
 "/change_user_status - Give VIP status by user id\n"
 "/send_all - Send message to all users\n"
 "/send_private - Send a message to a user by his id\n"
-"/admin_menu - Call the admin keyboard"
+"/admin_menu - Call admin keyboard\n"
+"/users_count - Get the number of users in the database\n"
+"/export_table - Export tables from the database"
 
-#: bot/handlers/default/help.py:31
+#: bot/handlers/default/help.py:33
 msgid ""
 "‼ Если ты еще не донатил, тебе не доступны или ограничены некоторые "
 "функции:\n"
@@ -299,14 +327,16 @@ msgstr "The keyboard has been removed. You can call it with the /menu command"
 msgid ""
 "Вот твоя реферальная ссылка: {link}\n"
 "\n"
-msgstr "Here is your referral link: {link}\n"
+msgstr ""
+"Here is your referral link: {link}\n"
 "\n"
 
 #: bot/handlers/default/referral.py:18
 msgid ""
 "Пригласи 10 пользователей и получишь vip-статус.\n"
 "\n"
-msgstr "Invite 10 users and you'll get vip status.\n"
+msgstr ""
+"Invite 10 users and you'll get vip status.\n"
 "\n"
 
 #: bot/handlers/default/referral.py:20
@@ -519,6 +549,14 @@ msgid "📫 Личка"
 msgstr "📫 Personal"
 
 #: bot/keyboards/default/admin.py:11
+msgid "🔢 Количество пользователей"
+msgstr "🔢 Number of users"
+
+#: bot/keyboards/default/admin.py:11
+msgid "🗂 Таблицы"
+msgstr "🗂 Tables"
+
+#: bot/keyboards/default/admin.py:12
 msgid "🧾 Меню"
 msgstr "🧾 Menu"
 
@@ -698,27 +736,27 @@ msgstr "Ban for {hours}"
 msgid "Чел, ты в <s>муте</s> бане еще на {date}"
 msgstr "Man, you're banned for {date}"
 
-#: services/user.py:104
+#: services/user.py:112
 msgid "Поздравляю! 🎉🎉🎉 Ты получил VIP-статус"
 msgstr "Congratulations! 🎉🎉🎉 You got VIP status"
 
-#: services/user.py:106
+#: services/user.py:114
 msgid "У тебя забрали VIP-статус 😢"
 msgstr "Your VIP status has been taken away 😢"
 
-#: services/user.py:118
+#: services/user.py:126
 msgid "Поздравляю! 🎉🎉🎉 Теперь ты админ"
 msgstr "Congratulations! 🎉🎉🎉 You are now an admin"
 
-#: services/user.py:120
+#: services/user.py:128
 msgid "Ты больше не админ 😢"
 msgstr "You are no longer an admin 😢"
 
-#: services/user.py:175
+#: services/user.py:183
 msgid "Пользователь {id} забанен"
 msgstr "User {id} banned"
 
-#: services/user.py:193
+#: services/user.py:201
 msgid "Пользователь {id} забанен навсегда"
 msgstr "User {id} banned permanently"
 

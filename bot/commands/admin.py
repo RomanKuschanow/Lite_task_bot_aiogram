@@ -1,5 +1,4 @@
-from aiogram.types import BotCommandScopeDefault, BotCommandScopeChat, BotCommand
-from models import User
+from aiogram.types import BotCommandScopeChat, BotCommand
 
 from loader import _, bot
 
@@ -14,7 +13,9 @@ def get_admin_commands(lang) -> list[BotCommand]:
         BotCommand('/change_user_status', _('выдать пользователю VIP-статус', locale=lang)),
         BotCommand('/send_all', _('отправить сообщение всем пользователям', locale=lang)),
         BotCommand('/send_private', _('отправить личное сообщение пользователю', locale=lang)),
-        BotCommand('/admin_menu', _('вызвать админ-меню', locale=lang))
+        BotCommand('/admin_menu', _('вызвать админ-меню', locale=lang)),
+        BotCommand('/users_count', _('получить количество пользователей', locale=lang)),
+        BotCommand('/export_table', _('экспорт таблиц из базы', locale=lang))
     ])
 
     return commands

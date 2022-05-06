@@ -71,6 +71,14 @@ async def get_user_language(session: AsyncSession, id: int) -> str:
 
 
 @save_execute
+async def get_all_users(session: AsyncSession) -> list[User]:
+    sql = select(User)
+    query = await session.execute(sql)
+
+    return [u for u, in query]
+
+
+@save_execute
 async def get_all_user_id(session: AsyncSession) -> list[User]:
     sql = select(User.id)
     query = await session.execute(sql)

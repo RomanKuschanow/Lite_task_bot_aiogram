@@ -4,6 +4,8 @@ from bot.handlers.admin.add_admin import add_admin
 from bot.handlers.admin.change_user_status import change_status
 from bot.handlers.admin.send_all import _sender
 from bot.handlers.admin.send_private import _sender as private_sender
+from bot.handlers.admin.users_count import users_count
+from bot.handlers.admin.export_table import export_table
 from bot.handlers.default.menu import menu
 from bot.keyboards.default.set_menu import set_menu
 from services.settings import update_settings
@@ -83,6 +85,38 @@ async def personal(message: Message, session, user, state):
 
     await state.finish()
     await private_sender(message, state)
+
+
+@dp.message_handler(text="🔢 Количество пользователей", state="*", is_admin=True)
+@dp.message_handler(text="🔢 Number of users", state="*", is_admin=True)
+@dp.message_handler(text="🔢 Кількість користувачів", state="*", is_admin=True)
+async def _users_count(message: Message, session, state):
+    async with state.proxy() as data:
+        if 'message' in data:
+            for mes in data['message']:
+                try:
+                    await bot.delete_message(message.chat.id, mes)
+                except:
+                    continue
+
+    await state.finish()
+    await users_count(message, session)
+
+
+@dp.message_handler(text="🗂 Таблицы", state="*", is_admin=True)
+@dp.message_handler(text="🗂 Tables", state="*", is_admin=True)
+@dp.message_handler(text="🗂 Таблиці", state="*", is_admin=True)
+async def _users_count(message: Message, state):
+    async with state.proxy() as data:
+        if 'message' in data:
+            for mes in data['message']:
+                try:
+                    await bot.delete_message(message.chat.id, mes)
+                except:
+                    continue
+
+    await state.finish()
+    await export_table(message)
 
 
 @dp.message_handler(text="🧾 Меню", state="*", is_admin=True)
