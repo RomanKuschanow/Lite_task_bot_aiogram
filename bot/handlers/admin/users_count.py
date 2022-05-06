@@ -14,7 +14,7 @@ async def users_count(message: Message, session):
     for user in users:
         try:
             if await bot.send_chat_action(user, 'typing'):
-                count += 1
+                active_count += 1
         except Exception:
             pass
 
