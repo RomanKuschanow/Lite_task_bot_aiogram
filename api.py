@@ -1,6 +1,6 @@
 import logging
 
-from aiogram.types import InlineQueryResultArticle, InputTextMessageContent
+from datetime import datetime
 from aiohttp import web
 from aiohttp.web_request import Request
 
@@ -8,10 +8,10 @@ from loader import bot, _, config
 from models.base import create_async_database
 from services.bill import get_bill_by_label, check_bill
 from services.user import get_user, update_status
-from utils import generate_inline_id
 from utils.web_app import check_webapp_signature, parse_webapp_init_data
 from aiohttp_middlewares import cors_middleware
-
+from services.reminder import create_reminder, edit_freely
+from bot.handlers.default.reminders.reminder_repeat import get_text
 
 routes = web.RouteTableDef()
 logging.basicConfig(level=logging.INFO)
@@ -72,15 +72,24 @@ async def _api_new_reminder(request: Request):
     logging.info(telegram_data)
     logging.info(telegram_data['user']['id'])
 
-    await bot.send_message(telegram_data['user']['id'], f'WebAppInitData:\n<pre>{telegram_data}</pre>\n\n'
-                                                        f'Data:\n<pre>{data["data"]}</pre>')
-    try:
-        inline_query = telegram_data['query_id']
-        item = InlineQueryResultArticle(id=generate_inline_id(inline_query), title='Test',
-                                        input_message_content=InputTextMessageContent('Some answer'))
-        await bot.answer_web_app_query(inline_query, item)
-    except:
-        pass
+    session = await create_async_database()
+
+    reminder = await create_reminder(session, telegram_data['user']['id'], data['data']['text'], data['data']['date'])
+    if data['data']['repeat']:
+        if data['data']['type'] == 'count':
+            reminder = await edit_freely(session, reminder.id, reminder.user_id, is_repeat=True, repeat_count=(-1 if data['data']['inf'] else int(data['data']['count'])),
+                                         repeat_range=data['data']['range'])
+        else:
+            reminder = await edit_freely(session, reminder.id, reminder.user_id, is_repeat=True, repeat_until=datetime.fromtimestamp(data['data']['untilDate']), repeat_range=data['data']['range'])
+
+    await bot.send_message(telegram_data['user']['id'], get_text(reminder))
+    # try:
+    #     inline_query = telegram_data['query_id']
+    #     item = InlineQueryResultArticle(id=generate_inline_id(inline_query), title='Test',
+    #                                     input_message_content=InputTextMessageContent('Some answer'))
+    #     await bot.answer_web_app_query(inline_query, item)
+    # except:
+    #     pass
 
     return web.json_response({'ok': True})
 
