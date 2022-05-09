@@ -38,6 +38,14 @@ services:
       WAYFORPAY_ACCOUNT: ${WAYFORPAY_ACCOUNT}
       WAYFORPAY_SECRET: ${WAYFORPAY_SECRET}
 
+  web_app:
+    build: ./web_app
+    restart: always
+    ports:
+      - '3000:80'
+    depends_on:
+      - bot
+
   redis:
     image: redis:alpine
     command: redis-server
