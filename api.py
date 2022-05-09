@@ -13,7 +13,6 @@ from services.user import get_user, update_status
 from utils.web_app import check_webapp_signature, parse_webapp_init_data
 from aiohttp_middlewares import cors_middleware
 from services.reminder import create_reminder, edit_freely
-from bot.handlers.default.reminders.reminder_repeat import get_text
 
 routes = web.RouteTableDef()
 logging.basicConfig(level=logging.INFO)
@@ -84,6 +83,7 @@ async def _api_new_reminder(request: Request):
         else:
             reminder = await edit_freely(session, reminder.id, reminder.user_id, is_repeat=True, repeat_until=datetime.fromtimestamp(data['data']['untilDate']), repeat_range=data['data']['range'])
 
+    from bot.handlers.default.reminders.reminder_repeat import get_text
     await bot.send_message(telegram_data['user']['id'], get_text(reminder))
     # try:
     #     inline_query = telegram_data['query_id']
