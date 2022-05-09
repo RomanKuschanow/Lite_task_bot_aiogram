@@ -1,12 +1,14 @@
 import logging
 
 from datetime import datetime
+from aiogram.types import InlineQueryResultArticle, InputTextMessageContent
 from aiohttp import web
 from aiohttp.web_request import Request
 
 from loader import bot, _, config
 from models.base import create_async_database
 from services.bill import get_bill_by_label, check_bill
+from utils import generate_inline_id
 from services.user import get_user, update_status
 from utils.web_app import check_webapp_signature, parse_webapp_init_data
 from aiohttp_middlewares import cors_middleware

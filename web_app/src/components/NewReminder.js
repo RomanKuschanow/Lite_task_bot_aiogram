@@ -96,7 +96,7 @@ function NewReminder() {
     const repeatSettings = {repeat, range, type, count, untilDate, inf, minDate, isVip}
 
     const getStatus = () => {
-        fetch('https://245b-46-101-25-59.eu.ngrok.io/api/getStatus', {
+        fetch('http://litetask.ml/api/getStatus', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -113,7 +113,7 @@ function NewReminder() {
     const createReminder = () => {
         window.Telegram.WebApp.MainButton.showProgress();
 
-        fetch('https://245b-46-101-25-59.eu.ngrok.io/api/NewReminder', {
+        fetch('http://litetask.ml/api/NewReminder', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
