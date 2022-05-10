@@ -113,7 +113,7 @@ function NewReminder() {
     const createReminder = () => {
         window.Telegram.WebApp.MainButton.showProgress();
 
-        fetch('http://litetask.ml/api/NewReminder', {
+        fetch('https://litetask.ml/api/NewReminder', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
