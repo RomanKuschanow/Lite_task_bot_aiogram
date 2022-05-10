@@ -96,7 +96,7 @@ function NewReminder() {
     const repeatSettings = {repeat, range, type, count, untilDate, inf, minDate, isVip}
 
     const getStatus = () => {
-        fetch('http://litetask.ml/api/getStatus', {
+        fetch('https://litetask.ml/api/getStatus', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
