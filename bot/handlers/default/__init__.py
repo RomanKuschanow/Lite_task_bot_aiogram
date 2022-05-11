@@ -10,5 +10,6 @@ from .help import dp
 from .donate import dp
 from .language import dp
 from .time_zone import dp
+from .web_app import dp
 
 __all__ = ['dp']

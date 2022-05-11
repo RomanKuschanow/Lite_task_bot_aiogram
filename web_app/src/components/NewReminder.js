@@ -169,10 +169,10 @@ function NewReminder() {
                         {...repeatSettings}
                     />
                 </div>
-                <SButton
-                    disabled={disable}
-                    className={disable ? "disabled" : ""}
-                    style={{marginTop: "10px"}} variant="contained" onClick={createReminder}>Create Reminder</SButton>
+                {/*<SButton*/}
+                {/*    disabled={disable}*/}
+                {/*    className={disable ? "disabled" : ""}*/}
+                {/*    style={{marginTop: "10px"}} variant="contained" onClick={createReminder}>Create Reminder</SButton>*/}
             </FormControl>
         </ThemeProvider>
     );
