@@ -40,7 +40,6 @@ async def on_shutdown(dp):
 
     logger.warning('Bye!')
 
-    await set_default_commands()
 
 
 if __name__ == '__main__':

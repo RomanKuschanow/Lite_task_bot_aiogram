@@ -28,10 +28,28 @@ async def on_startup(dispatcher):
     await set_default_commands()
 
 
+async def on_shutdown(dispatcher):
+    logger.warning('Shutting down..')
+
+    for admin_id in config.ADMINS:
+        try:
+            await bot.send_message(admin_id, 'Бот оффнулся')
+        except:
+            continue
+
+    await bot.delete_webhook()
+
+    await dp.storage.close()
+    await dp.storage.wait_closed()
+
+    logger.warning('Bye!')
+
+
+
 if __name__ == '__main__':
     from bot.middlewares import setup_middleware
     from bot import filters, handlers
 
     setup_middleware(dp)
 
-    executor.start_polling(dp, on_startup=on_startup)
+    executor.start_polling(dp, on_startup=on_startup, on_shutdown=on_shutdown)
