@@ -45,6 +45,7 @@ async def on_shutdown(dp):
 
 if __name__ == '__main__':
     from bot.middlewares import setup_middleware
+    from bot import filters, handlers
 
     setup_middleware(dp)
 
