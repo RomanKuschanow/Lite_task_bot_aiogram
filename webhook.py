@@ -3,7 +3,6 @@ import logging
 from aiogram.utils.executor import start_webhook
 
 from loader import dp, bot, config
-from models.base import create_async_database
 from utils.misc.logging import logger
 from bot.commands import set_default_commands
 
