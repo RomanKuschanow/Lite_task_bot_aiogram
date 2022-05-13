@@ -8,11 +8,9 @@ def vip(limit=None):
     def wrapper(func):
         async def decorator(*args, **kwargs):
             if 'user' not in kwargs:
-                user = args[3]
-                session = args[2]
+                user = args[2]
             else:
                 user = kwargs['user']
-                session = kwargs['session']
 
             if not user:
                 return False
@@ -20,7 +18,7 @@ def vip(limit=None):
             if user.is_admin or user.is_vip:
                 return await _attributes_check(func, args, kwargs)
 
-            reminders = await get_all_actual_by_user_id(session, user.id)
+            reminders = get_all_actual_by_user_id(user.id)
 
             text = _(
                 'К сожалению разработчикам тоже нужно что-то кушать, по этому некоторые функции доступны только после '

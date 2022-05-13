@@ -1,6 +1,5 @@
 from aiogram.dispatcher.filters.builtin import Regexp
 from aiogram.types import CallbackQuery, Message
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from bot.commands import set_user_commands, set_admin_commands
 from bot.keyboards.default.set_menu import set_menu
@@ -11,10 +10,10 @@ from services.user import edit_user_language
 
 
 @dp.callback_query_handler(Regexp('^lang_(\w\w)$'), state='*')
-async def change_language(callback_query: CallbackQuery, regexp: Regexp, session: AsyncSession, user: User, state):
+async def change_language(callback_query: CallbackQuery, regexp: Regexp, user: User, state):
     language = regexp.group(1)
 
-    await edit_user_language(session, callback_query.from_user.id, language)
+    edit_user_language(callback_query.from_user.id, language)
     i18n.set_user_locale(language)
 
     if user.is_admin:

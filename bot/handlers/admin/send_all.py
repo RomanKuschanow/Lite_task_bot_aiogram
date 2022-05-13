@@ -9,7 +9,7 @@ from services.user import update_is_admin, get_user
 
 from bot.states.admins.sender import Sender
 
-from scheduler import between_callback, sender
+from scheduler import sender
 from threading import Thread
 
 
@@ -40,7 +40,7 @@ async def get_text(message: Message, state, user):
             data['message'].append(bot_message.message_id)
         return
 
-    t_s = Thread(target=between_callback, args=(sender, message.text))
+    t_s = Thread(target=sender, args=(message.text,))
 
     t_s.start()
 

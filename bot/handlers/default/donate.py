@@ -29,7 +29,7 @@ async def donate(message: Message, state):
 
 
 @dp.message_handler(state=Donate.top_up_balance, menu=False)
-async def donate_invoice(message: Message, user: User, session, state):
+async def donate_invoice(message: Message, user: User, state):
     amount = message.text
     if not amount.isnumeric() or int(message.text) < 1:
         bot_message = await message.answer(_('Введите целое число больше 0, например: 5'))
@@ -38,7 +38,7 @@ async def donate_invoice(message: Message, user: User, session, state):
             data['message'].append(bot_message.message_id)
         return
 
-    bill = await create_bill(session, amount, message.from_user.id)
+    bill = create_bill(amount, message.from_user.id)
     logger.info(f'{user} create {bill}')
 
     link = generate_invoice_link(bill, user)

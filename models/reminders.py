@@ -1,35 +1,39 @@
 from pendulum import now
 from datetime import datetime
-from sqlalchemy import Column, Integer, BigInteger, DateTime, String, Boolean, ForeignKey
-from sqlalchemy.orm import relationship
 
-from .base import db
+from peewee import BigIntegerField, IntegerField, CharField, BooleanField, DateTimeField, ForeignKeyField
+
+from .base import BaseModel, database
+
+from .users import User
+
 import pytz
 
 
-class Reminder(db):
-    __tablename__ = 'reminders'
+class Reminder(BaseModel):
 
-    id = Column(BigInteger().with_variant(Integer, 'sqlite'), primary_key=True)
-    user_id = Column(BigInteger, ForeignKey('users.id'))
-    user = relationship('User', back_populates='reminders')
+    id = BigIntegerField(primary_key=True)
+    user = ForeignKeyField(User, backref='reminders')
 
-    text = Column(String)
+    text = CharField()
 
-    date = Column(DateTime, default=now().add(minutes=30))
+    date = DateTimeField(default=lambda: now().add(minutes=30))
 
-    is_repeat = Column(Boolean, default=False)
-    repeat_count = Column(Integer, default=-1)
-    curr_repeat = Column(Integer, default=1)
-    repeat_until = Column(DateTime, nullable=True)
-    repeat_range = Column(String, default='day')
-    next_date = Column(DateTime, default=now().add(minutes=30))
+    is_repeat = BooleanField(default=False)
+    repeat_count = IntegerField(default=-1, null=True)
+    curr_repeat = IntegerField(default=1)
+    repeat_until = DateTimeField(null=True)
+    repeat_range = CharField(default='day')
+    next_date = DateTimeField(default=lambda: now().add(minutes=30))
 
-    is_reminded = Column(Boolean, default=False)
-    is_deleted = Column(Boolean, default=False)
+    is_reminded = BooleanField(default=False)
+    is_deleted = BooleanField(default=False)
 
-    def __repr__(self) -> str:
+    def __str__(self) -> str:
         server_date = pytz.timezone("UTC").localize(self.next_date if self.is_repeat else self.date)
 
         date = server_date.astimezone(pytz.timezone(self.user.time_zone))
         return f'{"✅" if self.is_reminded else "❌"}{"🔁" if self.is_repeat else ""} {self.text}: {date.strftime("%d.%m.%Y %H:%M")}'
+
+    class Meta:
+        table_name = 'reminders'

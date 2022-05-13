@@ -1,17 +1,19 @@
-from sqlalchemy import Column, Integer, BigInteger, DateTime, Boolean
+from peewee import BigIntegerField, IntegerField, FloatField, CharField, BooleanField, DateTimeField, ForeignKeyField
 
-from .base import db
+from .base import BaseModel, database
 
 
-class BannedUser(db):
-    __tablename__ = 'banned_users'
+class BannedUser(BaseModel):
 
-    id = Column(BigInteger().with_variant(Integer, 'sqlite'), primary_key=True)
+    id = BigIntegerField(primary_key=True)
 
-    user_id = Column(BigInteger)
+    user_id = BigIntegerField()
 
-    ban_count = Column(Integer)
+    ban_count = IntegerField()
 
-    banned_until = Column(DateTime)
+    banned_until = DateTimeField()
 
-    is_banned = Column(Boolean, default=False)
+    is_banned = BooleanField(default=False)
+
+    class Meta:
+        table_name = 'banned_users'

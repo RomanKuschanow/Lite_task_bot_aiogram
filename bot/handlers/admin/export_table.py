@@ -15,10 +15,10 @@ async def export_table(message: Message):
 
 
 @dp.callback_query_handler(text_startswith="export:users")
-async def select_table(callback_query, session):
+async def select_table(callback_query):
     await callback_query.answer()
 
-    users = await get_all_users(session)
+    users = get_all_users()
 
     count = len(users)
 

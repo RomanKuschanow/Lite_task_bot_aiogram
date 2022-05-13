@@ -26,7 +26,7 @@ async def change_status(message: Message, state):
 
 
 @dp.message_handler(state=ChangeStatus.user_id, menu=False)
-async def get_id(message: Message, session, state, user):
+async def get_id(message: Message, state, user):
     if not message.text.isnumeric():
         text = _("Мне нужен набор цифр")
         bot_message = await message.answer(text, reply_markup=get_inline_states_markup(True))
@@ -35,8 +35,8 @@ async def get_id(message: Message, session, state, user):
             data['message'].append(bot_message.message_id)
         return
 
-    if await get_user(session, int(message.text)):
-        await update_status(session, int(message.text))
+    if get_user(int(message.text)):
+        update_status(int(message.text))
 
     async with state.proxy() as data:
         data['message'].append(message.message_id)

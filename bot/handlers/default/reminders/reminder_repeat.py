@@ -20,13 +20,13 @@ repeat_question_callback = CallbackData('reminder_repeat', 'id', 'is_child')
 
 @dp.callback_query_handler(repeat_question_callback.filter(), text_startswith="reminder_repeat")
 @vip()
-async def repaet_question(callback_query: CallbackQuery, callback_data, session, user):
+async def repaet_question(callback_query: CallbackQuery, callback_data, user):
     bot_message = await callback_query.message.answer("⁠", reply_markup=ReplyKeyboardRemove())
     await bot.delete_message(callback_query.message.chat.id, bot_message.message_id)
 
     await callback_query.answer()
 
-    reminder = await get_reminder(session, int(callback_data['id']), user.id)
+    reminder = get_reminder(int(callback_data['id']), user.id)
 
     await callback_query.message.edit_text(get_text(reminder),
                                            reply_markup=get_reminders_repeat_inline_markup(reminder, bool(
@@ -34,13 +34,13 @@ async def repaet_question(callback_query: CallbackQuery, callback_data, session,
 
 
 @dp.callback_query_handler(repeat_callback.filter(), text_startswith="reminder:repeat")
-async def repeat_enable(callback_query: CallbackQuery, callback_data, session, user, state):
+async def repeat_enable(callback_query: CallbackQuery, callback_data, user, state):
     await callback_query.answer()
 
     id = int(callback_data['id'])
 
     if callback_data['action'] in ["on", "off"]:
-        await edit_repeating(session, id, user.id, callback_data['action'] == 'on')
+        edit_repeating(id, user.id, callback_data['action'] == 'on')
 
     if callback_data['action'] == "count":
         await callback_query.message.edit_text(_("Отправьте число или выберите из предложенных ниже"),
@@ -81,7 +81,7 @@ async def repeat_enable(callback_query: CallbackQuery, callback_data, session, u
 
         return
 
-    reminder = await get_reminder(session, id, user.id)
+    reminder = get_reminder(id, user.id)
 
     await callback_query.message.edit_text(get_text(reminder),
                                            reply_markup=get_reminders_repeat_inline_markup(reminder, bool(
@@ -92,14 +92,14 @@ num_callback = CallbackData("num", "number")
 
 
 @dp.callback_query_handler(num_callback.filter(), state=EditRepeat.count, text_startswith="num")
-async def get_count_callback(callback_query: CallbackQuery, callback_data, state, session, user):
+async def get_count_callback(callback_query: CallbackQuery, callback_data, state, user):
     await callback_query.answer()
 
     async with state.proxy() as data:
-        await edit_freely(session, data['id'], user.id, repeat_count=int(callback_data['number']),
+        edit_freely(data['id'], user.id, repeat_count=int(callback_data['number']),
                           repeat_until=None)
 
-        reminder = await get_reminder(session, int(data['id']), user.id)
+        reminder = get_reminder(int(data['id']), user.id)
 
     await callback_query.message.edit_text(get_text(reminder),
                                            reply_markup=get_reminders_repeat_inline_markup(reminder, data['is_child']))
@@ -108,7 +108,7 @@ async def get_count_callback(callback_query: CallbackQuery, callback_data, state
 
 
 @dp.message_handler(state=EditRepeat.count, menu=False)
-async def get_count_message(message: Message, state, session, user):
+async def get_count_message(message: Message, state, user):
     num = message.text
 
     if not num.isnumeric() or int(num) < 1:
@@ -119,9 +119,9 @@ async def get_count_message(message: Message, state, session, user):
         return
 
     async with state.proxy() as data:
-        await edit_freely(session, data['id'], user.id, repeat_count=int(num), repeat_until=None)
+        edit_freely(data['id'], user.id, repeat_count=int(num), repeat_until=None)
 
-        reminder = await get_reminder(session, int(data['id']), user.id)
+        reminder = get_reminder(int(data['id']), user.id)
 
     await bot.edit_message_text(get_text(reminder), message.chat.id, data['main'],
                                 reply_markup=get_reminders_repeat_inline_markup(reminder, data['is_child']))
@@ -140,18 +140,18 @@ async def get_count_message(message: Message, state, session, user):
 
 @dp.callback_query_handler(Datepicker.datepicker_callback.filter(), state=EditRepeat.until)
 @rate_limit(3)
-async def get_until_date(callback_query: CallbackQuery, callback_data: dict, session, user, state):
+async def get_until_date(callback_query: CallbackQuery, callback_data: dict, user, state):
     datepicker = Datepicker(_get_datepicker_settings(user.time_zone))
     date = await datepicker.process(callback_query, callback_data)
     date = datetime(date.year, date.month, date.day, 0, 0, tz=None)
     if date:
         async with state.proxy() as data:
-            reminder = await get_reminder(session, int(data['id']), user.id)
+            reminder = get_reminder(int(data['id']), user.id)
             if date < reminder.date:
                 await callback_query.answer(_("Выбери дату которая больше начальной"))
                 return
 
-            await edit_freely(session, data['id'], user.id, repeat_count=None,
+            edit_freely(data['id'], user.id, repeat_count=None,
                               repeat_until=datetime(date.year, date.month, date.day))
 
             await callback_query.message.edit_text(get_text(reminder),
@@ -168,13 +168,13 @@ range_callback = CallbackData("range", "name")
 
 
 @dp.callback_query_handler(range_callback.filter(), state=EditRepeat.range, text_startswith="range")
-async def get_range(callback_query: CallbackQuery, callback_data, session, user, state):
+async def get_range(callback_query: CallbackQuery, callback_data, user, state):
     await callback_query.answer()
 
     async with state.proxy() as data:
-        await edit_freely(session, data['id'], user.id, repeat_range=callback_data['name'])
+        edit_freely(data['id'], user.id, repeat_range=callback_data['name'])
 
-        reminder = await get_reminder(session, int(data['id']))
+        reminder = get_reminder(int(data['id']))
 
     await callback_query.message.edit_text(get_text(reminder),
                                            reply_markup=get_reminders_repeat_inline_markup(reminder, data['is_child']))
@@ -183,11 +183,11 @@ async def get_range(callback_query: CallbackQuery, callback_data, session, user,
 
 
 @dp.callback_query_handler(text='back', state=[EditRepeat.count, EditRepeat.until, EditRepeat.range])
-async def back(callback_query: CallbackQuery, session, user, state):
+async def back(callback_query: CallbackQuery, user, state):
     await callback_query.answer()
 
     async with state.proxy() as data:
-        reminder = await get_reminder(session, int(data['id']), user.id)
+        reminder = get_reminder(int(data['id']), user.id)
 
         await callback_query.message.edit_text(get_text(reminder),
                                                reply_markup=get_reminders_repeat_inline_markup(reminder,
@@ -207,10 +207,10 @@ back_to_edit_callback = CallbackData("back_to_edit", "id")
 
 
 @dp.callback_query_handler(back_to_edit_callback.filter(), text_startswith='back_to_edit')
-async def back_to_edit(callback_query: CallbackQuery, callback_data, session, user):
+async def back_to_edit(callback_query: CallbackQuery, callback_data, user):
     await callback_query.answer()
 
-    reminder = await get_reminder(session, int(callback_data['id']), user.id)
+    reminder = get_reminder(int(callback_data['id']), user.id)
 
     await callback_query.message.edit_text(get_text(reminder),
                                            reply_markup=get_edit_reminders_inline_markup(int(callback_data['id'])))

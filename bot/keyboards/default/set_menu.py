@@ -4,14 +4,16 @@ from models import User
 from .admin import get_admin_keyboard_markup
 from .menu import get_menu_keyboard_markup
 
+import json
+
 
 def set_menu(user: User) -> ReplyKeyboardMarkup:
-    settings = user.settings
+    settings = json.loads(user.settings)
 
-    if settings.kb_enabled:
-        if settings.last_kb == "main":
+    if settings["kb_enabled"]:
+        if settings["last_kb"] == "main":
             return get_menu_keyboard_markup(user.is_admin)
-        elif settings.last_kb == "admin":
+        elif settings["last_kb"] == "admin":
             return get_admin_keyboard_markup()
     else:
         return ReplyKeyboardRemove()

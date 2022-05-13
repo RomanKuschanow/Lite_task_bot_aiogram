@@ -5,8 +5,8 @@ from services.user import get_all_user_id
 
 
 @dp.message_handler(commands='users_count', is_admin=True)
-async def users_count(message: Message, session):
-    users = await get_all_user_id(session)
+async def users_count(message: Message):
+    users = get_all_user_id()
 
     count = len(users)
 

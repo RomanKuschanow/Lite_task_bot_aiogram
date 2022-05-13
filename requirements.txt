@@ -1,7 +1,9 @@
 aiogram
 cryptocompare
 python-decouple
-SQLAlchemy==1.4.3
+peewee
+psycopg2-binary
+peewee-migrate
 aiosqlite
 asyncpg
 aioredis==1.3.1

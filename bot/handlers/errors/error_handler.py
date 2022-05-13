@@ -21,9 +21,8 @@ async def errors_handler(update, exception):
 
     if isinstance(exception, MessageNotModified):
         logger.debug('Message is not modified')
-        for admin_id in config.ADMINS:
-            await bot.send_message(admin_id, 'Message is not modified')
         return True
+
     if isinstance(exception, MessageCantBeDeleted):
         logger.debug('Message cant be deleted')
         for admin_id in config.ADMINS:

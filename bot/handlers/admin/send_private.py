@@ -30,7 +30,7 @@ async def _sender(message: Message, state, call_from_back=False):
 
 
 @dp.message_handler(state=Sender.id, content_types=ContentTypes.ANY, menu=False)
-async def get_id(message: Message, session, state):
+async def get_id(message: Message, state):
     if message.content_type != 'text':
         text = _('Ты прислал мне {type}, а нужно прислать текст').format(type=message.content_type)
         bot_message = await message.answer(text, reply_markup=get_inline_states_markup(True))
@@ -95,7 +95,7 @@ async def get_text(message: Message, state, user):
 
 
 @dp.callback_query_handler(text='back', state=Sender.text_private)
-async def back(callback_query: CallbackQuery, state, session, user):
+async def back(callback_query: CallbackQuery, state):
     await callback_query.answer()
     await Sender.id.set()
     async with state.proxy() as data:

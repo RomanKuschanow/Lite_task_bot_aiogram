@@ -23,7 +23,7 @@ class ConfirmPayment(BoundFilter):
         if not id.isnumeric():
             return False
 
-        bill = await get_bill(call.bot.get('session'), int(id))
+        bill = get_bill(int(id))
 
         if bill:
             return {'bill': bill}

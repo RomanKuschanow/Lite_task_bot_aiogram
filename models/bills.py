@@ -1,23 +1,25 @@
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, Integer, BigInteger, String, Float
+from peewee import BigIntegerField, IntegerField, FloatField, CharField, BooleanField, DateTimeField, ForeignKeyField
 
-from .base import db
+from .base import BaseModel, database
 
 
-class Bill(db):
-    __tablename__ = 'bills'
+class Bill(BaseModel):
 
-    id = Column(Integer, primary_key=True)
+    id = IntegerField(primary_key=True)
 
-    label = Column(String)
-    status = Column(String)
-    amount = Column(Float)
+    label = CharField()
+    status = CharField(null=True)
+    amount = FloatField()
 
-    user_id = Column(BigInteger)
+    user_id = BigIntegerField()
 
-    created_at = Column(DateTime, default=lambda: datetime.now())
-    updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
+    created_at = DateTimeField(default=lambda: datetime.now())
+    updated_at = DateTimeField(default=datetime.now)
 
-    def __repr__(self) -> str:
+    def __str__(self) -> str:
         return f'<Bill {self.id} amount={self.amount} label={self.label}>'
+
+    class Meta:
+        table_name = 'bills'

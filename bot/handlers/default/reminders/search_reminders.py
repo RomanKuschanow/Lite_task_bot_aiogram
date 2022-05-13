@@ -6,7 +6,6 @@ from aiogram.types import CallbackQuery, Message, ContentTypes
 from aiogram.types.reply_keyboard import ReplyKeyboardRemove
 from aiogram.utils.callback_data import CallbackData
 from aiogram_datepicker import Datepicker
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from bot.filters import vip
 from bot.handlers.default.reminders.reminders_list import get_list
@@ -23,7 +22,7 @@ search_callback = CallbackData('reminder', 'search', 'filter')
 
 @dp.callback_query_handler(search_callback.filter(), text_startswith="reminder:search")
 @vip()
-async def action(callback_query: CallbackQuery, callback_data: dict, session: AsyncSession, user: User, state):
+async def action(callback_query: CallbackQuery, callback_data: dict, user: User, state):
     bot_message = await callback_query.message.answer("⁠", reply_markup=ReplyKeyboardRemove())
     await bot.delete_message(callback_query.message.chat.id, bot_message.message_id)
 
@@ -78,7 +77,7 @@ async def action(callback_query: CallbackQuery, callback_data: dict, session: As
 
 
 @dp.message_handler(state=SearchReminder.text, content_types=ContentTypes.ANY, menu=False)
-async def get_reminder_text(message: Message, state: FSMContext, session, user):
+async def get_reminder_text(message: Message, state: FSMContext, user):
     if message.content_type != 'text':
         text = _('Ты прислал мне {type}, а нужно прислать текст').format(type=message.content_type)
         bot_message = await message.answer(text, reply_markup=get_inline_states_markup(True))
@@ -93,7 +92,7 @@ async def get_reminder_text(message: Message, state: FSMContext, session, user):
 
         function_list = {'all': get_all_by_user_id, 'old': get_all_old_by_user_id, 'actual': get_all_actual_by_user_id}
 
-        text, max_page = await get_list(function_list[data['list']], data['mode'] == 'edit', session, user.id, 0,
+        text, max_page = get_list(function_list[data['list']], data['mode'] == 'edit', user.id, 0,
                                         column, _filter, data['repeat_filter'])
 
         await bot.edit_message_text(chat_id=user.id,
@@ -118,7 +117,7 @@ async def get_reminder_text(message: Message, state: FSMContext, session, user):
 
 
 @dp.callback_query_handler(Datepicker.datepicker_callback.filter(), state=SearchReminder.date)
-async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, session, user, state: FSMContext):
+async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, user, state: FSMContext):
     await callback_query.answer()
 
     datepicker = Datepicker(_get_datepicker_settings(user.time_zone))
@@ -135,7 +134,7 @@ async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, 
 
         function_list = {'all': get_all_by_user_id, 'old': get_all_old_by_user_id, 'actual': get_all_actual_by_user_id}
 
-        text, max_page = await get_list(function_list[data['list']], data['mode'] == 'edit', session, user.id, 0,
+        text, max_page = get_list(function_list[data['list']], data['mode'] == 'edit', user.id, 0,
                                         column, _filter, data['repeat_filter'])
 
         await bot.edit_message_text(chat_id=user.id,
@@ -152,7 +151,7 @@ async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, 
 
 
 @dp.message_handler(state=SearchReminder.time, content_types=ContentTypes.ANY, menu=False)
-async def get_reminder_date(message, session, user, state: FSMContext):
+async def get_reminder_date(message, user, state: FSMContext):
     if message.content_type != 'text':
         text = _('Ты прислал мне {type}, а нужно прислать текст').format(type=message.content_type)
         bot_message = await message.answer(text, reply_markup=get_inline_states_markup())
@@ -182,7 +181,7 @@ async def get_reminder_date(message, session, user, state: FSMContext):
         function_list = {'all': get_all_by_user_id, 'old': get_all_old_by_user_id,
                          'actual': get_all_actual_by_user_id}
 
-        text, max_page = await get_list(function_list[data['list']], data['mode'] == 'edit', session, user.id, 0,
+        text, max_page = get_list(function_list[data['list']], data['mode'] == 'edit', user.id, 0,
                                         column, _filter, data['repeat_filter'])
 
         await bot.edit_message_text(chat_id=user.id,

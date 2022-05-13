@@ -35,7 +35,6 @@ class ThrottlingMiddleware(BaseMiddleware):
             await dispatcher.throttle(key, rate=limit)
         except Throttled as throttled:
 
-            session = data['session']
             user = data['user']
 
             if user.is_admin:
@@ -48,7 +47,7 @@ class ThrottlingMiddleware(BaseMiddleware):
             if throttled.exceeded_count == 5:
                 if user.banned_until > datetime.now():
                     await message.reply(_('Добро пожаловать в перманентный бан. ГГВП. Сайонара'))
-                    await permanent_ban(session, user.id)
+                    permanent_ban(user.id)
 
                 if user.ban_count == 1:
                     await message.reply(_('Я тебя забанил, пока только на три часа. С каждым разом будет все больше'))

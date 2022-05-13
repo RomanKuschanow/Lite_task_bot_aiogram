@@ -11,8 +11,7 @@ class Status(BoundFilter):
         self.status = status
 
     async def check(self, message: Message):
-        session = message.bot.get('session')
-        user = await get_user(session, message.from_user.id)
+        user = get_user(message.from_user.id)
 
         if not user:
             return False

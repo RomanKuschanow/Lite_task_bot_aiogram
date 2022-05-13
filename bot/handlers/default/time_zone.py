@@ -64,13 +64,13 @@ async def back(callback_query: CallbackQuery, state):
 
 
 @dp.callback_query_handler(state=TimeZone.city)
-async def city(callback_query: CallbackQuery, session, user, state):
+async def city(callback_query: CallbackQuery, user, state):
     await callback_query.answer()
     async with state.proxy() as data:
         text = _('Ваш часовой пояс установлен на {region}/{city}').format(region=data['region'],
                                                                           city=callback_query.data)
 
-        await update_time_zone(session, user.id, f'{data["region"]}/{callback_query.data}')
+        update_time_zone(user.id, f'{data["region"]}/{callback_query.data}')
 
         for mes in data['message']:
             try:

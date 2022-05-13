@@ -5,51 +5,29 @@ from time import time
 from uuid import uuid4
 
 import requests
-from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from loader import config
 from models import Bill, User
-from utils.misc import save_execute, save_commit
 from utils.misc.logging import logger
 
 
-@save_execute
-async def get_bill(session: AsyncSession, id: int) -> Bill:
-    sql = select(Bill).where(Bill.id == id)
-    query = await session.execute(sql)
-
-    bill = query.scalar_one_or_none()
-
-    return bill
+def get_bill(id: int) -> Bill:
+    return Bill.get_or_none(Bill.id == id)
 
 
-@save_execute
-async def get_bill_by_label(session: AsyncSession, label: str) -> Bill:
-    sql = select(Bill).where(Bill.label == label).limit(1)
-    query = await session.execute(sql)
-
-    bill = query.scalar_one_or_none()
-
-    return bill
+def get_bill_by_label(label: str) -> Bill:
+    return Bill.get_or_none(Bill.label == label)
 
 
-@save_execute
-async def update_bill_status(session: AsyncSession, bill: Bill, status: str) -> Bill:
+def update_bill_status(bill: Bill, status: str) -> Bill:
     bill.status = status
-
-    await save_commit(session)
+    bill.save()
 
     return bill
 
 
-@save_execute
-async def create_bill(session: AsyncSession, amount: int, user_id: int) -> Bill:
-    new_bill = Bill(amount=amount, user_id=user_id, label=f'donate:{user_id}:{uuid4()}')
-
-    session.add(new_bill)
-
-    await save_commit(session)
+def create_bill(amount: int, user_id: int) -> Bill:
+    new_bill = Bill.create(amount=amount, user_id=user_id, label=f'donate:{user_id}:{uuid4()}')
 
     logger.info(f'New bill {new_bill}')
 
@@ -106,8 +84,7 @@ def generate_invoice_link(bill: Bill, user: User) -> str:
     return link
 
 
-@save_execute
-async def check_bill(session: AsyncSession, bill: Bill) -> bool:
+def check_bill(bill: Bill) -> bool:
     url = 'https://api.wayforpay.com/api'
 
     params = {
@@ -138,7 +115,7 @@ async def check_bill(session: AsyncSession, bill: Bill) -> bool:
     if bill.status == 'Approved':
         return True
 
-    bill = await update_bill_status(session, bill, status)
+    bill = update_bill_status(bill, status)
 
     logger.info(f'Bill success {bill}, balance top up {amount}')
 

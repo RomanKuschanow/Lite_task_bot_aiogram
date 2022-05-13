@@ -19,6 +19,7 @@ services:
       FEED_BACK_CHANEL: ${FEED_BACK_CHANEL}
       BOT_NAME: ${BOT_NAME}
       RATE_LIMIT: ${RATE_LIMIT:-0.5}
+      TELEGRAM_TEST_SERVER: ${TELEGRAM_TEST_SERVER:false}
 
       DATABASE_USER: postgres
       DATABASE_PASS: postgres

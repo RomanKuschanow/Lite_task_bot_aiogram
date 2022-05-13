@@ -24,8 +24,6 @@ async def on_startup(dp):
 
     await bot.set_webhook(WEBHOOK_URL)
 
-    bot['session'] = await create_async_database()
-
     for admin_id in config.ADMINS:
         await bot.send_message(admin_id, 'Бот успешно запущен')
 

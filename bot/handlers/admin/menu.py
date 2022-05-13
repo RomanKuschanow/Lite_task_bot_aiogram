@@ -1,3 +1,5 @@
+import json
+
 from aiogram.types import Message
 
 from bot.handlers.admin.add_admin import add_admin
@@ -8,16 +10,18 @@ from bot.handlers.admin.users_count import users_count
 from bot.handlers.admin.export_table import export_table
 from bot.handlers.default.menu import menu
 from bot.keyboards.default.set_menu import set_menu
-from services.settings import update_settings
 from loader import dp, bot, _
 
 
 @dp.message_handler(commands="admin_menu", is_admin=True)
-async def admin_menu(message: Message, user, settings, session):
-    settings.kb_enabled = True
-    settings.last_kb = "admin"
+async def admin_menu(message: Message, user):
+    settings = json.loads(user.settings)
 
-    await update_settings(session, settings)
+    settings["kb_enabled"] = True
+    settings["last_kb"] = "admin"
+
+    user.settings = json.dumps(settings)
+    user.save()
 
     await message.answer(_("Выбери действие из меню 👇"), reply_markup=set_menu(user))
     await message.delete()
@@ -26,7 +30,7 @@ async def admin_menu(message: Message, user, settings, session):
 @dp.message_handler(text="➕ Добавить Админа", state="*", is_admin=True)
 @dp.message_handler(text="➕ Add Admin", state="*", is_admin=True)
 @dp.message_handler(text="➕ Додати Адміна", state="*", is_admin=True)
-async def new_admin(message: Message, state, session, user):
+async def new_admin(message: Message, state):
     async with state.proxy() as data:
         if 'message' in data:
             for mes in data['message']:
@@ -42,7 +46,7 @@ async def new_admin(message: Message, state, session, user):
 @dp.message_handler(text="🎁 Выдать VIP", state="*", is_admin=True)
 @dp.message_handler(text="🎁 Add VIP", state="*", is_admin=True)
 @dp.message_handler(text="🎁 Надати VIP", state="*", is_admin=True)
-async def add_vip(message: Message, session, user, state):
+async def add_vip(message: Message, state):
     async with state.proxy() as data:
         if 'message' in data:
             for mes in data['message']:
@@ -74,7 +78,7 @@ async def mailing(message: Message, state):
 @dp.message_handler(text="📫 Личка", state="*", is_admin=True)
 @dp.message_handler(text="📫 Personal", state="*", is_admin=True)
 @dp.message_handler(text="📫 Особисте повідомлення", state="*", is_admin=True)
-async def personal(message: Message, session, user, state):
+async def personal(message: Message, state):
     async with state.proxy() as data:
         if 'message' in data:
             for mes in data['message']:
@@ -90,7 +94,7 @@ async def personal(message: Message, session, user, state):
 @dp.message_handler(text="🔢 Количество пользователей", state="*", is_admin=True)
 @dp.message_handler(text="🔢 Number of users", state="*", is_admin=True)
 @dp.message_handler(text="🔢 Кількість користувачів", state="*", is_admin=True)
-async def _users_count(message: Message, session, state):
+async def _users_count(message: Message, state):
     async with state.proxy() as data:
         if 'message' in data:
             for mes in data['message']:
@@ -100,7 +104,7 @@ async def _users_count(message: Message, session, state):
                     continue
 
     await state.finish()
-    await users_count(message, session)
+    await users_count(message)
 
 
 @dp.message_handler(text="🗂 Таблицы", state="*", is_admin=True)
@@ -121,11 +125,14 @@ async def _users_count(message: Message, state):
 
 @dp.message_handler(text="🧾 Меню", state="*", is_admin=True)
 @dp.message_handler(text="🧾 Menu", state="*", is_admin=True)
-async def _menu(message: Message, state, user, settings, session):
-    settings.kb_enabled = True
-    settings.last_kb = "main"
+async def _menu(message: Message, state, user):
+    settings = json.loads(user.settings)
 
-    await update_settings(session, settings)
+    settings["kb_enabled"] = True
+    settings["last_kb"] = "main"
+
+    user.settings = json.dumps(settings)
+    user.save()
 
     async with state.proxy() as data:
         if 'message' in data:
@@ -136,4 +143,4 @@ async def _menu(message: Message, state, user, settings, session):
                     continue
 
     await state.finish()
-    await menu(message, user, settings, session)
+    await menu(message, user)
