@@ -21,7 +21,7 @@ else:
 
 if config.DB_USER and config.DB_PASSWORD and config.DB_HOST and config.DB_PORT and config.DB_NAME:
     database = PostgresqlDatabase(config.DB_NAME, user=config.DB_USER, password=config.DB_PASSWORD,
-                                  host=config.DB_HOST, port=config.DB_PORT)
+                                  host=config.DB_HOST, port=config.DB_PORT, autorollback=True)
 else:
     database = SqliteDatabase(f'{config.DIR}/database.sqlite3')
 
