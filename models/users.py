@@ -15,6 +15,7 @@ class User(BaseModel):
     time_zone = CharField(default='Europe/Kiev')
 
     is_vip = BooleanField(default=False)
+    is_biba = BooleanField(default=False)
 
     is_admin = BooleanField(default=False)
 
