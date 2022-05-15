@@ -1,4 +1,4 @@
-import logging
+from utils.misc.logging import logger
 import time
 from threading import Thread
 
@@ -16,7 +16,8 @@ def reminders():
 
         reminders_list = get_all_actual()
 
-        logging.info(reminders_list)
+        logger.info("biba")
+        logger.info(reminders_list)
 
         for reminder in reminders_list:
             bot.send_message(reminder.user_id, reminder.text)
@@ -33,7 +34,7 @@ def sender(text):
 
     while i > 0:
 
-        for user in users[-30 * i:][-30:]:
+        for user in users[-30 * i:][:30] if i > 1 else users[:len(users) - int((len(users)) / 30)]:
             try:
                 bot.send_message(user, text)
             except:
