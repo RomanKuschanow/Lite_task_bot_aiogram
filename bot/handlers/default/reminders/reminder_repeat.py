@@ -1,4 +1,3 @@
-import pytz
 from aiogram.types import CallbackQuery, Message
 from aiogram.types.reply_keyboard import ReplyKeyboardRemove
 from aiogram.utils.callback_data import CallbackData
@@ -11,6 +10,7 @@ from bot.keyboards.inline import get_reminders_repeat_inline_markup, get_num_inl
 from bot.states.default import EditRepeat
 from loader import dp, bot, _
 from services.reminder import get_reminder, edit_repeating, edit_freely
+from utils import get_text
 from utils.misc import rate_limit
 from .datepicker_settings import _get_datepicker_settings
 
@@ -214,35 +214,3 @@ async def back_to_edit(callback_query: CallbackQuery, callback_data, user):
 
     await callback_query.message.edit_text(get_text(reminder),
                                            reply_markup=get_edit_reminders_inline_markup(int(callback_data['id'])))
-
-
-def get_text(reminder) -> str:
-    text = _("{reminder}\n"
-             "Повторение: {repeat}\n").format(reminder=reminder, repeat=_("Да") if reminder.is_repeat else _("Нет"))
-
-    if reminder.is_repeat:
-        server_date = pytz.timezone("UTC").localize(reminder.date)
-
-        date = server_date.astimezone(pytz.timezone(reminder.user.time_zone))
-
-        text += _("Изначальная дата: {date}\n").format(date=date.strftime("%d.%m.%Y %H:%M"))
-
-        if reminder.repeat_count:
-            text += _("Количество повторений: {count}\n").format(
-                count=reminder.repeat_count if reminder.repeat_count > 0 else _("Всегда"))
-
-            if reminder.repeat_count > 0:
-                text += _("Осталось: {left}\n").format(left=reminder.repeat_count - reminder.curr_repeat + 1)
-
-        elif reminder.repeat_until:
-            server_date = pytz.timezone("UTC").localize(reminder.repeat_until)
-
-            date = server_date.astimezone(pytz.timezone(reminder.user.time_zone))
-
-            date = datetime(date.year, date.month, date.day)
-
-            text += _("Повторять до: {date}\n").format(date=date.strftime("%d.%m.%Y"))
-
-        text += _("Частота повторений: {range}").format(range=reminder.repeat_range)
-
-    return text

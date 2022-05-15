@@ -77,7 +77,7 @@ async def _api_new_reminder(request: Request):
                                    repeat_until=datetime.fromtimestamp(data['data']['untilDate']),
                                    repeat_range=data['data']['range'])
 
-    from bot.handlers.default.reminders.reminder_repeat import get_text
+    from utils import get_text
     await bot.send_message(telegram_data['user']['id'], get_text(reminder))
 
     # try:
