@@ -68,7 +68,7 @@ async def _api_new_reminder(request: Request):
     logging.info(telegram_data)
     logging.info(telegram_data['user']['id'])
 
-    reminder = create_reminder(telegram_data['user']['id'], data['data']['text'], data['data']['date'])
+    reminder = create_reminder(telegram_data['user']['id'], data['data']['text'], data['data']['date'].time())
     if data['data']['repeat']:
         if data['data']['type'] == 'count':
             reminder = edit_freely(reminder.id, reminder.user_id, is_repeat=True, repeat_count=(-1 if data['data']['inf'] else int(data['data']['count'])),
