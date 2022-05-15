@@ -16,7 +16,6 @@ def reminders():
 
         reminders_list = get_all_actual()
 
-        logger.info("biba")
         logger.info(reminders_list)
 
         for reminder in reminders_list:
