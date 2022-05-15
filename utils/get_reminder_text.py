@@ -1,9 +1,9 @@
-from loader import _
 import pytz
 from datetime import datetime
 
 
 def get_text(reminder) -> str:
+    from loader import _
     text = _("{reminder}\n"
              "Повторение: {repeat}\n").format(reminder=reminder, repeat=_("Да") if reminder.is_repeat else _("Нет"))
 
