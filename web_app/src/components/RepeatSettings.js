@@ -47,7 +47,10 @@ function RepeatSettings({repeat, range, type, inf, count, untilDate, minDate, is
                         control={<Switcher/>}
                         disabled={!isVip}
                         label={<Typography
-                            style={{lineHeight: "0.7", color: "var(--tg-theme-text-color)"}}>Repeat</Typography>}
+                            style={{
+                                lineHeight: "0.7",
+                                color: "var(--tg-theme-text-color)"
+                            }}>{translate('repeat')}</Typography>}
                         labelPlacement="top"/>
                     <TextBox
                         style={{width: "100px", marginRight: "10px"}}
