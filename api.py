@@ -74,7 +74,7 @@ async def _api_new_reminder(request: Request):
                                    repeat_range=data['data']['range'])
         else:
             reminder = edit_freely(reminder.id, reminder.user_id, is_repeat=True,
-                                   repeat_until=datetime.fromtimestamp(data['data']['untilDate']),
+                                   repeat_until=datetime.strptime(data['data']['untilDate'], '%Y-%m-%dT%H:%M:%S.%fZ'),
                                    repeat_range=data['data']['range'])
 
     from utils import get_text
