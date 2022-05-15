@@ -16,7 +16,8 @@ def reminders():
 
         reminders_list = get_all_actual()
 
-        logger.info(reminders_list)
+        if len(reminders_list) > 0:
+            logger.info(reminders_list)
 
         for reminder in reminders_list:
             bot.send_message(reminder.user_id, reminder.text)
