@@ -2,15 +2,17 @@ import React from 'react';
 import {KeyboardDateTimePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import TextBox from "./UI/TextBox";
+import {I18nProvider} from '../i18nProvider'
+import translate from "../i18nProvider/translate";
 
 
-function ReminderSettings({text, date, ...props}) {
+function ReminderSettings({text, date, locale, ...props}) {
     return (
-        <div>
+        <I18nProvider locale={locale}>
             <div align="center">
                 <TextBox
                     style={{width: "100%"}}
-                    label="Reminder Text"
+                    label={translate('reminderText')}
                     multiline
                     maxRows={5}
                     value={text.value}
@@ -22,7 +24,7 @@ function ReminderSettings({text, date, ...props}) {
             <div align="center" style={{paddingTop: "10px"}}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDateTimePicker style={{width: "100%"}}
-                                            label="Date and Time"
+                                            label={translate('date')}
                                             value={date.value}
                                             ampm={false}
                                             inputVariant="outlined"
@@ -32,7 +34,7 @@ function ReminderSettings({text, date, ...props}) {
                     />
                 </MuiPickersUtilsProvider>
             </div>
-        </div>
+        </I18nProvider>
     );
 };
 
