@@ -8,12 +8,15 @@ from utils.misc.logging import logger
 from .user import get_user_time_zone, get_user
 
 
-def create_reminder(user_id: int, text: str, date: datetime) -> Reminder:
-    localize_date = pytz.timezone(get_user_time_zone(user_id)).localize(date)
+def create_reminder(user_id: int, text: str, date: datetime, convert:bool = True) -> Reminder:
+    if convert:
+        localize_date = pytz.timezone(get_user_time_zone(user_id)).localize(date)
 
-    d = localize_date.astimezone(pytz.UTC)
+        d = localize_date.astimezone(pytz.UTC)
 
-    server_date = datetime(d.year, d.month, d.day, d.hour, d.minute)
+        server_date = datetime(d.year, d.month, d.day, d.hour, d.minute)
+    else:
+        server_date = date
 
     new_reminder = Reminder.create(text=text, date=server_date, next_date=server_date,
                                    is_reminded=server_date < datetime.now(), user=get_user(user_id))
