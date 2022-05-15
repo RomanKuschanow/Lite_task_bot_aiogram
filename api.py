@@ -39,7 +39,7 @@ async def _wayforpay(request: Request):
     return web.json_response({'ok': True})
 
 
-@routes.post('/api/getStatus')
+@routes.post('/api/getUser')
 async def _api_get_status(request: Request):
     data = await request.json()
 
