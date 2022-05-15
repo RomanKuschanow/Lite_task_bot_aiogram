@@ -8,7 +8,7 @@ from utils.misc.logging import logger
 from .user import get_user_time_zone, get_user
 
 
-def create_reminder(user_id: int, text: str, date: datetime, convert:bool = True) -> Reminder:
+def create_reminder(user_id: int, text: str, date: datetime, convert: bool = True) -> Reminder:
     if convert:
         localize_date = pytz.timezone(get_user_time_zone(user_id)).localize(date)
 
@@ -41,20 +41,23 @@ def get_all() -> list[Reminder]:
 
 def get_all_actual() -> list[Reminder]:
     return list(Reminder.select().where(Reminder.next_date < datetime.now(), Reminder.is_reminded == False,
-                                Reminder.is_deleted == False))
+                                        Reminder.is_deleted == False))
 
 
 def get_all_by_user_id(user_id: int, *args) -> list[Reminder]:
-    return list(Reminder.select().where(Reminder.user_id == user_id, Reminder.is_deleted == False))
+    return list(
+        Reminder.select().where(Reminder.user_id == user_id, Reminder.is_deleted == False).order_by(Reminder.date))
 
 
 def get_all_old_by_user_id(user_id: int, *args) -> list[Reminder]:
-    return list(Reminder.select().where(Reminder.user_id == user_id, Reminder.is_reminded == True, Reminder.is_deleted == False))
+    return list(Reminder.select().where(Reminder.user_id == user_id, Reminder.is_reminded == True,
+                                        Reminder.is_deleted == False).order_by(Reminder.date))
 
 
 def get_all_actual_by_user_id(user_id: int, *args) -> list[Reminder]:
     return list(
-        Reminder.select().where(Reminder.user_id == user_id, Reminder.is_reminded == False, Reminder.is_deleted == False))
+        Reminder.select().where(Reminder.user_id == user_id, Reminder.is_reminded == False,
+                                Reminder.is_deleted == False).order_by(Reminder.date))
 
 
 def update_is_reminded(id: int, is_reminded: bool):
