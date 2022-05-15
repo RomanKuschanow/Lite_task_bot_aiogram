@@ -127,6 +127,7 @@ function NewReminder() {
             .catch(error => console.log('error', error))
             .finally(() => {
                 window.Telegram.WebApp.MainButton.hideProgress()
+                window.Telegram.WebApp.close()
             });
     }
 
