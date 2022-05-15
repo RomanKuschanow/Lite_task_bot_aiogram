@@ -71,11 +71,11 @@ async def _api_new_reminder(request: Request):
         if data['data']['type'] == 'count':
             reminder = edit_freely(reminder.id, reminder.user_id, is_repeat=True,
                                    repeat_count=(-1 if data['data']['inf'] else int(data['data']['count'])),
-                                   repeat_range=data['data']['range'])
+                                   repeat_range=data['data']['range'], repeat_until=None)
         else:
             reminder = edit_freely(reminder.id, reminder.user_id, is_repeat=True,
                                    repeat_until=datetime.strptime(data['data']['untilDate'], '%Y-%m-%dT%H:%M:%S.%fZ'),
-                                   repeat_range=data['data']['range'])
+                                   repeat_range=data['data']['range'], repeat_count=None)
 
     from utils import get_text
     await bot.send_message(telegram_data['user']['id'], get_text(reminder))
