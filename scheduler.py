@@ -37,6 +37,7 @@ def sender(text):
         for user in users[-30 * i:][:30] if i > 1 else users[:len(users) - int((len(users)) / 30)]:
             try:
                 bot.send_message(user, text)
+                logger.info(user)
             except:
                 continue
 
