@@ -18,7 +18,7 @@ function NewReminder() {
     const untilDate = useInput(minDate, {'isEmpty': true, 'isValidDate': true});
     const inf = useInput(true)
     const [isVip, changeVip] = useState(false)
-    const [locale, setLocale] = useState(LOCALES.RUSSIAN)
+    const [locale, setLocale] = useState(LOCALES.ENGLISH)
 
     const getUserHandler = (result) => {
         changeVip(result.isVip)
