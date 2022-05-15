@@ -1,3 +1,4 @@
+import logging
 import time
 from threading import Thread
 
@@ -13,7 +14,11 @@ bot = telebot.TeleBot(BOT_TOKEN)
 def reminders():
     while True:
 
-        for reminder in get_all_actual():
+        reminders_list = get_all_actual()
+
+        logging.info(reminders_list)
+
+        for reminder in reminders_list:
             bot.send_message(reminder.user_id, reminder.text)
 
             edit_repeating(reminder.id, reminder.user_id, reminder.is_repeat)
