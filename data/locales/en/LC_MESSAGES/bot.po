@@ -392,6 +392,12 @@ msgid ""
 "там отображение пока-что некорректное. Надеемся что в скором времени "
 "Дуров все поправит."
 msgstr ""
+"This is a more convenient and beautiful menu for adding reminders. To "
+"to call it, click on the '+New' button next to the message entry field."
+"\n"
+"P.S. We do not recommend using this menu in the pc version of telegram, because "
+"the display is still incorrect. We hope that soon"
+"Durov will fix everything."
 
 #: bot/handlers/default/reminders/datepicker_settings.py:22
 msgid "Сегодня"
