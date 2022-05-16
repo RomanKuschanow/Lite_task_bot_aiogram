@@ -12,6 +12,7 @@ from bot.keyboards.inline import get_edit_reminders_inline_markup, get_inline_st
 from bot.states.default.edit_reminder import EditReminder
 from loader import dp, _, bot
 from services.reminder import get_reminder, edit_text, edit_date, delete_reminder
+from utils.misc import rate_limit
 from .datepicker_settings import _get_datepicker_settings
 from bot.keyboards.default.set_menu import set_menu
 from .reminder_repeat import get_text
@@ -112,19 +113,18 @@ async def get_reminder_text(message: Message, state: FSMContext, user):
     await state.finish()
 
 
-date_reminders = CallbackData('datepicker', 'day', 'set-day', 'year', 'month', 'day')
-
-
-@dp.callback_query_handler(Datepicker.datepicker_callback.filter(), date_reminders.filter(), state=EditReminder.date)
+@dp.callback_query_handler(Datepicker.datepicker_callback.filter(), state=EditReminder.date)
+@rate_limit(3)
 async def get_reminder_date(callback_query: CallbackQuery, callback_data: dict, user, state: FSMContext):
     await callback_query.answer()
 
     text = _('Отправь точное время')
 
     datepicker = Datepicker(_get_datepicker_settings(user.time_zone))
-    if callback_data['set-day'] == 'set-day':
+    date = await datepicker.process(callback_query, callback_data)
+    if date:
         async with state.proxy() as data:
-            data['date'] = f'{callback_data["day"]}.{callback_data["month"]}.{callback_data["year"]}'
+            data['date'] = f'{date.day}.{date.month}.{date.year}'
             await bot.edit_message_text(data['date'], callback_query.message.chat.id, callback_query.message.message_id)
     else:
         return

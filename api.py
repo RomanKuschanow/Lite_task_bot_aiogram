@@ -37,7 +37,7 @@ async def _wayforpay(request: Request):
             update_status(bill.user_id, True)
 
     return web.json_response({'ok': True})
-
+    
 
 @routes.post('/api/getUser')
 async def _api_get_status(request: Request):
