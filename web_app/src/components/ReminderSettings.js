@@ -4,7 +4,15 @@ import DateFnsUtils from "@date-io/date-fns";
 import TextBox from "./UI/TextBox";
 import {I18nProvider} from '../i18nProvider'
 import translate from "../i18nProvider/translate";
+import enLocale from "date-fns/locale/en-US";
+import ukLocale from "date-fns/locale/uk";
+import ruLocale from "date-fns/locale/ru";
 
+const localeMap = {
+  en: enLocale,
+  fr: ukLocale,
+  ru: ruLocale,
+};
 
 function ReminderSettings({text, date, locale, ...props}) {
     return (
@@ -22,7 +30,7 @@ function ReminderSettings({text, date, locale, ...props}) {
                 />
             </div>
             <div align="center" style={{paddingTop: "10px"}}>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <MuiPickersUtilsProvider utils={DateFnsUtils} locale={localeMap[locale]}>
                     <KeyboardDateTimePicker style={{width: "100%"}}
                                             label={translate('date')}
                                             value={date.value}

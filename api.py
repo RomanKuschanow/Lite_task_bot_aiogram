@@ -7,7 +7,7 @@ from aiohttp_middlewares import cors_middleware
 
 from loader import bot, _, config
 from services.bill import get_bill_by_label, check_bill
-from services.reminder import create_reminder, edit_freely
+from services.reminder import create_reminder, edit_freely, get_all_actual_by_user_id
 from services.user import get_user, update_status
 from utils.web_app import check_webapp_signature, parse_webapp_init_data
 
@@ -64,6 +64,18 @@ async def _api_new_reminder(request: Request):
     logging.info(telegram_data)
     logging.info(telegram_data['user']['id'])
     logging.info(data['data'])
+
+    user = get_user(int(telegram_data['user']['id']))
+
+    text = _(
+        'К сожалению разработчикам тоже нужно что-то кушать, по этому некоторые функции доступны только после '
+        'доната. Это можно сделать введя команду /donate, а так же воспользовавшись реферальной ссылкой /referral')
+
+    if not (user.is_vip or user.is_admin):
+        reminders = get_all_actual_by_user_id(user.id)
+        if len(reminders) >= 5:
+            await bot.send_message(telegram_data['user']['id'], text)
+            return web.json_response({'ok': True})
 
     reminder = create_reminder(telegram_data['user']['id'], data['data']['text'],
                                datetime.strptime(data['data']['date'], '%Y-%m-%dT%H:%M:%S.%fZ'), False)

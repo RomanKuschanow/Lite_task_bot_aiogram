@@ -10,6 +10,15 @@ import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers"
 import DateFnsUtils from "@date-io/date-fns";
 import {I18nProvider} from '../i18nProvider'
 import translate from "../i18nProvider/translate";
+import enLocale from "date-fns/locale/en-US";
+import ukLocale from "date-fns/locale/uk";
+import ruLocale from "date-fns/locale/ru";
+
+const localeMap = {
+    en: enLocale,
+    fr: ukLocale,
+    ru: ruLocale,
+};
 
 const ranges = [
     {
@@ -107,7 +116,7 @@ function RepeatSettings({repeat, range, type, inf, count, untilDate, minDate, is
                     />
                 </div>
                 <div className={type.value === "until" ? "repeat_part" : ""} hidden>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils} locale={localeMap[locale]}>
                         <KeyboardDatePicker style={{width: "100%"}}
                                             label={translate('until')}
                                             value={untilDate.value}
