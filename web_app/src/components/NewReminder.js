@@ -68,7 +68,7 @@ function NewReminder() {
         getUser()
         window.Telegram.WebApp.expand()
         window.Telegram.WebApp.MainButton
-            .setText('Create Reminder')
+            .setText(locale === "en" ? 'Create Reminder' : (locale === "ru" ? 'Создать Напоминание' : 'Створити Нагадування'))
             .show()
             .onClick(createReminder)
     }, [])
