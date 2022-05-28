@@ -10,8 +10,20 @@ import ruLocale from "date-fns/locale/ru";
 
 const localeMap = {
   en: enLocale,
-  fr: ukLocale,
+  uk: ukLocale,
   ru: ruLocale,
+};
+
+const localeCancelLabelMap = {
+    en: "cancel",
+    uk: "скасувати",
+    ru: "отмена",
+};
+
+const localeTodayLabelMap = {
+    en: "today",
+    uk: "сьогодні",
+    ru: "сегодня",
 };
 
 function ReminderSettings({text, date, locale, ...props}) {
@@ -36,6 +48,8 @@ function ReminderSettings({text, date, locale, ...props}) {
                                             value={date.value}
                                             ampm={false}
                                             inputVariant="outlined"
+                                            cancelLabel={localeCancelLabelMap[locale]}
+                                            todayLabel={localeTodayLabelMap[locale]}
                                             onChange={(Date) => date.onChange(Date)}
                                             format="yyyy.MM.dd HH:mm"
                                             showTodayButton

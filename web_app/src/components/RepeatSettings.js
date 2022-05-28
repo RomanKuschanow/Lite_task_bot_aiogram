@@ -16,8 +16,20 @@ import ruLocale from "date-fns/locale/ru";
 
 const localeMap = {
     en: enLocale,
-    fr: ukLocale,
+    uk: ukLocale,
     ru: ruLocale,
+};
+
+const localeCancelLabelMap = {
+    en: "cancel",
+    uk: "скасувати",
+    ru: "отмена",
+};
+
+const localeTodayLabelMap = {
+    en: "Today",
+    uk: "сьогодні",
+    ru: "сегодня",
 };
 
 const ranges = [
@@ -123,6 +135,8 @@ function RepeatSettings({repeat, range, type, inf, count, untilDate, minDate, is
                                             minDate={minDate}
                                             ampm={false}
                                             inputVariant="outlined"
+                                            cancelLabel={localeCancelLabelMap[locale]}
+                                            todayLabel={localeTodayLabelMap[locale]}
                                             onChange={(e) => untilDate.onChange(e)}
                                             format="yyyy.MM.dd"
                                             showTodayButton
