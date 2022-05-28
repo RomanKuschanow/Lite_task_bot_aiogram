@@ -3,7 +3,7 @@ from aiogram.types import Message
 
 from bot.keyboards.inline import get_language_inline_markup
 from bot.states import Start
-from loader import dp, _
+from loader import dp, _, bot
 import time
 
 from aiogram.types import Message, WebAppInfo, MenuButtonWebApp
