@@ -92,14 +92,6 @@ async def _api_new_reminder(request: Request):
     from utils import get_text
     await bot.send_message(telegram_data['user']['id'], get_text(reminder))
 
-    # try:
-    #     inline_query = telegram_data['query_id']
-    #     item = InlineQueryResultArticle(id=generate_inline_id(inline_query), title='Test',
-    #                                     input_message_content=InputTextMessageContent('Some answer'))
-    #     await bot.answer_web_app_query(inline_query, item)
-    # except:
-    #     pass
-
     return web.json_response({'ok': True})
 
 

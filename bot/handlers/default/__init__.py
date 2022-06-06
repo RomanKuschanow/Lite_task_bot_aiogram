@@ -3,6 +3,7 @@ from .cancel import dp
 from .done import dp
 from .menu import dp
 from .reminders import dp
+from .timers import dp
 from .referral import dp
 from .start import dp
 from .feedback import dp

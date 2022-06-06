@@ -8,6 +8,7 @@ from bot.handlers.default.help import help
 from bot.handlers.default.reminders.new_reminder import new_reminder
 from bot.handlers.default.reminders.reminders_list import reminders_list
 from bot.handlers.default.referral import get_referral_link
+from bot.handlers.default.timers.timers_list import timer_menu
 from bot.keyboards.default.set_menu import set_menu
 from loader import dp, bot, _
 
@@ -71,19 +72,10 @@ async def _reminders_list(message: Message, user, state):
     await reminders_list(message, user)
 
 
-@dp.message_handler(text="🛠 Админ-клавиатура", state="*")
-@dp.message_handler(text="🛠 Admin keyboard", state="*")
-@dp.message_handler(text="🛠 Адмін-клавіатура", state="*")
-async def _reminders_list(message: Message, state, user):
-    settings = json.loads(user.settings)
-
-    settings["kb_enabled"] = True
-    settings["last_kb"] = "admin"
-
-    user.settings = json.dumps(settings)
-    user.save()
-
-    await message.answer(_("Выбери действие из меню 👇"), reply_markup=set_menu(user))
+@dp.message_handler(text="⏳ Таймер", state="*")
+@dp.message_handler(text="⏳ Timer", state="*")
+@dp.message_handler(text="⏳ Таймер", state="*")
+async def _timer(message: Message, user, state):
     async with state.proxy() as data:
         if 'message' in data:
             for mes in data['message']:
@@ -93,6 +85,7 @@ async def _reminders_list(message: Message, state, user):
                     continue
 
     await state.finish()
+    await timer_menu(message, user)
 
 
 @dp.message_handler(text="💵 Донат", state="*")
@@ -140,3 +133,27 @@ async def referral(message: Message, state, user):
 
     await state.finish()
     await get_referral_link(message, user)
+
+
+@dp.message_handler(text="🛠 Админ-клавиатура", state="*")
+@dp.message_handler(text="🛠 Admin keyboard", state="*")
+@dp.message_handler(text="🛠 Адмін-клавіатура", state="*")
+async def _reminders_list(message: Message, state, user):
+    settings = json.loads(user.settings)
+
+    settings["kb_enabled"] = True
+    settings["last_kb"] = "admin"
+
+    user.settings = json.dumps(settings)
+    user.save()
+
+    await message.answer(_("Выбери действие из меню 👇"), reply_markup=set_menu(user))
+    async with state.proxy() as data:
+        if 'message' in data:
+            for mes in data['message']:
+                try:
+                    await bot.delete_message(message.chat.id, mes)
+                except:
+                    continue
+
+    await state.finish()

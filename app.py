@@ -17,8 +17,9 @@ async def on_startup(dispatcher):
         except:
             continue
 
-    from scheduler import t
-    t.start()
+    from scheduler import t_r, t_t
+    t_r.start()
+    t_t.start()
 
     await set_default_commands()
 

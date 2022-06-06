@@ -25,11 +25,16 @@ delete_callback = CallbackData('reminder', 'delete', 'id')
 async def edit_reminder_menu(message: Message, state: FSMContext, user):
     args = message.get_args()
     id = re.search('edit_reminder_(\d+)', args)[1]
+
     reminder = get_reminder(int(id), user.id)
 
     if reminder:
         await message.answer(get_text(reminder), reply_markup=get_edit_reminders_inline_markup(id))
         await message.delete()
+        return
+    else:
+        await message.answer(_("Такого напоминания не существует"))
+        return
 
 
 # @dp.callback_query_handler(text='reminder:edit:cancel')

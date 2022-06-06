@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bot VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-15 12:23+0000\n"
+"POT-Creation-Date: 2022-06-06 21:33+0300\n"
 "PO-Revision-Date: 2022-03-26 19:00+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -21,6 +21,16 @@ msgstr ""
 #: api.py:35
 msgid "Оплата прошла успешно ✅"
 msgstr "Payment was successful ✅"
+
+#: api.py:70 bot/filters/vip.py:30
+msgid ""
+"К сожалению разработчикам тоже нужно что-то кушать, по этому некоторые "
+"функции доступны только после доната. Это можно сделать введя команду "
+"/donate, а так же воспользовавшись реферальной ссылкой /referral"
+msgstr ""
+"Unfortunately, developers also need something to eat, so some functions "
+"are available only after donation. This can be done by entering the "
+"command /donate, as well as using the referral link /referral"
 
 #: bot/commands/admin.py:12
 msgid "сделать пользователя администратором"
@@ -67,50 +77,48 @@ msgid "список всех напоминаний пользователя"
 msgstr "list of all reminders"
 
 #: bot/commands/default.py:13
+msgid "поставить таймер"
+msgstr "set a timer"
+
+#: bot/commands/default.py:14
 msgid "новый интерфейс"
 msgstr "new interface"
 
-#: bot/commands/default.py:14
+#: bot/commands/default.py:15
 msgid "помочь развитию бота"
 msgstr "help the development of the bot"
 
-#: bot/commands/default.py:15
+#: bot/commands/default.py:16
 msgid "пригласить друзей"
 msgstr "invite friends"
 
-#: bot/commands/default.py:16
+#: bot/commands/default.py:17
 msgid "оставить отзыв или пожелания"
 msgstr "leave feedback or wishes"
 
-#: bot/commands/default.py:17
+#: bot/commands/default.py:18
 msgid "отобразить меню"
 msgstr "show menu"
 
-#: bot/commands/default.py:18
+#: bot/commands/default.py:19
 msgid "скрыть меню"
 msgstr "hide menu"
 
-#: bot/commands/default.py:19
+#: bot/commands/default.py:20
 msgid "сменить язык"
 msgstr "change language"
 
-#: bot/commands/default.py:20
+#: bot/commands/default.py:21
 msgid "выбрать часовой пояс"
 msgstr "choose timezone"
 
-#: bot/commands/default.py:21
+#: bot/commands/default.py:22
 msgid "сброс текущего действия"
 msgstr "reset current action"
 
-#: bot/filters/vip.py:23
-msgid ""
-"К сожалению разработчикам тоже нужно что-то кушать, по этому некоторые "
-"функции доступны только после доната. Это можно сделать введя команду "
-"/donate, а так же воспользовавшись реферальной ссылкой /referral"
-msgstr ""
-"Unfortunately, developers also need something to eat, so some functions "
-"are available only after donation. This can be done by entering the "
-"command /donate, as well as using the referral link /referral"
+#: bot/filters/vip.py:21
+msgid "Нельзя создать больше 25 активных таймеров"
+msgstr "You cannot create more than 25 active timers"
 
 #: bot/handlers/admin/add_admin.py:16
 #: bot/handlers/admin/change_user_status.py:16
@@ -134,14 +142,14 @@ msgstr "Status changed, id: {id}"
 
 #: bot/handlers/admin/export_table.py:13
 msgid "Выбери таблицу для экспорта"
-msgstr ""
+msgstr "Select a table to export"
 
 #: bot/handlers/admin/export_table.py:35
 msgid "Всего пользователей: {count}"
 msgstr "Total users: {count}"
 
-#: bot/handlers/admin/menu.py:26 bot/handlers/default/menu.py:25
-#: bot/handlers/default/menu.py:86
+#: bot/handlers/admin/menu.py:26 bot/handlers/default/menu.py:26
+#: bot/handlers/default/menu.py:150
 msgid "Выбери действие из меню 👇"
 msgstr "Choose an action from the menu 👇"
 
@@ -151,12 +159,14 @@ msgstr "Enter text"
 
 #: bot/handlers/admin/send_all.py:36 bot/handlers/admin/send_private.py:35
 #: bot/handlers/admin/send_private.py:71
-#: bot/handlers/default/reminders/edit_reminder.py:86
-#: bot/handlers/default/reminders/edit_reminder.py:143
+#: bot/handlers/default/reminders/edit_reminder.py:92
+#: bot/handlers/default/reminders/edit_reminder.py:148
 #: bot/handlers/default/reminders/new_reminder.py:44
 #: bot/handlers/default/reminders/new_reminder.py:102
 #: bot/handlers/default/reminders/search_reminders.py:82
 #: bot/handlers/default/reminders/search_reminders.py:156
+#: bot/handlers/default/timers/edit_timer.py:117
+#: bot/handlers/default/timers/new_timer.py:48
 msgid "Ты прислал мне {type}, а нужно прислать текст"
 msgstr "You sent me {type}, but I need to send the text"
 
@@ -221,6 +231,8 @@ msgstr "Thanks. We received your message"
 
 #: bot/handlers/default/help.py:9
 msgid ""
+"Форматы для даты напоминания: 000, 0000, 0:00, 00:00, 0 00, 00 00\n"
+"Форматы для времени таймера: минуты, часы:минуты, часы:минуты:секунды\n"
 "/start — Запуск бота\n"
 "/help — Вывод этого списка\n"
 "/new_reminder — Создать новое напоминание. Необходимо ввести название, "
@@ -228,6 +240,7 @@ msgid ""
 "/reminders_list — Отобразит список всех напоминаний. С помощью клавиатуры"
 " под сообщением можно будет отфильтровать их для более удобного поиска, а"
 " так же изменить название и/или время\n"
+"/timer — Просмотреть список запущенных таймеров или установить новый\n"
 "/web_app — Новый интерфейс добавления напоминаний\n"
 "/donate — Пожертвовать разработчикам (минимум 1 доллар)\n"
 "/referral — Пригласи 10 друзей и получи vip-статус бесплатно\n"
@@ -240,6 +253,8 @@ msgid ""
 "редактировании напоминания бот стал вести себя не корректно\n"
 "\n"
 msgstr ""
+"Formats for the reminder date: 000, 0000, 0:00, 00:00, 0 00, 00 00\n"
+"Timer time formats: minutes, hours:minutes, hours:minutes:seconds\n"
 "/start — Start bot\n"
 "/help — Display this list\n"
 "/new_reminder — Create a new reminder. You must enter a name, select date"
@@ -247,6 +262,7 @@ msgstr ""
 "/reminders_list — Displays a list of all reminders. Using the keyboard "
 "under the message, you can filter them for a more convenient search, and "
 "also change name and/or time\n"
+"/timer - View a list of running timers or set a new one\n"
 "/web_app — New interface for adding reminders\n"
 "/donate — Donate to developers (minimum $1)\n"
 "/referral — Invite 10 friends and get vip status for free\n"
@@ -259,7 +275,7 @@ msgstr ""
 "a reminder, the bot began to behave incorrectly\n"
 "\n"
 
-#: bot/handlers/default/help.py:25
+#: bot/handlers/default/help.py:28
 msgid ""
 "\n"
 "Команды администраторов:\n"
@@ -281,20 +297,24 @@ msgstr ""
 "/users_count - Get the number of users in the database\n"
 "/export_table - Export tables from the database"
 
-#: bot/handlers/default/help.py:34
+#: bot/handlers/default/help.py:37
 msgid ""
 "‼ Если ты еще не донатил, тебе не доступны или ограничены некоторые "
 "функции:\n"
 "❌ Фильтры\n"
 "❌ Повторение напоминаний\n"
 "❌ Редактирование (в меню редактирования доступна только кнопка удаления)\n"
-"❌ Одновременно можно создать только 5 активных напоминаний"
+"❌ Одновременно можно создать только 5 активных напоминаний\n"
+"❌ Одновременно можно создать только 1 активный таймер\n"
+"❌ Нельзя ставить таймер на паузу"
 msgstr ""
 "‼ If you haven't donated yet, some of the features:\n"
 "❌ Filters\n"
 "❌ Repeat Reminders\n"
 "❌ Editing (only the delete button is available in the editing menu)\n"
-"❌ You can only create 5 active reminders at a time"
+"❌ You can only create 5 active reminders at a time\n"
+"❌ Only 1 active timer can be created at a time\n"
+"❌ You can't pause the timer"
 
 #: bot/handlers/default/language.py:26
 msgid ""
@@ -321,11 +341,11 @@ msgstr ""
 "Language changed\n"
 "Type /help to find out how I can help you"
 
-#: bot/handlers/default/language.py:43 bot/handlers/default/start.py:14
+#: bot/handlers/default/language.py:43 bot/handlers/default/start.py:16
 msgid "Выберите свой язык"
 msgstr "Choose your language"
 
-#: bot/handlers/default/menu.py:38
+#: bot/handlers/default/menu.py:39
 msgid "Клавиатура убрана. Вызвать ее можно командой /menu"
 msgstr "The keyboard has been removed. You can call it with the /menu command"
 
@@ -392,12 +412,11 @@ msgid ""
 "там отображение пока-что некорректное. Надеемся что в скором времени "
 "Дуров все поправит."
 msgstr ""
-"This is a more convenient and beautiful menu for adding reminders. To "
-"to call it, click on the '+New' button next to the message entry field."
-"\n"
-"P.S. We do not recommend using this menu in the pc version of telegram, because "
-"the display is still incorrect. We hope that soon"
-"Durov will fix everything."
+"This is a more convenient and beautiful menu for adding reminders. To to "
+"call it, click on the '+New' button next to the message entry field.\n"
+"P.S. We do not recommend using this menu in the pc version of telegram, "
+"because the display is still incorrect. We hope that soonDurov will fix "
+"everything."
 
 #: bot/handlers/default/reminders/datepicker_settings.py:22
 msgid "Сегодня"
@@ -405,14 +424,14 @@ msgstr "Today"
 
 #: bot/handlers/default/reminders/datepicker_settings.py:43
 #: bot/keyboards/inline/num_select.py:17 bot/keyboards/inline/range.py:21
-#: bot/keyboards/inline/states.py:9 bot/keyboards/inline/time_zone.py:21
+#: bot/keyboards/inline/states.py:10 bot/keyboards/inline/time_zone.py:21
 msgid "❌ Отмена"
 msgstr "❌ Cancel"
 
 #: bot/handlers/default/reminders/datepicker_settings.py:55
 #: bot/keyboards/inline/num_select.py:18 bot/keyboards/inline/range.py:22
 #: bot/keyboards/inline/reminders/reminder_repeat.py:32
-#: bot/keyboards/inline/states.py:10 bot/keyboards/inline/time_zone.py:22
+#: bot/keyboards/inline/states.py:11 bot/keyboards/inline/time_zone.py:22
 msgid "⬅ Назад"
 msgstr "⬅ Back"
 
@@ -420,39 +439,44 @@ msgstr "⬅ Back"
 msgid "Выбрать"
 msgstr "Select"
 
-#: bot/handlers/default/reminders/edit_reminder.py:46
+#: bot/handlers/default/reminders/edit_reminder.py:36
+msgid "Такого напоминания не существует"
+msgstr "There is no such reminder"
+
+#: bot/handlers/default/reminders/edit_reminder.py:52
 msgid "Напоминание удалено"
 msgstr "Reminder removed"
 
-#: bot/handlers/default/reminders/edit_reminder.py:59
+#: bot/handlers/default/reminders/edit_reminder.py:65
 #: bot/handlers/default/reminders/new_reminder.py:27
 msgid "Отправь мне текст напоминания"
 msgstr "Send me a reminder text"
 
-#: bot/handlers/default/reminders/edit_reminder.py:66
-#: bot/handlers/default/reminders/edit_reminder.py:206
+#: bot/handlers/default/reminders/edit_reminder.py:72
+#: bot/handlers/default/reminders/edit_reminder.py:211
 #: bot/handlers/default/reminders/search_reminders.py:51
 msgid "Выбери дату"
 msgstr "Select a date"
 
-#: bot/handlers/default/reminders/edit_reminder.py:110
-#: bot/handlers/default/reminders/edit_reminder.py:188
+#: bot/handlers/default/reminders/edit_reminder.py:116
+#: bot/handlers/default/reminders/edit_reminder.py:193
 msgid "Напоминание отредактировано"
 msgstr "Reminder edited"
 
-#: bot/handlers/default/reminders/edit_reminder.py:122
+#: bot/handlers/default/reminders/edit_reminder.py:126
 #: bot/handlers/default/reminders/new_reminder.py:80
 #: bot/handlers/default/reminders/search_reminders.py:65
 msgid "Отправь точное время"
 msgstr "Submit the correct time"
 
-#: bot/handlers/default/reminders/edit_reminder.py:152
+#: bot/handlers/default/reminders/edit_reminder.py:157
 #: bot/handlers/default/reminders/new_reminder.py:111
 #: bot/handlers/default/reminders/search_reminders.py:165
+#: bot/handlers/default/timers/new_timer.py:56
 msgid "Формат не соответствует"
 msgstr "Format does not match"
 
-#: bot/handlers/default/reminders/edit_reminder.py:167
+#: bot/handlers/default/reminders/edit_reminder.py:172
 #: bot/handlers/default/reminders/new_reminder.py:128
 msgid "Ты ввел несуществующее время"
 msgstr "You entered a non-existent time"
@@ -514,6 +538,59 @@ msgstr "Send me search text"
 msgid "Напоминания отфильтрованы"
 msgstr "Reminders filtered out"
 
+#: bot/handlers/default/timers/edit_timer.py:28
+#: bot/handlers/default/timers/edit_timer.py:46
+msgid "Такого таймера не существует"
+msgstr "There is no such timer"
+
+#: bot/handlers/default/timers/edit_timer.py:55
+msgid "Таймер удален"
+msgstr "Timer removed"
+
+#: bot/handlers/default/timers/edit_timer.py:68
+msgid "Отправь текст для таймера"
+msgstr "Send text for timer"
+
+#: bot/handlers/default/timers/edit_timer.py:83
+msgid ""
+"Нельзя редактировать время у таймера, до конца которого осталось меньше 2"
+" минут"
+msgstr "You can't edit a timer with less than 2 left minutes"
+
+#: bot/handlers/default/timers/edit_timer.py:97
+msgid "Таймер остановлен"
+msgstr "Timer stopped"
+
+#: bot/handlers/default/timers/edit_timer.py:110
+#: bot/handlers/default/timers/new_timer.py:90
+msgid "Таймер запущен"
+msgstr "Timer started"
+
+#: bot/handlers/default/timers/edit_timer.py:132
+msgid "Текст для таймера установлен"
+msgstr "Text for timer set"
+
+#: bot/handlers/default/timers/new_timer.py:27
+msgid "Отправь время для таймера"
+msgstr "Submit the time for the timer"
+
+#: bot/handlers/default/timers/new_timer.py:39
+#: bot/handlers/default/timers/new_timer.py:92
+msgid "Таймер"
+msgstr "Timer"
+
+#: bot/handlers/default/timers/new_timer.py:66
+msgid "Минут в одном часе не может быть больше 59"
+msgstr "Minutes in one hour cannot be more than 59"
+
+#: bot/handlers/default/timers/new_timer.py:74
+msgid "Секунд в одной минуте не может быть больше 59"
+msgstr "Seconds in one minute cannot be more than 59"
+
+#: bot/handlers/default/timers/timers_list.py:38
+msgid "У тебя нет активных таймеров"
+msgstr "You have no active timers"
+
 #: bot/keyboards/default/admin.py:9
 msgid "➕ Добавить Админа"
 msgstr "➕ Add Admin"
@@ -551,18 +628,22 @@ msgid "📝 Список напоминаний"
 msgstr "📝 Reminder List"
 
 #: bot/keyboards/default/menu.py:10
+msgid "⏳ Таймер"
+msgstr "⏳ Timer"
+
+#: bot/keyboards/default/menu.py:11
 msgid "💵 Донат"
 msgstr "💵 Donat"
 
-#: bot/keyboards/default/menu.py:10
+#: bot/keyboards/default/menu.py:11
 msgid "❔ Помощь по командам"
 msgstr "❔ Help by commands"
 
-#: bot/keyboards/default/menu.py:11
+#: bot/keyboards/default/menu.py:12
 msgid "🔗 Реферальная ссылка"
 msgstr "🔗 Referral link"
 
-#: bot/keyboards/default/menu.py:13
+#: bot/keyboards/default/menu.py:14
 msgid "🛠 Админ-клавиатура"
 msgstr "🛠 Admin keyboard"
 
@@ -590,6 +671,13 @@ msgstr "🌙 Month"
 msgid "💫 Год"
 msgstr "💫 Year"
 
+#: bot/keyboards/inline/reminders/edit_reminder.py:12
+#: bot/keyboards/inline/reminders/reminder_repeat.py:34
+#: bot/keyboards/inline/states.py:12
+#: bot/keyboards/inline/timers/timer_control.py:27
+msgid "❎ Готово"
+msgstr "❎ Done"
+
 #: bot/keyboards/inline/reminders/edit_reminder.py:9
 msgid "📝 Изменить название"
 msgstr "📝 Change title"
@@ -602,11 +690,6 @@ msgstr "🗓 Change date"
 #: bot/keyboards/inline/reminders/reminder_repeat.py:9
 msgid "⚙ Настроить повторение"
 msgstr "⚙ Customize repeat"
-
-#: bot/keyboards/inline/reminders/edit_reminder.py:12
-#: bot/keyboards/inline/reminders/reminder_repeat.py:34
-msgid "❎ Готово"
-msgstr "❎ Done"
 
 #: bot/keyboards/inline/reminders/edit_reminder.py:13
 msgid "🗑 Удалить напоминание"
@@ -646,6 +729,8 @@ msgid "Предстоящие"
 msgstr "Upcoming"
 
 #: bot/keyboards/inline/reminders/reminders_list.py:38
+#: bot/keyboards/inline/timers/timer_control.py:25
+#: bot/keyboards/inline/timers/timers_list.py:14
 msgid "🔄 Обновить"
 msgstr "🔄 Refresh"
 
@@ -692,6 +777,26 @@ msgstr "⏰ By time"
 #: bot/keyboards/inline/reminders/reminders_search.py:12
 msgid "⬅ Вернуться к списку"
 msgstr "⬅ Back to list"
+
+#: bot/keyboards/inline/timers/timer_control.py:16
+msgid "📝 Задать текст"
+msgstr "📝 Set text"
+
+#: bot/keyboards/inline/timers/timer_control.py:19
+msgid "⏸ Стоп"
+msgstr "⏸ Stop"
+
+#: bot/keyboards/inline/timers/timer_control.py:21
+msgid "▶ Запуск"
+msgstr "▶ Launch"
+
+#: bot/keyboards/inline/timers/timer_control.py:23
+msgid "🗑 Удалить"
+msgstr "🗑 Delete"
+
+#: bot/keyboards/inline/timers/timers_list.py:12
+msgid "Другое время"
+msgstr "Another time"
 
 #: bot/middlewares/throttling.py:44
 msgid "Прекрати спамить!"

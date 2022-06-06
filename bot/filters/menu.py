@@ -9,10 +9,10 @@ class Menu(BoundFilter):
         self.menu = menu
 
     async def check(self, message: Message):
-        if message.text in ["➕ Новое напоминание", "📝 Список напоминаний", "🛠 Админ-клавиатура", "💵 Донат",
+        if message.text in ["➕ Новое напоминание", "📝 Список напоминаний", "⏳ Таймер", "🛠 Админ-клавиатура", "💵 Донат",
                             "❔ Помощь по командам", "🔗 Реферальная ссылка", "➕ New reminder", "📝 Reminder List", "🛠 Admin keyboard",
                             "💵 Donat", "❔ Help by commands", "🔗 Referral link", "➕ Добавить Админа", "🎁 Выдать VIP", "🔖 Рассылка",
-                            "📫 Личка", "🧾 Меню", "➕ Add Admin", "🎁 Issue VIP", "🔖 Newsletter", "📫 Personal",
+                            "📫 Личка", "🧾 Меню", "➕ Add Admin", "🎁 Issue VIP", "🔖 Newsletter", "⏳ Timer", "📫 Personal",
                             "🧾 Menu", "➕ Нове нагадування", "📝 Список нагадувань", "🛠 Адмін-клавіатура",
                             "❔ Допомога по командам", "🔗 Реферальне посилання", "➕ Додати Адміна", "🎁 Надати VIP", "🔖 Розсилка",
                             "📫 Особисте повідомлення"]:

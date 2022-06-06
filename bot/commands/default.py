@@ -10,6 +10,7 @@ def get_default_commands(lang) -> list[BotCommand]:
         BotCommand('/help', _('список всех команд', locale=lang)),
         BotCommand('/new_reminder', _('новое напоминание', locale=lang)),
         BotCommand('/reminders_list', _('список всех напоминаний пользователя', locale=lang)),
+        BotCommand('/timer', _('поставить таймер', locale=lang)),
         BotCommand('/web_app', _('новый интерфейс', locale=lang)),
         BotCommand('/donate', _('помочь развитию бота', locale=lang)),
         BotCommand('/referral', _('пригласить друзей', locale=lang)),
