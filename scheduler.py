@@ -45,22 +45,14 @@ def timers():
 
 
 def sender(text):
-    users = list(get_all_user_id())
+    user_ids = list(get_all_user_id())
 
-    i = int((len(users)) / 30) + 1
-
-    while i > 0:
-
-        for user in users[-30 * i:][:30] if i > 1 else users[:len(users) - int((len(users)) / 30)]:
-            try:
-                bot.send_message(user, text)
-                logger.info(user)
-            except:
-                continue
-
-        i -= 1
-
-        time.sleep(1)
+    for user_id in user_ids:
+        try:
+            bot.send_message(user_id, text)
+            logger.info(user_id)
+        except:
+            pass
 
 
 t_r = Thread(target=reminders)
