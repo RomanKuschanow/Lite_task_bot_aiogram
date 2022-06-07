@@ -1,17 +1,15 @@
 from datetime import datetime
 
-import pytz
-from pendulum import datetime as date_p, now
+from pendulum import now
 
 from models import Timer
+from utils import date_convert
 from utils.misc.logging import logger
 
 
 def create_timer(user, time: int, text: str = None) -> Timer:
-    start_date = datetime.now()
-
-    date = now().add(seconds=time + 1)
-    end_date = datetime(date.year, date.month, date.day, date.hour, date.minute, date.second)
+    start_date = date_convert(datetime.now())
+    end_date = date_convert(now().add(seconds=time))
 
     new_timer = Timer.create(start_date=start_date, end_date=end_date, text=text, user=user)
 
@@ -56,11 +54,8 @@ def pause(user_id: int, id: int) -> Timer:
 def play(user_id: int, id: int) -> Timer:
     timer = get_timer(id, user_id)
 
-    s_date = now().subtract(seconds=(timer.pause_date - timer.start_date).total_seconds())
-    e_date = now().add(seconds=(timer.end_date - timer.pause_date).total_seconds())
-
-    end_date = datetime(e_date.year, e_date.month, e_date.day, e_date.hour, e_date.minute, e_date.second)
-    start_date = datetime(s_date.year, s_date.month, s_date.day, s_date.hour, s_date.minute, s_date.second)
+    end_date = date_convert(now().add(seconds=(timer.end_date - timer.pause_date).total_seconds()))
+    start_date = date_convert(now().subtract(seconds=(timer.pause_date - timer.start_date).total_seconds()))
 
     update_timer(user_id, id, start_date=start_date, end_date=end_date, is_paused=False)
 
