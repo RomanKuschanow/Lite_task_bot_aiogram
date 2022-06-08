@@ -23,9 +23,8 @@ def reminders():
         for reminder in reminders_list:
             try:
                 bot.send_message(reminder.user_id, reminder.text)
-
-                logger.info("maybe, bot was blocked by the user")
             except:
+                logger.info("maybe, bot was blocked by the user")
 
             edit_repeating(reminder.id, reminder.user_id, reminder.is_repeat)
 
