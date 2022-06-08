@@ -21,9 +21,12 @@ def reminders():
             logger.info(reminders_list)
 
         for reminder in reminders_list:
-            bot.send_message(reminder.user_id, reminder.text)
+            try:
+                bot.send_message(reminder.user_id, reminder.text)
 
-            edit_repeating(reminder.id, reminder.user_id, reminder.is_repeat)
+                edit_repeating(reminder.id, reminder.user_id, reminder.is_repeat)
+            except:
+                logger.info("maybe, bot was blocked by the user")
 
         time.sleep(1)
 
@@ -37,9 +40,12 @@ def timers():
             logger.info(timers_list)
 
         for timer in timers_list:
-            bot.send_message(timer.user_id, f"{timer.text}")
+            try:
+                bot.send_message(timer.user_id, f"{timer.text}")
 
-            update_timer(timer.user_id, timer.id, is_work=False)
+                update_timer(timer.user_id, timer.id, is_work=False)
+            except:
+                logger.info("maybe, bot was blocked by the user")
 
         time.sleep(1)
 
