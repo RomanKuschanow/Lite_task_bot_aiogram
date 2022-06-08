@@ -24,9 +24,10 @@ def reminders():
             try:
                 bot.send_message(reminder.user_id, reminder.text)
 
-                edit_repeating(reminder.id, reminder.user_id, reminder.is_repeat)
-            except:
                 logger.info("maybe, bot was blocked by the user")
+            except:
+
+            edit_repeating(reminder.id, reminder.user_id, reminder.is_repeat)
 
         time.sleep(1)
 
@@ -42,11 +43,10 @@ def timers():
         for timer in timers_list:
             try:
                 bot.send_message(timer.user_id, f"{timer.text}")
-
-                update_timer(timer.user_id, timer.id, is_work=False)
             except:
                 logger.info("maybe, bot was blocked by the user")
 
+            update_timer(timer.user_id, timer.id, is_work=False)
         time.sleep(1)
 
 
