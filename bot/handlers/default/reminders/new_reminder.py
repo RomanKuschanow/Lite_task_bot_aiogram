@@ -1,6 +1,5 @@
 import re
 from datetime import datetime
-from html import escape
 
 from aiogram.dispatcher import FSMContext
 from aiogram.types import Message, CallbackQuery, ContentTypes
@@ -122,7 +121,7 @@ async def get_reminder_date(message, user, state: FSMContext):
 
     async with state.proxy() as data:
         try:
-            reminder = create_reminder(user.id, escape(data['text']),
+            reminder = create_reminder(user.id, data['text'],
                                        datetime.strptime(f'{data["date"]} {match[1]}:{match[2]}',
                                                          '%d.%m.%Y %H:%M'))
         except:

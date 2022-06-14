@@ -1,6 +1,5 @@
 import re
 from datetime import datetime
-from html import escape
 
 from aiogram.dispatcher import FSMContext
 from aiogram.types import Message, CallbackQuery, ContentTypes
@@ -99,7 +98,7 @@ async def get_reminder_text(message: Message, state: FSMContext, user):
         return
 
     async with state.proxy() as data:
-        edit_text(data['id'], escape(message.text))
+        edit_text(data['id'], message.text)
 
         reminder = get_reminder(data['id'], user.id)
         await bot.edit_message_text(text=f'{"✅" if reminder.is_reminded else "❌"} {reminder}',

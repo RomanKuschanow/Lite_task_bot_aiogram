@@ -1,6 +1,5 @@
 from datetime import datetime
 import re
-from html import escape
 
 from bot.filters import vip
 from bot.keyboards.default.set_menu import set_menu
@@ -123,7 +122,7 @@ async def get_timer_text(message: Message, state: FSMContext, user: User):
         return
 
     async with state.proxy() as data:
-        update_timer(user.id, int(data['id']), text=escape(message.text))
+        update_timer(user.id, int(data['id']), text=message.text)
 
         await bot.edit_message_text(f"{get_timer(int(data['id']))}", chat_id=message.chat.id, message_id=data['main_message'],
                                     reply_markup=get_control_inline_markup(int(data['id'])))
