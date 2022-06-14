@@ -1,5 +1,6 @@
 from datetime import datetime
 import re
+from html import escape
 
 from bot.filters import vip
 from bot.keyboards.default.set_menu import set_menu
@@ -87,7 +88,7 @@ async def edit_timer_text(callback_query: CallbackQuery, callback_data: dict, us
 
 @dp.callback_query_handler(action_callback.filter(), text_startswith="timer:pause")
 @vip()
-async def edit_timer(callback_query: CallbackQuery, callback_data: dict, user):
+async def pause_timer(callback_query: CallbackQuery, callback_data: dict, user):
     await callback_query.answer()
 
     timer = get_timer(int(callback_data["id"]), user.id)
@@ -100,7 +101,7 @@ async def edit_timer(callback_query: CallbackQuery, callback_data: dict, user):
 
 @dp.callback_query_handler(action_callback.filter(), text_startswith="timer:play")
 @vip()
-async def edit_timer(callback_query: CallbackQuery, callback_data: dict, user):
+async def play_timer(callback_query: CallbackQuery, callback_data: dict, user):
     await callback_query.answer()
 
     timer = get_timer(int(callback_data["id"]), user.id)
@@ -122,7 +123,7 @@ async def get_timer_text(message: Message, state: FSMContext, user: User):
         return
 
     async with state.proxy() as data:
-        update_timer(user.id, int(data['id']), text=message.text)
+        update_timer(user.id, int(data['id']), text=escape(message.text))
 
         await bot.edit_message_text(f"{get_timer(int(data['id']))}", chat_id=message.chat.id, message_id=data['main_message'],
                                     reply_markup=get_control_inline_markup(int(data['id'])))
