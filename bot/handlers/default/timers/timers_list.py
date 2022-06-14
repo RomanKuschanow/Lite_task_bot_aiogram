@@ -1,6 +1,6 @@
+from aiogram import types
 from aiogram.types import Message, CallbackQuery
 
-from bot.filters import vip
 from bot.keyboards.inline import get_timer_inline_markup
 from data.config import BOT_NAME
 from loader import dp, _
@@ -19,7 +19,8 @@ async def timer_menu(message: Message, user: User):
 async def timer_menu_update(callback_query: CallbackQuery, user: User):
     text = await get_timers(user.id)
 
-    await callback_query.message.edit_text(text, reply_markup=get_timer_inline_markup(5, 10, 15, 20))
+    await callback_query.message.edit_text(text, reply_markup=get_timer_inline_markup(5, 10, 15, 20),
+                                           parse_mode=types.ParseMode.HTML)
 
 
 async def get_timers(user_id: int) -> str:
