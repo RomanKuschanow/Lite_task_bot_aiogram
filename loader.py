@@ -5,7 +5,7 @@ from bot.middlewares.i18n import i18n
 from data import config
 from utils.telegram_test_server import TELEGRAM_TEST
 
-bot = Bot(token=config.BOT_TOKEN, parse_mode=None)
+bot = Bot(token=config.BOT_TOKEN, parse_mode=types.ParseMode.HTML)
 
 if config.TELEGRAM_TEST_SERVER:
     bot.server = TELEGRAM_TEST

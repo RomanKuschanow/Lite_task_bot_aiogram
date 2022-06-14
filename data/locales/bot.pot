@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bot VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-06-06 21:33+0300\n"
+"POT-Creation-Date: 2022-06-14 13:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -158,7 +158,7 @@ msgstr ""
 #: bot/handlers/default/reminders/edit_reminder.py:92
 #: bot/handlers/default/reminders/edit_reminder.py:148
 #: bot/handlers/default/reminders/new_reminder.py:44
-#: bot/handlers/default/reminders/new_reminder.py:102
+#: bot/handlers/default/reminders/new_reminder.py:119
 #: bot/handlers/default/reminders/search_reminders.py:82
 #: bot/handlers/default/reminders/search_reminders.py:156
 #: bot/handlers/default/timers/edit_timer.py:117
@@ -396,36 +396,41 @@ msgid "Напоминание отредактировано"
 msgstr ""
 
 #: bot/handlers/default/reminders/edit_reminder.py:126
-#: bot/handlers/default/reminders/new_reminder.py:80
+#: bot/handlers/default/reminders/new_reminder.py:97
 #: bot/handlers/default/reminders/search_reminders.py:65
 msgid "Отправь точное время"
 msgstr ""
 
 #: bot/handlers/default/reminders/edit_reminder.py:157
-#: bot/handlers/default/reminders/new_reminder.py:111
+#: bot/handlers/default/reminders/new_reminder.py:128
 #: bot/handlers/default/reminders/search_reminders.py:165
 #: bot/handlers/default/timers/new_timer.py:56
 msgid "Формат не соответствует"
 msgstr ""
 
 #: bot/handlers/default/reminders/edit_reminder.py:172
-#: bot/handlers/default/reminders/new_reminder.py:128
+#: bot/handlers/default/reminders/new_reminder.py:145
 msgid "Ты ввел несуществующее время"
 msgstr ""
 
-#: bot/handlers/default/reminders/new_reminder.py:52
+#: bot/handlers/default/reminders/new_reminder.py:61
+#: bot/handlers/default/timers/edit_timer.py:133
+msgid "После удаления служебных знаков строка осталась пустой"
+msgstr ""
+
+#: bot/handlers/default/reminders/new_reminder.py:69
 msgid "Теперь выбери дату"
 msgstr ""
 
-#: bot/handlers/default/reminders/new_reminder.py:135
+#: bot/handlers/default/reminders/new_reminder.py:152
 msgid "Напоминание \"{text}\" установлено на {date} {hours}:{minutes}"
 msgstr ""
 
-#: bot/handlers/default/reminders/new_reminder.py:142
+#: bot/handlers/default/reminders/new_reminder.py:159
 msgid "Задать повторение для напоминания"
 msgstr ""
 
-#: bot/handlers/default/reminders/new_reminder.py:184
+#: bot/handlers/default/reminders/new_reminder.py:201
 msgid "Напоминание \"{reminder_text}\" установлено на {date}"
 msgstr ""
 
@@ -445,19 +450,19 @@ msgstr ""
 msgid "Выбери дату которая больше начальной"
 msgstr ""
 
-#: bot/handlers/default/reminders/reminders_list.py:24
+#: bot/handlers/default/reminders/reminders_list.py:25
 msgid "У вас еще нет ни одного напоминания"
 msgstr ""
 
-#: bot/handlers/default/reminders/reminders_list.py:59
+#: bot/handlers/default/reminders/reminders_list.py:60
 msgid "У вас нет напоминаний в этой категории"
 msgstr ""
 
-#: bot/handlers/default/reminders/reminders_list.py:73
+#: bot/handlers/default/reminders/reminders_list.py:74
 msgid "Выберите фильтр"
 msgstr ""
 
-#: bot/handlers/default/reminders/reminders_list.py:119
+#: bot/handlers/default/reminders/reminders_list.py:120
 msgid "У вас еще нет ни одного напоминания c этим фильтром"
 msgstr ""
 
@@ -498,7 +503,7 @@ msgstr ""
 msgid "Таймер запущен"
 msgstr ""
 
-#: bot/handlers/default/timers/edit_timer.py:132
+#: bot/handlers/default/timers/edit_timer.py:149
 msgid "Текст для таймера установлен"
 msgstr ""
 

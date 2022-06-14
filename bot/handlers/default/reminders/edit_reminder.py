@@ -97,11 +97,28 @@ async def get_reminder_text(message: Message, state: FSMContext, user):
             data['message'].append(bot_message.message_id)
         return
 
+    new_reminder_text = ""
+
+    for i in range(len(message.text)):
+        if message.text[i] == '<' or message.text[i] == '>':
+            continue
+
+        new_reminder_text += message.text[i]
+
+    if new_reminder_text.strip() == "":
+        text = _('После удаления служебных знаков строка осталась пустой').format(type=message.content_type)
+        bot_message = await message.answer(text, reply_markup=get_inline_states_markup(True))
+        async with state.proxy() as data:
+            data['fail'] += 1
+            data['message'].append(message.message_id)
+            data['message'].append(bot_message.message_id)
+        return
+
     async with state.proxy() as data:
-        edit_text(data['id'], message.text)
+        edit_text(data['id'], new_reminder_text)
 
         reminder = get_reminder(data['id'], user.id)
-        await bot.edit_message_text(text=f'{"✅" if reminder.is_reminded else "❌"} {reminder}',
+        await bot.edit_message_text(text=f'{reminder}',
                                     reply_markup=get_edit_reminders_inline_markup(data['id']), chat_id=message.chat.id,
                                     message_id=data['main_message'])
 

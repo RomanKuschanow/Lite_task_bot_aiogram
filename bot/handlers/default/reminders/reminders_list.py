@@ -62,7 +62,7 @@ async def actual_reminders_list_callback(callback_query: CallbackQuery, callback
     markup = get_reminders_list_inline_markup(callback_data['list'], callback_data['action'] == 'edit', curr_page=page,
                                               max_page=max_page, repeat_filter=callback_data['repeat_filter'],
                                               search_filter=match_filter)
-    await callback_query.message.edit_text(text, reply_markup=markup, parse_mode=types.ParseMode.HTML)
+    await callback_query.message.edit_text(text, reply_markup=markup)
 
 
 @dp.callback_query_handler(text='search')

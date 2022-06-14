@@ -49,11 +49,28 @@ async def get_reminder_text(message: Message, state: FSMContext, user, call_from
             data['message'].append(bot_message.message_id)
         return
 
+    new_reminder_text = ""
+
+    for i in range(len(message.text)):
+        if message.text[i] == '<' or message.text[i] == '>':
+            continue
+
+        new_reminder_text += message.text[i]
+
+    if new_reminder_text.strip() == "":
+        text = _('После удаления служебных знаков строка осталась пустой').format(type=message.content_type)
+        bot_message = await message.answer(text, reply_markup=get_inline_states_markup(True))
+        async with state.proxy() as data:
+            data['fail'] += 1
+            data['message'].append(message.message_id)
+            data['message'].append(bot_message.message_id)
+        return
+
     text = _('Теперь выбери дату')
 
     if not call_from_back:
         async with state.proxy() as data:
-            data['text'] = message.text
+            data['text'] = new_reminder_text
             data['message'].append(message.message_id)
             for i in range(2 * data['fail']):
                 await bot.delete_message(message.chat.id, data['message'][-2])
