@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bot VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-06-14 13:27+0000\n"
+"POT-Creation-Date: 2022-07-09 21:32+0300\n"
 "PO-Revision-Date: 2022-05-01 08:56+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -141,13 +141,17 @@ msgstr "Адмін доданий, id: {id}"
 msgid "Статус изменен, id: {id}"
 msgstr "Статус змінено, id {id}"
 
-#: bot/handlers/admin/export_table.py:13
+#: bot/handlers/admin/export_table.py:14
 msgid "Выбери таблицу для экспорта"
 msgstr "Вибери таблицю для експорту"
 
-#: bot/handlers/admin/export_table.py:35
+#: bot/handlers/admin/export_table.py:37
 msgid "Всего пользователей: {count}"
 msgstr "Усього користувачів: {count}"
+
+#: bot/handlers/admin/export_table.py:60
+msgid "Всего напоминаний: {count}"
+msgstr "Усього нагадувань: {count}"
 
 #: bot/handlers/admin/menu.py:26 bot/handlers/default/menu.py:26
 #: bot/handlers/default/menu.py:150
@@ -161,7 +165,7 @@ msgstr "Введи текст"
 #: bot/handlers/admin/send_all.py:36 bot/handlers/admin/send_private.py:35
 #: bot/handlers/admin/send_private.py:71
 #: bot/handlers/default/reminders/edit_reminder.py:92
-#: bot/handlers/default/reminders/edit_reminder.py:148
+#: bot/handlers/default/reminders/edit_reminder.py:165
 #: bot/handlers/default/reminders/new_reminder.py:44
 #: bot/handlers/default/reminders/new_reminder.py:119
 #: bot/handlers/default/reminders/search_reminders.py:82
@@ -456,38 +460,39 @@ msgid "Отправь мне текст напоминания"
 msgstr "Надішли мені текст нагадування"
 
 #: bot/handlers/default/reminders/edit_reminder.py:72
-#: bot/handlers/default/reminders/edit_reminder.py:211
+#: bot/handlers/default/reminders/edit_reminder.py:228
 #: bot/handlers/default/reminders/search_reminders.py:51
 msgid "Выбери дату"
 msgstr "Вибери дату"
 
-#: bot/handlers/default/reminders/edit_reminder.py:116
-#: bot/handlers/default/reminders/edit_reminder.py:193
+#: bot/handlers/default/reminders/edit_reminder.py:109
+#: bot/handlers/default/reminders/new_reminder.py:61
+#: bot/handlers/default/timers/edit_timer.py:133
+msgid "После удаления служебных знаков строка осталась пустой"
+msgstr "Після видалення службових знаків рядок залишився порожнім"
+
+#: bot/handlers/default/reminders/edit_reminder.py:133
+#: bot/handlers/default/reminders/edit_reminder.py:210
 msgid "Напоминание отредактировано"
 msgstr "Нагадування відредаговано"
 
-#: bot/handlers/default/reminders/edit_reminder.py:126
+#: bot/handlers/default/reminders/edit_reminder.py:143
 #: bot/handlers/default/reminders/new_reminder.py:97
 #: bot/handlers/default/reminders/search_reminders.py:65
 msgid "Отправь точное время"
 msgstr "Відправ точний час"
 
-#: bot/handlers/default/reminders/edit_reminder.py:157
+#: bot/handlers/default/reminders/edit_reminder.py:174
 #: bot/handlers/default/reminders/new_reminder.py:128
 #: bot/handlers/default/reminders/search_reminders.py:165
 #: bot/handlers/default/timers/new_timer.py:56
 msgid "Формат не соответствует"
 msgstr "Недійсний формат"
 
-#: bot/handlers/default/reminders/edit_reminder.py:172
+#: bot/handlers/default/reminders/edit_reminder.py:189
 #: bot/handlers/default/reminders/new_reminder.py:145
 msgid "Ты ввел несуществующее время"
 msgstr "Ти ввів неіснуючий час"
-
-#: bot/handlers/default/reminders/new_reminder.py:61
-#: bot/handlers/default/timers/edit_timer.py:133
-msgid "После удаления служебных знаков строка осталась пустой"
-msgstr "Після видалення службових знаків рядок залишився порожнім"
 
 #: bot/handlers/default/reminders/new_reminder.py:69
 msgid "Теперь выбери дату"
